@@ -9,14 +9,14 @@ namespace Definitif.Data.ObjectSql
     /// </summary>
     public abstract class Database : IEnumerable
     {
-        protected Dictionary<string, Table> tables = new Dictionary<string, Table>();
+        protected Dictionary<string, Table> tables
+            = new Dictionary<string, Table>();
         protected string name;
         protected string connectionString;
 
         /// <summary>
         /// Gets database tables dictionary.
         /// </summary>
-        [Obsolete("Database tables can be requested and enumerated through Database[string Table].")]
         public Dictionary<string, Table> Tables
         {
             get { return this.tables; }

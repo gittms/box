@@ -29,14 +29,22 @@ namespace Definitif.Data.ObjectSql
                     this.Except(Table);
         }
 
-        // AUTODOC: Drawer.Draw(Table Table)
+        /// <summary>
+        /// Converts Table object to string representation.
+        /// </summary>
+        /// <param name="Table">Table object.</param>
+        /// <returns>Table object string representation.</returns>
         protected virtual string Draw(Table Table)
         {
             return
                 Table.Name;
         }
 
-        // AUTODOC: Drawer.Draw(CAlias Alias)
+        /// <summary>
+        /// Converts Table Alias object to string representation.
+        /// </summary>
+        /// <param name="Table">Table Alias object.</param>
+        /// <returns>Table Alias object string representation.</returns>
         protected virtual string Draw(TableAlias Alias)
         {
             return String.Format(
@@ -44,7 +52,11 @@ namespace Definitif.Data.ObjectSql
                 this.Draw(Alias.Table), Alias.Name);
         }
 
-        // AUTODOC: Drawer.Draw(Join.Join Join)
+        /// <summary>
+        /// Converts JOIN object to string representation.
+        /// </summary>
+        /// <param name="Table">JOIN object.</param>
+        /// <returns>JOIN object string representation.</returns>
         protected virtual string Draw(Join.Join Join)
         {
             if (Join is Join.InnerJoin)
@@ -66,7 +78,11 @@ namespace Definitif.Data.ObjectSql
                             Join.ON.ToArray())));
         }
 
-        // AUTODOC: Drawer.Draw(Join.InnerJoin Join)
+        /// <summary>
+        /// Converts INNER JOIN object to string representation.
+        /// </summary>
+        /// <param name="Table">INNER JOIN object.</param>
+        /// <returns>INNER JOIN object string representation.</returns>
         protected virtual string Draw(Join.InnerJoin Join)
         {
             return String.Format(
@@ -78,7 +94,11 @@ namespace Definitif.Data.ObjectSql
                         Join.ON.ToArray())));
         }
 
-        // AUTODOC: Drawer.Draw(Join.LeftJoin Join)
+        /// <summary>
+        /// Converts LEFT JOIN object to string representation.
+        /// </summary>
+        /// <param name="Table">LEFT JOIN object.</param>
+        /// <returns>LEFT JOIN object string representation.</returns>
         protected virtual string Draw(Join.LeftJoin Join)
         {
             return String.Format(
@@ -90,7 +110,11 @@ namespace Definitif.Data.ObjectSql
                         Join.ON.ToArray())));
         }
 
-        // AUTODOC: Drawer.Draw(Join.RightJoin Join)
+        /// <summary>
+        /// Converts RIGHT JOIN object to string representation.
+        /// </summary>
+        /// <param name="Table">RIGHT JOIN object.</param>
+        /// <returns>RIGHT JOIN object string representation.</returns>
         protected virtual string Draw(Join.RightJoin Join)
         {
             return String.Format(

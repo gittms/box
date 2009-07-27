@@ -69,11 +69,10 @@ namespace Definitif.Data.ObjectSql
             return Second;
         }
 
-        // AUTODOC: Column.operator !=(Column First, CAlias Second)
         public static ColumnAlias operator !=(Column First, ColumnAlias Second)
         {
             throw new ArgumentException(
-                "Unable to compare Column to CAlias object.");
+                "Unable to compare Column to ColumnAlias object.");
         }
 
         public override bool Equals(object obj)

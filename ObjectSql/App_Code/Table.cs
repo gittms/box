@@ -66,11 +66,10 @@ namespace Definitif.Data.ObjectSql
             return Second;
         }
 
-        // AUTODOC: Select.operator !=(Query.Select First, TAlias Second)
         public static TableAlias operator !=(Table First, TableAlias Second)
         {
             throw new ArgumentException(
-                "Unable to compare Table to TAlias object.");
+                "Unable to compare Table to TableAlias object.");
         }
 
         /// <summary>

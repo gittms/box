@@ -114,7 +114,11 @@ namespace Definitif.Data.ObjectSql
                 this.Draw(Alias.Column), Alias.Name);
         }
 
-        // AUTODOC: Drawer.Draw(Order Order)
+        /// <summary>
+        /// Converts ordering object to string representation.
+        /// </summary>
+        /// <param name="Aggregator">Ordering object.</param>
+        /// <returns>Ordering object string representation.</returns>
         private string Draw(Order Order)
         {
             if (Order is OrderAsc)
@@ -128,7 +132,11 @@ namespace Definitif.Data.ObjectSql
                     this.Except(Order);
         }
 
-        // AUTODOC: Drawer.Draw(OrderAsc Order)
+        /// <summary>
+        /// Converts ascending ordering object to string representation.
+        /// </summary>
+        /// <param name="Aggregator">Ascending ordering object.</param>
+        /// <returns>Ascending ordering object string representation.</returns>
         protected virtual string Draw(OrderAsc Order)
         {
             return String.Format(
@@ -136,7 +144,11 @@ namespace Definitif.Data.ObjectSql
                 this.Draw(Order.Column));
         }
 
-        // AUTODOC: Drawer.Draw(OrderDesc Order)
+        /// <summary>
+        /// Converts descending ordering object to string representation.
+        /// </summary>
+        /// <param name="Aggregator">Descending ordering object.</param>
+        /// <returns>Descending ordering object string representation.</returns>
         protected virtual string Draw(OrderDesc Order)
         {
             return String.Format(
