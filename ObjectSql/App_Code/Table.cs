@@ -14,14 +14,6 @@ namespace Definitif.Data.ObjectSql
         private Database database;
 
         /// <summary>
-        /// Gets table columns dictionary.
-        /// </summary>
-        [Obsolete("Table columns can be requested and enumerated through Table[string Column].")]
-        public override Dictionary<string, Column> Columns
-        {
-            get { return this.columns; }
-        }
-        /// <summary>
         /// Gets table name.
         /// </summary>
         public override string Name
@@ -96,7 +88,21 @@ namespace Definitif.Data.ObjectSql
             return this.columns.Values.GetEnumerator();
         }
 
-        // AUTODOC: Table.Alias(string Name)
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Creates table alias with given name.
+        /// </summary>
+        /// <param name="Name">Name of new table alias.</param>
+        /// <returns>Table alias object.</returns>
         public static TableAlias Alias(string Name)
         {
             return new

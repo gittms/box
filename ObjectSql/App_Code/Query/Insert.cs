@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql.Query
 {
-    // AUTODOC: class Query.Insert()
+    /// <summary>
+    /// Represents INSERT query object.
+    /// </summary>
     public class Insert : IQuery
     {
         private List<IExpression> values
@@ -27,7 +29,12 @@ namespace Definitif.Data.ObjectSql.Query
             set { this.into = value; }
         }
 
-        // AUTODOC: constructor Query.Insert()
+        /// <summary>
+        /// Creates INSERT query object with table and list of 
+        /// insertable values specified.
+        /// </summary>
+        /// <param name="Into">Table object to insert into.</param>
+        /// <param name="Values">Values expression.</param>
         public Insert(
             Table Into,
             params IExpression[] Values)
@@ -39,7 +46,11 @@ namespace Definitif.Data.ObjectSql.Query
             }
         }
 
-        // AUTODOC: constructor Query.Insert()
+        /// <summary>
+        /// Creates INSERT query object with list of insertable 
+        /// values specified.
+        /// </summary>
+        /// <param name="Values">Values expression.</param>
         public Insert(
             params IExpression[] Values)
             : this(null, Values)

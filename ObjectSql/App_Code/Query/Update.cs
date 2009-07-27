@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql.Query
 {
-    // AUTODOC: class Query.Update()
+    /// <summary>
+    /// Represents UPDATE query object.
+    /// </summary>
     public class Update : IQuery
     {
         private List<IExpression> values
@@ -36,7 +38,11 @@ namespace Definitif.Data.ObjectSql.Query
             get { return this.where; }
         }
 
-        // AUTODOC: constructor Query.Update()
+        /// <summary>
+        /// Creates UPDATE query object with update table and expression specified.
+        /// </summary>
+        /// <param name="Table">Table object to update.</param>
+        /// <param name="Values">Parametrized array of IExpression objects representing new values.</param>
         public Update(
             Table Table,
             params IExpression[] Values)
@@ -48,7 +54,10 @@ namespace Definitif.Data.ObjectSql.Query
             }
         }
 
-        // AUTODOC: constructor Query.Update()
+        /// <summary>
+        /// Creates UPDATE query object with update expression specified.
+        /// </summary>
+        /// <param name="Values">Parametrized array of IExpression objects representing new values.</param>
         public Update(
             params IExpression[] Values)
             : this(null, Values)

@@ -5,7 +5,11 @@ namespace Definitif.Data.ObjectSql
 {
     public abstract partial class Drawer
     {
-        // AUTODOC: Drawer.Draw(Query.Select Query)
+        /// <summary>
+        /// Converts SELECT query object to string representation.
+        /// </summary>
+        /// <param name="Query">SELECT query object.</param>
+        /// <returns>SELECT query object string representation.</returns>
         protected virtual string Draw(Query.Select Query)
         {
             string
@@ -37,20 +41,27 @@ namespace Definitif.Data.ObjectSql
                 values, from, where, order, group);
         }
 
-        // AUTODOC: Drawer.Draw(Query.Update Query)
+        /// <summary>
+        /// Converts UPDATE query object to string representation.
+        /// </summary>
+        /// <param name="Query">UPDATE query object.</param>
+        /// <returns>UPDATE query object string representation.</returns>
         protected virtual string Draw(Query.Update Query)
         {
             return "";
         }
 
-        // AUTODOC: Drawer.Draw(Query.Insert Query)
+        /// <summary>
+        /// Converts INSERT query object to string representation.
+        /// </summary>
+        /// <param name="Query">INSERT query object.</param>
+        /// <returns>INSERT query object string representation.</returns>
         protected virtual string Draw(Query.Insert Query)
         {
             string
                 columns = "",
                 values = "",
-                table = "",
-                where = "";
+                table = "";
 
             for (int i = 0; i < Query.VALUES.Count; i++)
             {
@@ -85,7 +96,7 @@ namespace Definitif.Data.ObjectSql
                 }
             }
 
-            if (((object)Query.INTO) != null)
+            if (Query.INTO as object != null)
             {
                 table += this.Draw(Query.INTO);
             }
@@ -95,7 +106,21 @@ namespace Definitif.Data.ObjectSql
                 table, columns, values);
         }
 
-        // AUTODOC: Drawer.Draw(IQuery Query)
+        /// <summary>
+        /// Converts DELETE query object to string representation.
+        /// </summary>
+        /// <param name="Query">DELETE query object.</param>
+        /// <returns>DELETE query object string representation.</returns>
+        protected virtual string Draw(Query.Delete Query)
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// Converts IQuery object to string representation.
+        /// </summary>
+        /// <param name="Query">IQuery object.</param>
+        /// <returns>IQuery object string representation.</returns>
         public string Draw(IQuery Query)
         {
             if (Query is Query.Select)
@@ -107,6 +132,9 @@ namespace Definitif.Data.ObjectSql
             else if (Query is Query.Insert)
                 return
                     this.Draw(Query as Query.Insert);
+            else if (Query is Query.Delete)
+                return
+                    this.Draw(Query as Query.Delete);
             else
                 return
                     this.Except(Query);

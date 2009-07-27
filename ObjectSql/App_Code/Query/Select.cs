@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql.Query
 {
-    // AUTODOC: class Query.Select()
+    /// <summary>
+    /// Represents SELECT query object.
+    /// </summary>
     public class Select : IQuery, ITable
     {
         private List<IColumn> values
@@ -39,7 +41,11 @@ namespace Definitif.Data.ObjectSql.Query
             }
         }
 
-        // AUTODOC: Select.this[string Column]
+        /// <summary>
+        /// Gets Column object by name.
+        /// </summary>
+        /// <param name="Column">Name of column to get.</param>
+        /// <returns>Column object.</returns>
         public Column this[string Column]
         {
             get
@@ -101,11 +107,13 @@ namespace Definitif.Data.ObjectSql.Query
             get { return this.group; }
         }
 
-        // AUTODOC: constructor Query.Select()
         public Select()
         { }
 
-        // AUTODOC: constructor Query.Select()
+        /// <summary>
+        /// Creates SELECT query object with list of values to select.
+        /// </summary>
+        /// <param name="Values"></param>
         public Select(
             params IColumn[] Values)
         {
@@ -115,7 +123,9 @@ namespace Definitif.Data.ObjectSql.Query
             }
         }
 
-        // AUTODOC:
+        /// <summary>
+        /// Updates FROM list based on VALUES collection.
+        /// </summary>
         public void UpdateFrom()
         {
             foreach (IColumn column in this.values)
@@ -125,14 +135,17 @@ namespace Definitif.Data.ObjectSql.Query
             }
         }
 
-        // AUTODOC: Select.operator ==(Query.Select First, TAlias Second)
+        /// <summary>
+        /// Links table alias to SELECT query object.
+        /// </summary>
+        /// <param name="First">SELECT query object to link alias to.</param>
+        /// <param name="Second">Table alias object to link to SELECT query.</param>
         public static TableAlias operator ==(Query.Select First, TableAlias Second)
         {
             Second.Table = First;
             return Second;
         }
 
-        // AUTODOC: Select.operator !=(Query.Select First, TAlias Second)
         public static TableAlias operator !=(Query.Select First, TableAlias Second)
         {
             throw new ArgumentException(

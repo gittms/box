@@ -85,6 +85,7 @@
     <Compile Include="App_Code\Join\RightJoin.cs" />
     <Compile Include="App_Code\Operators.cs" />
     <Compile Include="App_Code\Order.cs" />
+    <Compile Include="App_Code\Query\Delete.cs" />
     <Compile Include="App_Code\Query\Insert.cs" />
     <Compile Include="App_Code\Query\Select.cs" />
     <Compile Include="App_Code\Query\Update.cs" />

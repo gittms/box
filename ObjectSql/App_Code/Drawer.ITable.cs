@@ -49,18 +49,18 @@ namespace Definitif.Data.ObjectSql
         {
             if (Join is Join.InnerJoin)
                 return
-                    this.Draw((Join.InnerJoin)Join);
+                    this.Draw(Join as Join.InnerJoin);
             else if (Join is Join.RightJoin)
                 return
-                    this.Draw((Join.RightJoin)Join);
+                    this.Draw(Join as Join.RightJoin);
             else if (Join is Join.LeftJoin)
                 return
-                    this.Draw((Join.LeftJoin)Join);
+                    this.Draw(Join as Join.LeftJoin);
             else
                 return String.Format(
                     "{0} JOIN {1} ON {2}",
-                    this.Draw((ITable)Join.First),
-                    this.Draw((ITable)Join.Second),
+                    this.Draw(Join.First as ITable),
+                    this.Draw(Join.Second as ITable),
                     this.Draw(
                         new Expression.AND(
                             Join.ON.ToArray())));
@@ -71,8 +71,8 @@ namespace Definitif.Data.ObjectSql
         {
             return String.Format(
                 "{0} INNER JOIN {1} ON {2}",
-                this.Draw((ITable)Join.First),
-                this.Draw((ITable)Join.Second),
+                this.Draw(Join.First as ITable),
+                this.Draw(Join.Second as ITable),
                 this.Draw(
                     new Expression.AND(
                         Join.ON.ToArray())));
@@ -83,8 +83,8 @@ namespace Definitif.Data.ObjectSql
         {
             return String.Format(
                 "{0} LEFT JOIN {1} ON {2}",
-                this.Draw((ITable)Join.First),
-                this.Draw((ITable)Join.Second),
+                this.Draw(Join.First as ITable),
+                this.Draw(Join.Second as ITable),
                 this.Draw(
                     new Expression.AND(
                         Join.ON.ToArray())));
@@ -95,8 +95,8 @@ namespace Definitif.Data.ObjectSql
         {
             return String.Format(
                 "{0} RIGHT JOIN {1} ON {2}",
-                this.Draw((ITable)Join.First),
-                this.Draw((ITable)Join.Second),
+                this.Draw(Join.First as ITable),
+                this.Draw(Join.Second as ITable),
                 this.Draw(
                     new Expression.AND(
                         Join.ON.ToArray())));

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql
 {
-    // AUTODOC: class OrderAsc
+    /// <summary>
+    /// Represents Ordering expression.
+    /// </summary>
     public abstract class Order : IColumn
     {
         protected IColumn column;
@@ -24,28 +26,40 @@ namespace Definitif.Data.ObjectSql
             get { return this.column.Table; }
         }
 
-        // AUTODOC: Order.Name
+        /// <summary>
+        /// Gets name of column order applies to.
+        /// </summary>
         public string Name
         {
             get { return this.column.Name; }
         }
 
-        // AUTODOC: Order.ASC(IColumn Column)
+        /// <summary>
+        /// Creates ascending ordering for given IColumn.
+        /// </summary>
+        /// <param name="Column">IColumn to apply ordering to.</param>
+        /// <returns>OrderAsc expression.</returns>
         public static OrderAsc ASC(IColumn Column)
         {
             return
                 new OrderAsc(Column);
         }
 
-        // AUTODOC: Order.DESC(IColumn Column)
+        /// <summary>
+        /// Creates descending ordering for given IColumn.
+        /// </summary>
+        /// <param name="Column">IColumn to apply ordering to.</param>
+        /// <returns>OrderDesc expression.</returns>
         public static OrderDesc DESC(IColumn Column)
         {
-            return
+            return 
                 new OrderDesc(Column);
         }
     }
 
-    // AUTODOC: class OrderAsc
+    /// <summary>
+    /// Represents Ascending Ordering expression.
+    /// </summary>
     public class OrderAsc : Order
     {
         public OrderAsc(IColumn Column)
@@ -54,7 +68,9 @@ namespace Definitif.Data.ObjectSql
         }
     }
 
-    // AUTODOC: class OrderDesc
+    /// <summary>
+    /// Represents Descending Ordering expression.
+    /// </summary>
     public class OrderDesc : Order
     {
         public OrderDesc(IColumn Column)
