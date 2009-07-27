@@ -10,31 +10,41 @@ namespace Definitif.Data.ObjectSql.Aggregator
         protected Column column;
 
         /// <summary>
-        /// Gets aggregators column.
+        /// Gets aggregated column.
         /// </summary>
         public Column Column
         {
             get { return this.column; }
         }
 
-        // AUTODOC: Aggregator.Name
+        /// <summary>
+        /// Gets table aggregator applies to.
+        /// </summary>
+        public ITable Table
+        {
+            get { return this.column.Table; }
+        }
+
+        /// <summary>
+        /// Gets aggregated column name.
+        /// </summary>
         public string Name
         {
             get { return this.column.Name; }
         }
 
-        // AUTODOC: Column.operator ==(Aggregator First, CAlias Second)
-        public static CAlias operator ==(Aggregator First, CAlias Second)
+        // AUTODOC
+        public static ColumnAlias operator ==(Aggregator First, ColumnAlias Second)
         {
             Second.Column = First;
             return Second;
         }
 
         // AUTODOC: Column.operator !=(Aggregator First, CAlias Second)
-        public static CAlias operator !=(Aggregator First, CAlias Second)
+        public static ColumnAlias operator !=(Aggregator First, ColumnAlias Second)
         {
             throw new ArgumentException(
-                "Unable to compare Aggregator to CAlias object.");
+                "Unable to compare Aggregator to ColumnAlias object.");
         }
 
         public override bool Equals(object obj)

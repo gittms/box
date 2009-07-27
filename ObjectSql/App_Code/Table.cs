@@ -68,14 +68,14 @@ namespace Definitif.Data.ObjectSql
         }
 
         // AUTODOC: Select.operator ==(Query.Select First, TAlias Second)
-        public static TAlias operator ==(Table First, TAlias Second)
+        public static TableAlias operator ==(Table First, TableAlias Second)
         {
             Second.Table = First;
             return Second;
         }
 
         // AUTODOC: Select.operator !=(Query.Select First, TAlias Second)
-        public static TAlias operator !=(Table First, TAlias Second)
+        public static TableAlias operator !=(Table First, TableAlias Second)
         {
             throw new ArgumentException(
                 "Unable to compare Table to TAlias object.");
@@ -97,10 +97,10 @@ namespace Definitif.Data.ObjectSql
         }
 
         // AUTODOC: Table.Alias(string Name)
-        public static TAlias Alias(string Name)
+        public static TableAlias Alias(string Name)
         {
             return new
-                TAlias(Name);
+                TableAlias(Name);
         }
     }
 }

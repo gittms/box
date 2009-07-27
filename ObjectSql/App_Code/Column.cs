@@ -22,7 +22,7 @@ namespace Definitif.Data.ObjectSql
         /// <summary>
         /// Gets or sets parent Table object.
         /// </summary>
-        internal ITable Table
+        public ITable Table
         {
             get { return this.table; }
             set { this.table = value; }
@@ -56,21 +56,21 @@ namespace Definitif.Data.ObjectSql
         }
 
         // AUTODOC: Column.Alias(string Name)
-        public static CAlias Alias(string Name)
+        public static ColumnAlias Alias(string Name)
         {
             return new
-                CAlias(Name);
+                ColumnAlias(Name);
         }
 
         // AUTODOC: Column.operator ==(Column First, CAlias Second)
-        public static CAlias operator ==(Column First, CAlias Second)
+        public static ColumnAlias operator ==(Column First, ColumnAlias Second)
         {
             Second.Column = First;
             return Second;
         }
 
         // AUTODOC: Column.operator !=(Column First, CAlias Second)
-        public static CAlias operator !=(Column First, CAlias Second)
+        public static ColumnAlias operator !=(Column First, ColumnAlias Second)
         {
             throw new ArgumentException(
                 "Unable to compare Column to CAlias object.");

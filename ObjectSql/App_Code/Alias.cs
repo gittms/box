@@ -23,7 +23,7 @@ namespace Definitif.Data.ObjectSql
     /// <summary>
     /// Represents table alias.
     /// </summary>
-    public class TAlias : Alias, ITable, IJoinable
+    public class TableAlias : Alias, ITable, IJoinable
     {
         private ITable table;
 
@@ -57,7 +57,7 @@ namespace Definitif.Data.ObjectSql
             }
         }
 
-        public TAlias(
+        public TableAlias(
             string Name)
         {
             this.name = Name;
@@ -67,7 +67,7 @@ namespace Definitif.Data.ObjectSql
     /// <summary>
     /// Represents column alias.
     /// </summary>
-    public class CAlias : Alias, IColumn
+    public class ColumnAlias : Alias, IColumn
     {
         private IColumn column;
 
@@ -80,7 +80,15 @@ namespace Definitif.Data.ObjectSql
             set { this.column = value; }
         }
 
-        public CAlias(
+        /// <summary>
+        /// Gets table allias applies to.
+        /// </summary>
+        public ITable Table
+        {
+            get { return this.column.Table; }
+        }
+
+        public ColumnAlias(
             string Name)
         {
             this.name = Name;

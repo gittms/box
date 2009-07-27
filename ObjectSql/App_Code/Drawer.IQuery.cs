@@ -15,36 +15,19 @@ namespace Definitif.Data.ObjectSql
                 order = "",
                 group = "";
 
-            for (int i = 0; i < Query.VALUES.Count; i++)
-            {
-                if (i > 0) values += ", ";
-                values += this.Draw(Query.VALUES[i]);
-            }
-
-            for (int i = 0; i < Query.FROM.Count; i++)
-            {
-                if (i > 0) from += ", ";
-                from += this.Draw(Query.FROM[i]);
-            }
+            values = this.CommaSeparated(Query.VALUES);
+            if (Query.FROM.Count == 0) Query.UpdateFrom();
+            from = this.CommaSeparated(Query.FROM);
 
             if (Query.WHERE.Count > 0)
             {
-                where += this.Draw(
+                where = this.Draw(
                     new Expression.AND(
                         Query.WHERE.ToArray()));
             }
 
-            for (int i = 0; i < Query.ORDERBY.Count; i++)
-            {
-                if (i > 0) order += ", ";
-                order += this.Draw(Query.ORDERBY[i]);
-            }
-
-            for (int i = 0; i < Query.GROUPBY.Count; i++)
-            {
-                if (i > 0) group += ", ";
-                group += this.Draw(Query.GROUPBY[i]);
-            }
+            order = this.CommaSeparated(Query.ORDERBY);
+            group = this.CommaSeparated(Query.GROUPBY);
 
             return String.Format(
                 "SELECT {0} FROM {1}" +
@@ -113,17 +96,17 @@ namespace Definitif.Data.ObjectSql
         }
 
         // AUTODOC: Drawer.Draw(IQuery Query)
-        internal string Draw(IQuery Query)
+        public string Draw(IQuery Query)
         {
             if (Query is Query.Select)
                 return
-                    this.Draw((Query.Select)Query);
+                    this.Draw(Query as Query.Select);
             else if (Query is Query.Update)
                 return
-                    this.Draw((Query.Update)Query);
+                    this.Draw(Query as Query.Update);
             else if (Query is Query.Insert)
                 return
-                    this.Draw((Query.Insert)Query);
+                    this.Draw(Query as Query.Insert);
             else
                 return
                     this.Except(Query);

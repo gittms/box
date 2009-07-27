@@ -2,7 +2,10 @@
 
 namespace Definitif.Data.ObjectSql.Aggregator
 {
-    // AUTODOC: class Aggregator.Max
+    /// <summary>
+    /// Represents MAX aggregator
+    /// MAX( [IColumn] )
+    /// </summary>
     public class Max : Aggregator
     {
         public Max(Column Column)

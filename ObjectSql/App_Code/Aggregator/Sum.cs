@@ -2,7 +2,10 @@
 
 namespace Definitif.Data.ObjectSql.Aggregator
 {
-    // AUTODOC: class Aggregator.Sum
+    /// <summary>
+    /// Represents SUM aggregator
+    /// SUM( [IColumn] )
+    /// </summary>
     public class Sum : Aggregator
     {
         public Sum(Column Column)

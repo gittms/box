@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql.Expression
 {
-    // AUTODOC: class Equals
+    // AUTODOC
     public class Equals : DoubleContainer
     {
         // AUTODOC: Equals(IExpression[] First, IExpression[] Second)

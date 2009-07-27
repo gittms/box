@@ -4,22 +4,26 @@ namespace Definitif.Data.ObjectSql
 {
     public abstract partial class Drawer
     {
-        // AUTODOC: Drawer.Draw(ITable Table)
+        /// <summary>
+        /// Converts ITable object to string representation.
+        /// </summary>
+        /// <param name="Table">ITable object.</param>
+        /// <returns>ITable object string representation.</returns>
         private string Draw(ITable Table)
         {
             if (Table is Table)
                 return
-                    this.Draw((Table)Table);
-            else if (Table is TAlias)
+                    this.Draw(Table as Table);
+            else if (Table is TableAlias)
                 return
-                    this.Draw((TAlias)Table);
+                    this.Draw(Table as TableAlias);
             else if (Table is Join.Join)
                 return
-                    this.Draw((Join.Join)Table);
+                    this.Draw(Table as Join.Join);
             else if (Table is Query.Select)
                 return String.Format(
                     "( {0} )",
-                    this.Draw((Query.Select)Table));
+                    this.Draw(Table as Query.Select));
             else
                 return
                     this.Except(Table);
@@ -33,7 +37,7 @@ namespace Definitif.Data.ObjectSql
         }
 
         // AUTODOC: Drawer.Draw(CAlias Alias)
-        protected virtual string Draw(TAlias Alias)
+        protected virtual string Draw(TableAlias Alias)
         {
             return String.Format(
                 "{0} AS {1}",

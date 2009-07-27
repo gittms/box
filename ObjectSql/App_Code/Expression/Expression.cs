@@ -3,10 +3,16 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql.Expression
 {
-    // AUTODOC: class Expression
+    /// <summary>
+    /// Represents expression abstract object.
+    /// </summary>
     public abstract class Expression : Operators, IExpression
     {
-        // AUTODOC: Expression.CreateContainer(params object[] Objects)
+        /// <summary>
+        /// Creates IExpression container from parametrized objects array.
+        /// </summary>
+        /// <param name="Objects">Parametrized objects array.</param>
+        /// <returns>IExpression container.</returns>
         public static IExpression[] CreateContainer(params object[] Objects)
         {
             IExpression[] list = new IExpression[Objects.Length];
@@ -14,8 +20,7 @@ namespace Definitif.Data.ObjectSql.Expression
             {
                 if (Objects[i] == null)
                 {
-                    return
-                        new IExpression[] { null };
+                    return new IExpression[] { null };
                 }
                 else if (!(Objects[i] is IExpression))
                 {
@@ -23,7 +28,7 @@ namespace Definitif.Data.ObjectSql.Expression
                 }
                 else
                 {
-                    list[i] = (IExpression)Objects[i];
+                    list[i] = Objects[i] as IExpression;
                 }
             }
             return list;

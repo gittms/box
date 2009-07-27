@@ -30,9 +30,9 @@ namespace Definitif.Data.ObjectSql.Query
                 foreach (IColumn column in this.values)
                 {
                     if (column is Column)
-                        columns.Add(column.Name, (Column)column);
-                    else if (column is CAlias && ((CAlias)column).Column is Column)
-                        columns.Add(column.Name, (Column)((CAlias)column).Column);
+                        columns.Add(column.Name, column as Column);
+                    else if (column is ColumnAlias && (column as ColumnAlias).Column is Column)
+                        columns.Add(column.Name, (column as ColumnAlias).Column as Column);
                 }
 
                 return columns;
@@ -51,10 +51,10 @@ namespace Definitif.Data.ObjectSql.Query
                 else
                 {
                     throw new ObjectSqlException(
-                            String.Format(
-                                "Query does not contain valuse selection for column '{0}'.",
-                                Column
-                            ));
+                        String.Format(
+                            "Query does not contain valuse selection for column '{0}'.",
+                            Column
+                        ));
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// 
         /// In list can be used:
         ///     <see cref="Table"/>: Generic table object;
-        ///     <see cref="TAlias"/> or <see cref="Table.Alias"/>: Generic table alias;
+        ///     <see cref="TableAlias"/> or <see cref="Table.Alias"/>: Generic table alias;
         ///     <see cref="Join"/>: Joined tables;
         ///     <see cref="Query.Select"/>: Select sub-query.
         /// </summary>
@@ -79,7 +79,6 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.from; }
         }
-        // AUTODOC: Query.Select.WHERE {}
         /// <summary>
         /// Gets list of where predicates.
         /// </summary>
@@ -116,15 +115,25 @@ namespace Definitif.Data.ObjectSql.Query
             }
         }
 
+        // AUTODOC:
+        public void UpdateFrom()
+        {
+            foreach (IColumn column in this.values)
+            {
+                if (!this.from.Contains(column.Table))
+                    this.from.Add(column.Table);
+            }
+        }
+
         // AUTODOC: Select.operator ==(Query.Select First, TAlias Second)
-        public static TAlias operator ==(Query.Select First, TAlias Second)
+        public static TableAlias operator ==(Query.Select First, TableAlias Second)
         {
             Second.Table = First;
             return Second;
         }
 
         // AUTODOC: Select.operator !=(Query.Select First, TAlias Second)
-        public static TAlias operator !=(Query.Select First, TAlias Second)
+        public static TableAlias operator !=(Query.Select First, TableAlias Second)
         {
             throw new ArgumentException(
                 "Unable to compare Query.Select to TAlias object.");

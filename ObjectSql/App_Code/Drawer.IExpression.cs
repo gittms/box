@@ -8,66 +8,74 @@ namespace Definitif.Data.ObjectSql
             AND = "AND",
             OR = "OR";
 
-        // AUTODOC: Drawer.Draw(IExpression Expression)
+        /// <summary>
+        /// Converts IExpression object to string representation.
+        /// </summary>
+        /// <param name="Expression">IExpression object.</param>
+        /// <returns>IExpression object string representation.</returns>
         private string Draw(IExpression Expression)
         {
             if (Expression is Expression.Object)
                 return
-                    this.Draw((Expression.Object)Expression);
+                    this.Draw(Expression as Expression.Object);
             else if (Expression is Expression.AND)
                 return
-                    this.Draw((Expression.AND)Expression);
+                    this.Draw(Expression as Expression.AND);
             else if (Expression is Expression.OR)
                 return
-                    this.Draw((Expression.OR)Expression);
+                    this.Draw(Expression as Expression.OR);
             else if (Expression is Expression.Equals)
                 return
-                    this.Draw((Expression.Equals)Expression);
+                    this.Draw(Expression as Expression.Equals);
             else if (Expression is Expression.NotEquals)
                 return
-                    this.Draw((Expression.NotEquals)Expression);
+                    this.Draw(Expression as Expression.NotEquals);
             else if (Expression is Expression.Less)
                 return
-                    this.Draw((Expression.Less)Expression);
+                    this.Draw(Expression as Expression.Less);
             else if (Expression is Expression.LessOrEquals)
                 return
-                    this.Draw((Expression.LessOrEquals)Expression);
+                    this.Draw(Expression as Expression.LessOrEquals);
             else if (Expression is Expression.More)
                 return
-                    this.Draw((Expression.More)Expression);
+                    this.Draw(Expression as Expression.More);
             else if (Expression is Expression.MoreOrEquals)
                 return
-                    this.Draw((Expression.MoreOrEquals)Expression);
+                    this.Draw(Expression as Expression.MoreOrEquals);
             else if (Expression is Expression.Summ)
                 return
-                    this.Draw((Expression.Summ)Expression);
+                    this.Draw(Expression as Expression.Summ);
             else if (Expression is Expression.Subs)
                 return
-                    this.Draw((Expression.Subs)Expression);
+                    this.Draw(Expression as Expression.Subs);
             else if (Expression is Expression.LIKE)
                 return
-                    this.Draw((Expression.LIKE)Expression);
+                    this.Draw(Expression as Expression.LIKE);
             else if (Expression is Expression.CONTAINS)
                 return
-                    this.Draw((Expression.CONTAINS)Expression);
+                    this.Draw(Expression as Expression.CONTAINS);
             else
                 return
                     this.Except(Expression);
         }
 
-        // AUTODOC: Drawer.Draw(Expression.Object Object)
+        /// <summary>
+        /// Converts Object expression to string representation.
+        /// </summary>
+        /// <param name="Expression">Object expression.</param>
+        /// <returns>Object expression string representation.</returns>
         protected virtual string Draw(Expression.Object Object)
         {
             if (Object.Container is IColumn)
             {
                 return
-                    this.Draw((IColumn)Object.Container);
+                    this.Draw(Object.Container as IColumn);
             }
             else if (Object.Container is string)
             {
                 return String.Format(
                     "'{0}'",
-                    ((string)Object.Container).Replace("'", "''"));
+                    (Object.Container as string).Replace("'", "''"));
             }
             else if (Object.Container is DateTime)
             {

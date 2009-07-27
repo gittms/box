@@ -16,6 +16,14 @@ namespace Definitif.Data.ObjectSql
             get { return this.column; }
         }
 
+        /// <summary>
+        /// Gets table order applies to.
+        /// </summary>
+        public ITable Table
+        {
+            get { return this.column.Table; }
+        }
+
         // AUTODOC: Order.Name
         public string Name
         {

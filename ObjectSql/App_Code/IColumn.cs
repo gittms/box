@@ -8,5 +8,7 @@ namespace Definitif.Data.ObjectSql
     public interface IColumn
     {
         string Name { get; }
+
+        ITable Table { get; }
     }
 }
