@@ -14,8 +14,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>New AND clause group.</returns>
         public static IExpression AND(params IExpression[] Clauses)
         {
-            return new
-                Expression.AND(Clauses);
+            return new Expression.AND(Clauses);
         }
         /// <summary>
         /// Creates new OR clause group.
@@ -24,22 +23,29 @@ namespace Definitif.Data.ObjectSql
         /// <returns>New OR clause group.</returns>
         public static IExpression OR(params IExpression[] Clauses)
         {
-            return new
-                Expression.OR(Clauses);
+            return new Expression.OR(Clauses);
         }
 
-        // AUTODOC: Clause.LIKE(string Expression, IColumn Column)
+        /// <summary>
+        /// Creates new LIKE search expression.
+        /// </summary>
+        /// <param name="Expression">Search expression.</param>
+        /// <param name="Column">Column to search.</param>
+        /// <returns>New LIKE search expression.</returns>
         public static IExpression LIKE(string Expression, IColumn Column)
         {
-            return new
-                Expression.LIKE(Expression, Column);
+            return new Expression.LIKE(Expression, Column);
         }
 
-        // AUTODOC: Clause.CONTAINS(string Expression, params IColumn[] Columns)
+        /// <summary>
+        /// Creates new CONTAINS full-text search expression.
+        /// </summary>
+        /// <param name="Expression">Search expression.</param>
+        /// <param name="Columns">Columns to search.</param>
+        /// <returns>New CONTAINS full-text search expression.</returns>
         public static IExpression CONTAINS(string Expression, params IColumn[] Columns)
         {
-            return new
-                Expression.CONTAINS(Expression, Columns);
+            return new Expression.CONTAINS(Expression, Columns);
         }
     }
 }

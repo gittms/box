@@ -44,11 +44,13 @@ namespace Definitif.Data.ObjectSql
         {
             get
             {
-                if (this.columns.ContainsKey(Column))
+                // OPTIMIZATION: try..catch block is much faster than
+                // this.columns.ContainsKey().
+                try
                 {
                     return this.columns[Column];
                 }
-                else
+                catch
                 {
                     throw new ObjectSqlException(
                         String.Format(
@@ -59,7 +61,10 @@ namespace Definitif.Data.ObjectSql
             }
         }
 
-        // AUTODOC: Select.operator ==(Query.Select First, TAlias Second)
+        // Operator == is used to link aliases
+        // to tables and represent constructions
+        // like:
+        // Table AS MyTable
         public static TableAlias operator ==(Table First, TableAlias Second)
         {
             Second.Table = First;

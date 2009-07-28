@@ -51,10 +51,6 @@
     <Compile Include="App_Code\Column.cs" />
     <Compile Include="App_Code\Database.cs" />
     <Compile Include="App_Code\Drawer.cs" />
-    <Compile Include="App_Code\Drawer.IColumn.cs" />
-    <Compile Include="App_Code\Drawer.IExpression.cs" />
-    <Compile Include="App_Code\Drawer.IQuery.cs" />
-    <Compile Include="App_Code\Drawer.ITable.cs" />
     <Compile Include="App_Code\Exception.cs" />
     <Compile Include="App_Code\Expression\Container.cs" />
     <Compile Include="App_Code\Expression\Expression.cs" />
@@ -71,13 +67,9 @@
     <Compile Include="App_Code\Expression\Object.cs" />
     <Compile Include="App_Code\Expression\Text\Contains.cs" />
     <Compile Include="App_Code\Expression\Text\Like.cs" />
-    <Compile Include="App_Code\IColumn.cs" />
-    <Compile Include="App_Code\IExpression.cs" />
-    <Compile Include="App_Code\IJoinable.cs" />
+    <Compile Include="App_Code\Interfaces.cs" />
     <Compile Include="App_Code\Implementation\MsSql\Database.cs" />
     <Compile Include="App_Code\Implementation\MsSql\Drawer.cs" />
-    <Compile Include="App_Code\IQuery.cs" />
-    <Compile Include="App_Code\ITable.cs" />
     <Compile Include="App_Code\Joins.cs" />
     <Compile Include="App_Code\Join\InnerJoin.cs" />
     <Compile Include="App_Code\Join\Join.cs" />

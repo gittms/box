@@ -54,11 +54,13 @@ namespace Definitif.Data.ObjectSql
         {
             get
             {
-                if (this.tables.ContainsKey(Table))
+                // OPTIMIZATION: try..catch block is much faster than
+                // this.tables.ContainsKey().
+                try
                 {
                     return this.tables[Table];
                 }
-                else
+                catch
                 {
                     throw new ObjectSqlException(
                         String.Format(

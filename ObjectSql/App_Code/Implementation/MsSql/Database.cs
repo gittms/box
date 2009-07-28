@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Definitif.Data.ObjectSql.Implementation.MsSql
 {

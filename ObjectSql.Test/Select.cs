@@ -106,8 +106,16 @@ namespace Definitif.Data.ObjectSql.Test
                     new Query.Select(
                         db["Table"]["Name"], db["Chair"]["Name"], db["Table"]["ID"])
                         {
-                            FROM = { db["Chair"].INNERJOIN(db["Table"], db["Chair"]["TableID"] == db["Table"]["ID"]) },
-                            ORDERBY = { db["Table"]["ID"] }
+                            FROM =
+                            {
+                                db["Chair"].INNERJOIN(
+                                    db["Table"], 
+                                    db["Chair"]["TableID"] == db["Table"]["ID"]) 
+                            },
+                            ORDERBY = 
+                            {
+                                db["Table"]["ID"]
+                            }
                         }
                 );
             }
