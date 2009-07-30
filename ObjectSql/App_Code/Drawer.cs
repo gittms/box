@@ -106,15 +106,15 @@ namespace Definitif.Data.ObjectSql
             for (int i = 0; i < Query.VALUES.Count; i++)
             {
                 if (Query.VALUES[i] is Expression.Equals &&
-                    ((Expression.Equals)Query.VALUES[i]).FirstContainer[0] is Expression.Object)
+                    (Query.VALUES[i] as Expression.Equals).FirstContainer[0] is Expression.Object)
                 {
                     if (i > 0 && columns != "")
                     {
                         columns += ", ";
                         values += ", ";
                     }
-                    columns += this.Draw((Expression.Object)((Expression.Equals)Query.VALUES[i]).FirstContainer[0]);
-                    IExpression[] second = ((Expression.Equals)Query.VALUES[i]).SecondContainer;
+                    columns += this.Draw((Query.VALUES[i] as Expression.Equals).FirstContainer[0] as Expression.Object);
+                    IExpression[] second = (Query.VALUES[i] as Expression.Equals).SecondContainer;
                     if (second.Length == 1 && second[0] != null)
                     {
                         values += this.Draw(second[0]);
@@ -199,15 +199,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>JOIN object string representation.</returns>
         protected virtual string Draw(Join.Join Join)
         {
-            if (Join is Join.InnerJoin)
-                return
-                    this.Draw(Join as Join.InnerJoin);
-            else if (Join is Join.RightJoin)
-                return
-                    this.Draw(Join as Join.RightJoin);
-            else if (Join is Join.LeftJoin)
-                return
-                    this.Draw(Join as Join.LeftJoin);
+                 if (Join is Join.InnerJoin) return this.Draw(Join as Join.InnerJoin);
+            else if (Join is Join.RightJoin) return this.Draw(Join as Join.RightJoin);
+            else if (Join is Join.LeftJoin) return this.Draw(Join as Join.LeftJoin);
             else
                 return String.Format(
                     "{0} JOIN {1} ON {2}",
@@ -448,27 +442,15 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Object expression string representation.</returns>
         protected virtual string Draw(Expression.Object Object)
         {
-            if (Object.Container is IColumn)
-            {
-                return
-                    this.Draw(Object.Container as IColumn);
-            }
+                 if (Object.Container is IColumn) return this.Draw(Object.Container as IColumn);
             else if (Object.Container is string)
             {
                 return String.Format(
                     "'{0}'",
                     (Object.Container as string).Replace("'", "''"));
             }
-            else if (Object.Container is DateTime)
-            {
-                return
-                    ((DateTime)Object.Container).ToString("yyyy-MM-dd HH:mm:ss");
-            }
-            else
-            {
-                return
-                    Object.Container.ToString();
-            }
+            else if (Object.Container is DateTime) return ((DateTime)Object.Container).ToString("yyyy-MM-dd HH:mm:ss");
+            else return Object.Container.ToString();
         }
 
         /// <summary>

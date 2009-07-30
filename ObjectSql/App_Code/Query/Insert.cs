@@ -40,8 +40,7 @@ namespace Definitif.Data.ObjectSql.Query
                     (expression.FirstContainer[0] as Expression.Object).Container is Column)
                 {
                     ITable table = ((expression.FirstContainer[0] as Expression.Object).Container as Column).Table;
-                    if (table is Table)
-                        this.into = table as Table;
+                    if (table is Table) this.into = table as Table;
                 }
             }
         }

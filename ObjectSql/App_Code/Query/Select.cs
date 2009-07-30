@@ -19,6 +19,7 @@ namespace Definitif.Data.ObjectSql.Query
         private List<IColumn> group
             = new List<IColumn>();
 
+
         /// <summary>
         /// Gets table columns dictionary.
         /// </summary>
@@ -50,13 +51,11 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get
             {
-                // OPTIMIZATION: try...catch block is faster
-                // than Dictionary.ContainsKey() method.
-                try
+                if (this.Columns.ContainsKey(Column))
                 {
                     return this.Columns[Column];
                 }
-                catch
+                else
                 {
                     throw new ObjectSqlException(
                         String.Format(
