@@ -12,7 +12,8 @@ namespace Definitif.Data.ObjectSql.Query
             = new List<IExpression>();
         private List<IExpression> where
             = new List<IExpression>();
-        private Table table;
+        private List<ITable> tables
+            = new List<ITable>();
 
         /// <summary>
         /// Gets list of UPDATE values.
@@ -23,12 +24,11 @@ namespace Definitif.Data.ObjectSql.Query
         }
 
         /// <summary>
-        /// Gets or sets table to update.
+        /// Gets list of tables to update.
         /// </summary>
-        public Table TABLE
+        public List<ITable> TABLES
         {
-            get { return this.table; }
-            set { this.table = value; }
+            get { return this.tables; }
         }
         /// <summary>
         /// Gets list of where predicates.
@@ -39,19 +39,33 @@ namespace Definitif.Data.ObjectSql.Query
         }
 
         /// <summary>
+        /// Updates TABLES list based on VALUES collection.
+        /// </summary>
+        internal void UpdateTables()
+        {
+            foreach (Expression.Equals expression in this.values)
+            {
+                if (expression.FirstContainer[0] is Expression.Object &&
+                    (expression.FirstContainer[0] as Expression.Object).Container is Column)
+                {
+                    ITable table = ((expression.FirstContainer[0] as Expression.Object).Container as Column).Table;
+                    if (!this.tables.Contains(table))
+                        this.tables.Add(table);
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates UPDATE query object with update table and expression specified.
         /// </summary>
         /// <param name="Table">Table object to update.</param>
         /// <param name="Values">Parametrized array of IExpression objects representing new values.</param>
         public Update(
-            Table Table,
+            ITable Table,
             params IExpression[] Values)
+            : this(Values)
         {
-            this.table = Table;
-            foreach (IExpression value in Values)
-            {
-                this.values.Add(value);
-            }
+            this.tables.Add(Table);
         }
 
         /// <summary>
@@ -60,7 +74,25 @@ namespace Definitif.Data.ObjectSql.Query
         /// <param name="Values">Parametrized array of IExpression objects representing new values.</param>
         public Update(
             params IExpression[] Values)
-            : this(null, Values)
+        {
+            foreach (IExpression value in Values)
+            {
+                if (value is Expression.Equals)
+                {
+                    this.values.Add(value as Expression.Equals);
+                }
+                else
+                {
+                    throw new ObjectSqlException(
+                        "Query.Update VALUES should only contain == expressions.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates UPDATE query object.
+        /// </summary>
+        public Update()
         { }
     }
 }

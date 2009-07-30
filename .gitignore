@@ -3,5 +3,5 @@ bin
 obj
 *.suo
 *.user
-ObjectSql1.*
+ObjectSql*.*
 TestResults

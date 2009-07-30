@@ -30,6 +30,23 @@ namespace Definitif.Data.ObjectSql.Query
         }
 
         /// <summary>
+        /// Updates INTO table based on VALUES collection.
+        /// </summary>
+        internal void UpdateInto()
+        {
+            foreach (Expression.Equals expression in this.values)
+            {
+                if (expression.FirstContainer[0] is Expression.Object &&
+                    (expression.FirstContainer[0] as Expression.Object).Container is Column)
+                {
+                    ITable table = ((expression.FirstContainer[0] as Expression.Object).Container as Column).Table;
+                    if (table is Table)
+                        this.into = table as Table;
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates INSERT query object with table and list of 
         /// insertable values specified.
         /// </summary>
@@ -38,12 +55,9 @@ namespace Definitif.Data.ObjectSql.Query
         public Insert(
             Table Into,
             params IExpression[] Values)
+            : this(Values)
         {
             this.into = Into;
-            foreach (IExpression value in Values)
-            {
-                this.values.Add(value);
-            }
         }
 
         /// <summary>
@@ -53,7 +67,17 @@ namespace Definitif.Data.ObjectSql.Query
         /// <param name="Values">Values expression.</param>
         public Insert(
             params IExpression[] Values)
-            : this(null, Values)
+        {
+            foreach (IExpression value in Values)
+            {
+                this.values.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// Creates INSERT query object.
+        /// </summary>
+        public Insert()
         { }
     }
 }

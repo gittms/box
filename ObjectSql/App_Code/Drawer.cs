@@ -66,7 +66,26 @@ namespace Definitif.Data.ObjectSql
         /// <returns>UPDATE query object string representation.</returns>
         protected virtual string Draw(Query.Update Query)
         {
-            return "";
+            string
+                values = "",
+                where = "",
+                tables = "";
+
+            values = this.CommaSeparated(Query.VALUES);
+            if (Query.TABLES.Count == 0) Query.UpdateTables();
+            tables = this.CommaSeparated(Query.TABLES);
+
+            if (Query.WHERE.Count > 0)
+            {
+                where = this.Draw(
+                    new Expression.AND(
+                        Query.WHERE.ToArray()));
+            }
+
+            return String.Format(
+                "UPDATE {0} SET {1}" +
+                    ((where != "") ? " WHERE {2}" : ""),
+                tables, values, where);
         }
 
         /// <summary>
@@ -80,6 +99,9 @@ namespace Definitif.Data.ObjectSql
                 columns = "",
                 values = "",
                 table = "";
+
+            if (Query.INTO as object == null) Query.UpdateInto();
+            table = this.Draw(Query.INTO);
 
             for (int i = 0; i < Query.VALUES.Count; i++)
             {
@@ -112,11 +134,6 @@ namespace Definitif.Data.ObjectSql
                     throw new ObjectSqlException(
                         "Query.Insert VALUES should contain Expression.Equals expressions with IColumn in First container.");
                 }
-            }
-
-            if (Query.INTO as object != null)
-            {
-                table += this.Draw(Query.INTO);
             }
 
             return String.Format(
@@ -417,6 +434,8 @@ namespace Definitif.Data.ObjectSql
             else if (Expression is Expression.MoreOrEquals) return this.Draw(Expression as Expression.MoreOrEquals);
             else if (Expression is Expression.Summ) return this.Draw(Expression as Expression.Summ);
             else if (Expression is Expression.Subs) return this.Draw(Expression as Expression.Subs);
+            else if (Expression is Expression.Multiply) return this.Draw(Expression as Expression.Multiply);
+            else if (Expression is Expression.Divide) return this.Draw(Expression as Expression.Divide);
             else if (Expression is Expression.LIKE) return this.Draw(Expression as Expression.LIKE);
             else if (Expression is Expression.CONTAINS) return this.Draw(Expression as Expression.CONTAINS);
             else return this.Except(Expression);
@@ -511,10 +530,24 @@ namespace Definitif.Data.ObjectSql
             if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] != null)
             {
-                result = String.Format(
-                    "{0} = {1}",
-                    this.Draw(Expression.FirstContainer[0]),
-                    this.Draw(Expression.SecondContainer[0]));
+                // This operator can be applied to subselect,
+                // for example WHERE IN ( SELECT ... ).
+                if (Expression.SecondContainer[0] is Expression.Object &&
+                    (Expression.SecondContainer[0] as Expression.Object).Container is Query.Select)
+                {
+                    result = String.Format(
+                        "{0} IN ( {1} )",
+                        this.Draw(Expression.FirstContainer[0]),
+                        this.Draw((Expression.SecondContainer[0] 
+                            as Expression.Object).Container as Query.Select));
+                }
+                else
+                {
+                    result = String.Format(
+                        "{0} = {1}",
+                        this.Draw(Expression.FirstContainer[0]),
+                        this.Draw(Expression.SecondContainer[0]));
+                }
             }
             else if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] == null)
@@ -546,10 +579,23 @@ namespace Definitif.Data.ObjectSql
             if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] != null)
             {
-                result = String.Format(
-                    "{0} <> {1}",
-                    this.Draw(Expression.FirstContainer[0]),
-                    this.Draw(Expression.SecondContainer[0]));
+                // This operator can be applied to subselect,
+                // for example WHERE NOT IN ( SELECT ... ).
+                if ((Expression.SecondContainer[0] as Expression.Object).Container is Query.Select)
+                {
+                    result = String.Format(
+                        "{0} NOT IN ( {1} )",
+                        this.Draw(Expression.FirstContainer[0]),
+                        this.Draw((Expression.SecondContainer[0]
+                            as Expression.Object).Container as Query.Select));
+                }
+                else
+                {
+                    result = String.Format(
+                        "{0} <> {1}",
+                        this.Draw(Expression.FirstContainer[0]),
+                        this.Draw(Expression.SecondContainer[0]));
+                }
             }
             else if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] == null)
@@ -651,6 +697,42 @@ namespace Definitif.Data.ObjectSql
             for (int i = 0; i < Expression.Container.Length; i++)
             {
                 if (i > 0) result += " - ";
+                result += this.Draw(Expression.Container[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts * expression object to string representation.
+        /// </summary>
+        /// <param name="Expression">* expression object.</param>
+        /// <returns>* expression string representation.</returns>
+        protected virtual string Draw(Expression.Multiply Expression)
+        {
+            string result = "";
+
+            for (int i = 0; i < Expression.Container.Length; i++)
+            {
+                if (i > 0) result += " * ";
+                result += this.Draw(Expression.Container[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts / expression object to string representation.
+        /// </summary>
+        /// <param name="Expression">/ expression object.</param>
+        /// <returns>/ expression string representation.</returns>
+        protected virtual string Draw(Expression.Divide Expression)
+        {
+            string result = "";
+
+            for (int i = 0; i < Expression.Container.Length; i++)
+            {
+                if (i > 0) result += " / ";
                 result += this.Draw(Expression.Container[i]);
             }
 

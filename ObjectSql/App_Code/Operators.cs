@@ -29,13 +29,14 @@ namespace Definitif.Data.ObjectSql
                 Expression.Expression.CreateContainer(First),
                 Expression.Expression.CreateContainer(Second));
         }
-        // Operator + is used to represent
+        // Operators +,-,* and \ are used to represent
         // expressions like:
         // 1. [Column] + Value
         // for value changing and comparison
         // exspressions, i.e.:
         // 1. [Column] > [Column] + 10
         // 2. [Column] = [Column] + 10
+        // 3. [Column] = [Column] * 10
         public static IExpression operator +(Operators First, object Second)
         {
             return new Expression.Summ(
@@ -44,6 +45,16 @@ namespace Definitif.Data.ObjectSql
         public static IExpression operator -(Operators First, object Second)
         {
             return new Expression.Subs(
+                Expression.Expression.CreateContainer(First, Second));
+        }
+        public static IExpression operator *(Operators First, object Second)
+        {
+            return new Expression.Multiply(
+                Expression.Expression.CreateContainer(First, Second));
+        }
+        public static IExpression operator /(Operators First, object Second)
+        {
+            return new Expression.Divide(
                 Expression.Expression.CreateContainer(First, Second));
         }
         // Operator != is used to represent

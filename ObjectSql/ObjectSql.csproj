@@ -62,6 +62,8 @@
     <Compile Include="App_Code\Expression\Logic\MoreOrEquals.cs" />
     <Compile Include="App_Code\Expression\Logic\NotEquals.cs" />
     <Compile Include="App_Code\Expression\Logic\Or.cs" />
+    <Compile Include="App_Code\Expression\Math\Divide.cs" />
+    <Compile Include="App_Code\Expression\Math\Multiply.cs" />
     <Compile Include="App_Code\Expression\Math\Subs.cs" />
     <Compile Include="App_Code\Expression\Math\Summ.cs" />
     <Compile Include="App_Code\Expression\Object.cs" />

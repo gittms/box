@@ -9,24 +9,11 @@ namespace Definitif.Data.ObjectSql.Test
     [TestClass]
     public class Select
     {
-        private Database TestDatabase()
-        {
-            Database db = new Implementation.MsSql.Database();
-            db.Add(new Table("Table"));
-            db["Table"].Add(new Column("ID"));
-            db["Table"].Add(new Column("Name"));
-            db.Add(new Table("Chair"));
-            db["Chair"].Add(new Column("ID"));
-            db["Chair"].Add(new Column("TableID"));
-            db["Chair"].Add(new Column("Name"));
-            return db;
-        }
-
-        [TestMethod]
+        [TestMethod, Priority(10)]
         [Description("Query.Select Draw() test.")]
         public void SelectDraw()
         {
-            Database db = this.TestDatabase();
+            Database db = TestUtils.Database;
 
             Assert.AreEqual(
                 "SELECT Table.[Name] FROM Table",
@@ -92,11 +79,11 @@ namespace Definitif.Data.ObjectSql.Test
                 "Greater than select with numeric operation draw failed.");
         }
 
-        [TestMethod]
-        [Description("Query.Select Draw() performance test.")]
+        [TestMethod, Priority(1)]
+        [Description("Query.Select Draw() performance test (limit: 1s 150ms for 100 000 iterations).")]
         public void SelectDrawPerformance()
         {
-            Database db = this.TestDatabase();
+            Database db = TestUtils.Database;
             DateTime start = DateTime.Now;
             TimeSpan time;
 
@@ -122,8 +109,8 @@ namespace Definitif.Data.ObjectSql.Test
 
             time = DateTime.Now - start;
             Assert.IsTrue(
-                time <= new TimeSpan(0, 0, 1),
-                "100 000 joined selects rendeting took " + time.ToString() + ".");
+                time <= new TimeSpan(0, 0, 0, 1, 150),
+                "100 000 joined selects rendering took " + time.ToString() + ".");
         }
     }
 }

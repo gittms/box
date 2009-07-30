@@ -50,15 +50,17 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get
             {
-                if (this.Columns.ContainsKey(Column))
+                // OPTIMIZATION: try...catch block is faster
+                // than Dictionary.ContainsKey() method.
+                try
                 {
                     return this.Columns[Column];
                 }
-                else
+                catch
                 {
                     throw new ObjectSqlException(
                         String.Format(
-                            "Query does not contain valuse selection for column '{0}'.",
+                            "Query does not contain values selection for column '{0}'.",
                             Column
                         ));
                 }
@@ -126,7 +128,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// <summary>
         /// Updates FROM list based on VALUES collection.
         /// </summary>
-        public void UpdateFrom()
+        internal void UpdateFrom()
         {
             foreach (IColumn column in this.values)
             {
@@ -149,7 +151,7 @@ namespace Definitif.Data.ObjectSql.Query
         public static TableAlias operator !=(Query.Select First, TableAlias Second)
         {
             throw new ArgumentException(
-                "Unable to compare Query.Select to TAlias object.");
+                "Unable to compare Query.Select to TableAlias object.");
         }
 
         [Obsolete("Property Query.Select.Name implemented for interface compatibility only.")]
