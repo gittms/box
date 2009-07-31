@@ -13,7 +13,7 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Insert Draw() test.")]
         public void InsertDraw()
         {
-            Database db = TestUtils.Database;
+            ObjectSql.Database db = TestUtils.Database;
 
             Assert.AreEqual(
                 "INSERT INTO Table ( Table.[Name], Table.[ID] ) VALUES ( 'My Name', 1 )",
@@ -70,7 +70,7 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Insert Draw() performance test (limit: 800ms for 100 000 iterations).")]
         public void InsertDrawPerformance()
         {
-            Database db = TestUtils.Database;
+            ObjectSql.Database db = TestUtils.Database;
             DateTime start = DateTime.Now;
             TimeSpan time;
 

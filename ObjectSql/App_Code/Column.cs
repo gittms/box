@@ -10,6 +10,7 @@ namespace Definitif.Data.ObjectSql
     public class Column : Operators, IColumn
     {
         private string name;
+        private string type;
         private ITable table;
 
         /// <summary>
@@ -28,8 +29,22 @@ namespace Definitif.Data.ObjectSql
             set { this.table = value; }
         }
 
-        public Column(
-            string Name)
+        /// <summary>
+        /// Creates new instance of Column object.
+        /// </summary>
+        /// <param name="Name">Name of column.</param>
+        /// <param name="Type">Type string representation.</param>
+        public Column(string Name, string Type)
+            : this(Name)
+        {
+            this.type = Type;
+        }
+
+        /// <summary>
+        /// Creates new instance of Column object.
+        /// </summary>
+        /// <param name="Name">Name of column.</param>
+        public Column(string Name)
         {
             this.name = Name;
         }

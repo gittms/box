@@ -13,7 +13,7 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Update Draw() test.")]
         public void UpdateDraw()
         {
-            Database db = TestUtils.Database;
+            ObjectSql.Database db = TestUtils.Database;
 
             Assert.AreEqual(
                 "UPDATE Table SET Table.[Name] = Table.[Name] + ' updated' WHERE Table.[ID] < 100",
@@ -72,7 +72,7 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Update Draw() performance test (limit: 1s 500ms for 100 000 iterations).")]
         public void UpdateDrawPerformance()
         {
-            Database db = TestUtils.Database;
+            ObjectSql.Database db = TestUtils.Database;
             DateTime start = DateTime.Now;
             TimeSpan time;
 

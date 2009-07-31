@@ -59,6 +59,14 @@ namespace Definitif.Data.ObjectSql
             }
         }
 
+        /// <summary>
+        /// Gets list of table columns.
+        /// </summary>
+        public override Dictionary<string, Column> Columns
+        {
+            get { return this.columns; }
+        }
+
         // Operator == is used to link aliases
         // to tables and represent constructions
         // like:

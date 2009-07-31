@@ -13,7 +13,7 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Select Draw() test.")]
         public void SelectDraw()
         {
-            Database db = TestUtils.Database;
+            ObjectSql.Database db = TestUtils.Database;
 
             Assert.AreEqual(
                 "SELECT Table.[Name] FROM Table",
@@ -83,7 +83,7 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Select Draw() performance test (limit: 1s 150ms for 100 000 iterations).")]
         public void SelectDrawPerformance()
         {
-            Database db = TestUtils.Database;
+            ObjectSql.Database db = TestUtils.Database;
             DateTime start = DateTime.Now;
             TimeSpan time;
 
