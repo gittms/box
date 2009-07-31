@@ -80,7 +80,7 @@ namespace Definitif.Data.ObjectSql.Test
         }
 
         [TestMethod, Priority(1)]
-        [Description("Query.Select Draw() performance test (limit: 1s 150ms for 100 000 iterations).")]
+        [Description("Query.Select Draw() performance test (limit: 750ms for 100 000 iterations).")]
         public void SelectDrawPerformance()
         {
             ObjectSql.Database db = TestUtils.Database;
@@ -109,7 +109,7 @@ namespace Definitif.Data.ObjectSql.Test
 
             time = DateTime.Now - start;
             Assert.IsTrue(
-                time <= new TimeSpan(0, 0, 0, 1, 150),
+                time <= new TimeSpan(0, 0, 0, 0, 750),
                 "100 000 joined selects rendering took " + time.ToString() + ".");
         }
     }

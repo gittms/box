@@ -51,12 +51,14 @@ namespace Definitif.Data.ObjectSql
             order = this.CommaSeparated(Query.ORDERBY);
             group = this.CommaSeparated(Query.GROUPBY);
 
-            return String.Format(
-                "SELECT {0} FROM {1}" +
-                    ((where != "") ? " WHERE {2}" : "") +
-                    ((order != "") ? " ORDER BY {3}" : "") +
-                    ((group != "") ? " GROUP BY {4}" : ""),
-                values, from, where, order, group);
+            // SELECT Table.[Column] FROM Table
+            // [WHERE Table.[Column] = Value]
+            // [ORDER BY Table.[Column]]
+            // [GROUP BY Table.[Column]]
+            return "SELECT " + values + " FROM " + from +
+                    ((where != "") ? " WHERE " + where : "") +
+                    ((order != "") ? " ORDER BY " + order : "") +
+                    ((group != "") ? " GROUP BY " + group : "");
         }
 
         /// <summary>
@@ -82,10 +84,10 @@ namespace Definitif.Data.ObjectSql
                         Query.WHERE.ToArray()));
             }
 
-            return String.Format(
-                "UPDATE {0} SET {1}" +
-                    ((where != "") ? " WHERE {2}" : ""),
-                tables, values, where);
+            // UPDATE Table SET Table.[Column] = Value
+            // [WHERE Table.[Column] = Value]
+            return "UPDATE " + tables + " SET " + values +
+                ((where != "") ? " WHERE " + where : "");
         }
 
         /// <summary>
@@ -136,9 +138,9 @@ namespace Definitif.Data.ObjectSql
                 }
             }
 
-            return String.Format(
-                "INSERT INTO {0} ( {1} ) VALUES ( {2} )",
-                table, columns, values);
+            // INSERT INTO Table ( Table.[Column] ) VALUES ( Value )
+            return "INSERT INTO " + table +
+                " ( " + columns + " ) VALUES ( " + values + " )";
         }
 
         /// <summary>
@@ -162,10 +164,8 @@ namespace Definitif.Data.ObjectSql
                  if (Table is Table) return this.Draw(Table as Table);
             else if (Table is TableAlias) return this.Draw(Table as TableAlias);
             else if (Table is Join.Join) return this.Draw(Table as Join.Join);
-            else if (Table is Query.Select)
-                return String.Format(
-                    "( {0} )",
-                    this.Draw(Table as Query.Select));
+            // ( [SUBSELECT QUERY] )
+            else if (Table is Query.Select) return "( " + this.Draw(Table as Query.Select) + " )";
             else return this.Except(Table);
         }
 
@@ -176,8 +176,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Table object string representation.</returns>
         protected virtual string Draw(Table Table)
         {
-            return
-                Table.Name;
+            return Table.Name;
         }
 
         /// <summary>
@@ -187,9 +186,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Table Alias object string representation.</returns>
         protected virtual string Draw(TableAlias Alias)
         {
-            return String.Format(
-                "{0} AS {1}",
-                this.Draw(Alias.Table), Alias.Name);
+            // Table AS Alias
+            return this.Draw(Alias.Table as Table) + " AS " + Alias.Name;
         }
 
         /// <summary>
@@ -202,14 +200,10 @@ namespace Definitif.Data.ObjectSql
                  if (Join is Join.InnerJoin) return this.Draw(Join as Join.InnerJoin);
             else if (Join is Join.RightJoin) return this.Draw(Join as Join.RightJoin);
             else if (Join is Join.LeftJoin) return this.Draw(Join as Join.LeftJoin);
-            else
-                return String.Format(
-                    "{0} JOIN {1} ON {2}",
-                    this.Draw(Join.First as ITable),
-                    this.Draw(Join.Second as ITable),
-                    this.Draw(
-                        new Expression.AND(
-                            Join.ON.ToArray())));
+            // ITable JOIN ITable ON ( ... AND ... )
+            else return this.Draw(Join.First as ITable) + 
+                " JOIN " + this.Draw(Join.Second as ITable) +
+                " ON " + this.Draw(new Expression.AND(Join.ON.ToArray()));
         }
 
         /// <summary>
@@ -219,13 +213,10 @@ namespace Definitif.Data.ObjectSql
         /// <returns>INNER JOIN object string representation.</returns>
         protected virtual string Draw(Join.InnerJoin Join)
         {
-            return String.Format(
-                "{0} INNER JOIN {1} ON {2}",
-                this.Draw(Join.First as ITable),
-                this.Draw(Join.Second as ITable),
-                this.Draw(
-                    new Expression.AND(
-                        Join.ON.ToArray())));
+            // ITable INNER JOIN ITable ON ( ... AND ... )
+            return this.Draw(Join.First as ITable) +
+                " INNER JOIN " + this.Draw(Join.Second as ITable) +
+                " ON " + this.Draw(new Expression.AND(Join.ON.ToArray()));
         }
 
         /// <summary>
@@ -235,13 +226,10 @@ namespace Definitif.Data.ObjectSql
         /// <returns>LEFT JOIN object string representation.</returns>
         protected virtual string Draw(Join.LeftJoin Join)
         {
-            return String.Format(
-                "{0} LEFT JOIN {1} ON {2}",
-                this.Draw(Join.First as ITable),
-                this.Draw(Join.Second as ITable),
-                this.Draw(
-                    new Expression.AND(
-                        Join.ON.ToArray())));
+            // ITable LEFT JOIN ITable ON ( ... AND ... )
+            return this.Draw(Join.First as ITable) +
+                " LEFT JOIN " + this.Draw(Join.Second as ITable) +
+                " ON " + this.Draw(new Expression.AND(Join.ON.ToArray()));
         }
 
         /// <summary>
@@ -251,13 +239,10 @@ namespace Definitif.Data.ObjectSql
         /// <returns>RIGHT JOIN object string representation.</returns>
         protected virtual string Draw(Join.RightJoin Join)
         {
-            return String.Format(
-                "{0} RIGHT JOIN {1} ON {2}",
-                this.Draw(Join.First as ITable),
-                this.Draw(Join.Second as ITable),
-                this.Draw(
-                    new Expression.AND(
-                        Join.ON.ToArray())));
+            // ITable RIGHT JOIN ITable ON ( ... AND ... )
+            return this.Draw(Join.First as ITable) +
+                " LEFT JOIN " + this.Draw(Join.Second as ITable) +
+                " ON " + this.Draw(new Expression.AND(Join.ON.ToArray()));
         } 
         #endregion
 
@@ -288,9 +273,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Column object string representation.</returns>
         protected virtual string Draw(Column Column)
         {
-            return String.Format(
-                "{0}.[{1}]",
-                Column.Table.Name, Column.Name);
+            // Table.[Column]
+            return Column.Table.Name + ".[" + Column.Name + "]";
         }
 
         /// <summary>
@@ -300,18 +284,10 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Aggregator object string representation.</returns>
         private string Draw(Aggregator.Aggregator Aggregator)
         {
-            if (Aggregator is Aggregator.Sum)
-                return
-                    this.Draw(Aggregator as Aggregator.Sum);
-            else if (Aggregator is Aggregator.Min)
-                return
-                    this.Draw(Aggregator as Aggregator.Min);
-            else if (Aggregator is Aggregator.Max)
-                return
-                    this.Draw(Aggregator as Aggregator.Max);
-            else
-                return
-                    this.Except(Aggregator);
+            if (Aggregator is Aggregator.Sum) return this.Draw(Aggregator as Aggregator.Sum);
+            else if (Aggregator is Aggregator.Min) return this.Draw(Aggregator as Aggregator.Min);
+            else if (Aggregator is Aggregator.Max) return this.Draw(Aggregator as Aggregator.Max);
+            else return this.Except(Aggregator);
         }
 
         /// <summary>
@@ -321,9 +297,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>SUM aggregator object string representation.</returns>
         protected virtual string Draw(Aggregator.Sum Aggregator)
         {
-            return String.Format(
-                "{0}( {1} )",
-                SUM, this.Draw(Aggregator.Column));
+            // SUM( Table.[Column] )
+            return SUM + "( " + this.Draw(Aggregator.Column) + " )";
         }
 
         /// <summary>
@@ -333,9 +308,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>MIN aggregator object string representation.</returns>
         protected virtual string Draw(Aggregator.Min Aggregator)
         {
-            return String.Format(
-                "{0}( {1} )",
-                MIN, this.Draw(Aggregator.Column));
+            // MIN( Table.[Column] )
+            return MIN + "( " + this.Draw(Aggregator.Column) + " )";
         }
 
         /// <summary>
@@ -345,9 +319,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>MAX aggregator object string representation.</returns>
         protected virtual string Draw(Aggregator.Max Aggregator)
         {
-            return String.Format(
-                "{0}( {1} )",
-                MAX, this.Draw(Aggregator.Column));
+            // MAX( Table.[Column] )
+            return MAX + "( " + this.Draw(Aggregator.Column) + " )";
         }
 
         /// <summary>
@@ -357,9 +330,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Column alias object string representation.</returns>
         protected virtual string Draw(ColumnAlias Alias)
         {
-            return String.Format(
-                "{0} AS [{1}]",
-                this.Draw(Alias.Column), Alias.Name);
+            // Table.[Column] AS [Alias]
+            return this.Draw(Alias.Column) + " AS [" + Alias.Name + "]";
         }
 
         /// <summary>
@@ -369,15 +341,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Ordering object string representation.</returns>
         private string Draw(Order Order)
         {
-            if (Order is OrderAsc)
-                return
-                    this.Draw(Order as OrderAsc);
-            else if (Order is OrderDesc)
-                return
-                    this.Draw(Order as OrderDesc);
-            else
-                return
-                    this.Except(Order);
+            if (Order is OrderAsc) return this.Draw(Order as OrderAsc);
+            else if (Order is OrderDesc) return this.Draw(Order as OrderDesc);
+            else return this.Except(Order);
         }
 
         /// <summary>
@@ -387,9 +353,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Ascending ordering object string representation.</returns>
         protected virtual string Draw(OrderAsc Order)
         {
-            return String.Format(
-                "{0} ASC",
-                this.Draw(Order.Column));
+            // Table.[Column] ASC
+            return this.Draw(Order.Column) + " ASC";
         }
 
         /// <summary>
@@ -399,9 +364,8 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Descending ordering object string representation.</returns>
         protected virtual string Draw(OrderDesc Order)
         {
-            return String.Format(
-                "{0} DESC",
-                this.Draw(Order.Column));
+            // Table.[Column] DESC
+            return this.Draw(Order.Column) + " DESC";
         } 
         #endregion
 
@@ -443,12 +407,8 @@ namespace Definitif.Data.ObjectSql
         protected virtual string Draw(Expression.Object Object)
         {
                  if (Object.Container is IColumn) return this.Draw(Object.Container as IColumn);
-            else if (Object.Container is string)
-            {
-                return String.Format(
-                    "'{0}'",
-                    (Object.Container as string).Replace("'", "''"));
-            }
+            // 'String''s container'
+            else if (Object.Container is string) return "'" + (Object.Container as string).Replace("'", "''") + "'";
             else if (Object.Container is DateTime) return ((DateTime)Object.Container).ToString("yyyy-MM-dd HH:mm:ss");
             else return Object.Container.ToString();
         }
@@ -460,22 +420,17 @@ namespace Definitif.Data.ObjectSql
         /// <returns>AND expression string representation.</returns>
         protected virtual string Draw(Expression.AND Expression)
         {
+            // ( Table.[Column] > 100 AND Table.[Column] < 200 )
             string result = "";
 
             for (int i = 0; i < Expression.Container.Length; i++)
             {
-                result += String.Format(
-                    "{0}{1}",
-                    (i > 0) ? " " + AND + " " : "",
-                    this.Draw(Expression.Container[i]));
+                if (i > 0) result += " " + AND + " ";
+                result += this.Draw(Expression.Container[i]);
             }
 
-            if (Expression.Container.Length > 1)
-                return String.Format(
-                    "( {0} )",
-                    result);
-            else
-                return result;
+            if (Expression.Container.Length > 1) return "( " + result + " )";
+            else return result;
         }
 
         /// <summary>
@@ -485,19 +440,16 @@ namespace Definitif.Data.ObjectSql
         /// <returns>OR expression string representation.</returns>
         protected virtual string Draw(Expression.OR Expression)
         {
+            // ( Table.[Column] > 100 OR Table.[Column] < 200 )
             string result = "";
 
             for (int i = 0; i < Expression.Container.Length; i++)
             {
-                result += String.Format(
-                    "{0}{1}",
-                    (i > 0) ? " " + OR + " " : "",
-                    this.Draw(Expression.Container[i]));
+                if (i > 0) result += " " + OR + " ";
+                result += this.Draw(Expression.Container[i]);
             }
 
-            return String.Format(
-                "( {0} )",
-                result);
+            return "( " + result + " )";
         }
 
         /// <summary>
@@ -517,33 +469,29 @@ namespace Definitif.Data.ObjectSql
                 if (Expression.SecondContainer[0] is Expression.Object &&
                     (Expression.SecondContainer[0] as Expression.Object).Container is Query.Select)
                 {
-                    result = String.Format(
-                        "{0} IN ( {1} )",
-                        this.Draw(Expression.FirstContainer[0]),
-                        this.Draw((Expression.SecondContainer[0] 
-                            as Expression.Object).Container as Query.Select));
+                    // IN ( [SUBSELECT] )
+                    result = this.Draw(Expression.FirstContainer[0]) +
+                        " IN ( " + this.Draw((Expression.SecondContainer[0]
+                            as Expression.Object).Container as Query.Select) + " )";
                 }
                 else
                 {
-                    result = String.Format(
-                        "{0} = {1}",
-                        this.Draw(Expression.FirstContainer[0]),
-                        this.Draw(Expression.SecondContainer[0]));
+                    // Table.[Column] = 'Value'
+                    result = this.Draw(Expression.FirstContainer[0]) +
+                        " = " + this.Draw(Expression.SecondContainer[0]);
                 }
             }
             else if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] == null)
             {
-                result = String.Format(
-                    "{0} IS NULL",
-                    this.Draw(Expression.FirstContainer[0]));
+                // Table.[Column] IS NULL
+                result = this.Draw(Expression.FirstContainer[0]) + " IS NULL";
             }
             else if (Expression.SecondContainer.Length > 1)
             {
-                result = String.Format(
-                    "{0} IN ( {1} )",
-                    this.Draw(Expression.FirstContainer[0]),
-                    this.CommaSeparated(Expression.SecondContainer));
+                // Table.[Column] IN ( 1, 2, 3 )
+                result = this.Draw(Expression.FirstContainer[0]) +
+                    " IN ( " + this.CommaSeparated(Expression.SecondContainer) + " )";
             }
 
             return result;
@@ -604,10 +552,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>&lt; expression string representation.</returns>
         protected virtual string Draw(Expression.Less Expression)
         {
-            return String.Format(
-                "{0} < {1}",
-                this.Draw(Expression.FirstContainer[0]),
-                this.Draw(Expression.SecondContainer[0]));
+            // Table.[Column] < 100
+            return this.Draw(Expression.FirstContainer[0]) +
+                " < " + this.Draw(Expression.SecondContainer[0]);
         }
 
         /// <summary>
@@ -617,10 +564,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>&lt;= expression string representation.</returns>
         protected virtual string Draw(Expression.LessOrEquals Expression)
         {
-            return String.Format(
-                "{0} <= {1}",
-                this.Draw(Expression.FirstContainer[0]),
-                this.Draw(Expression.SecondContainer[0]));
+            // Table.[Column] <= 100
+            return this.Draw(Expression.FirstContainer[0]) +
+                " <= " + this.Draw(Expression.SecondContainer[0]);
         }
 
         /// <summary>
@@ -630,10 +576,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>&gt; expression string representation.</returns>
         protected virtual string Draw(Expression.More Expression)
         {
-            return String.Format(
-                "{0} > {1}",
-                this.Draw(Expression.FirstContainer[0]),
-                this.Draw(Expression.SecondContainer[0]));
+            // Table.[Column] > 100
+            return this.Draw(Expression.FirstContainer[0]) +
+                " > " + this.Draw(Expression.SecondContainer[0]);
         }
 
         /// <summary>
@@ -643,10 +588,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>&gt;= expression string representation.</returns>
         protected virtual string Draw(Expression.MoreOrEquals Expression)
         {
-            return String.Format(
-                "{0} >= {1}",
-                this.Draw(Expression.FirstContainer[0]),
-                this.Draw(Expression.SecondContainer[0]));
+            // Table.[Column] >= 100
+            return this.Draw(Expression.FirstContainer[0]) +
+                " >= " + this.Draw(Expression.SecondContainer[0]);
         }
 
         /// <summary>
@@ -728,10 +672,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>LIKE expression string representation.</returns>
         protected virtual string Draw(Expression.LIKE Expression)
         {
-            return String.Format(
-                "{0} LIKE {1}",
-                this.Draw(Expression.Container[0]),
-                this.Draw(new Expression.Object(Expression.Expression)));
+            // Table.[Column] LIKE '%expression%'
+            return this.Draw(Expression.Container[0]) +
+                " LIKE " + this.Draw(new Expression.Object(Expression.Expression));
         }
 
         /// <summary>
@@ -743,18 +686,17 @@ namespace Definitif.Data.ObjectSql
         {
             if (Expression.Container == null || Expression.Container.Length == 0)
             {
-                return String.Format(
-                    "CONTAINS( *, {0} )",
-                    this.Draw(new Expression.Object(Expression.Expression)));
+                // CONTAINS( *, 'expression' )
+                return "CONTAINS( *, " +
+                    this.Draw(new Expression.Object(Expression.Expression)) + " )";
             }
             else
             {
                 string result = this.CommaSeparated(Expression.Container);
 
-                return String.Format(
-                    "CONTAINS( {0}, {1} )",
-                    result,
-                    this.Draw(new Expression.Object(Expression.Expression)));
+                // CONTAINS( Table.[Column], 'expression' )
+                return "CONTAINS( " + result + ", " +
+                    this.Draw(new Expression.Object(Expression.Expression)) + " )";
             }
         }
         #endregion

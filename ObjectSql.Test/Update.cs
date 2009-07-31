@@ -69,7 +69,7 @@ namespace Definitif.Data.ObjectSql.Test
         }
 
         [TestMethod, Priority(1)]
-        [Description("Query.Update Draw() performance test (limit: 1s 500ms for 100 000 iterations).")]
+        [Description("Query.Update Draw() performance test (limit: 1s for 100 000 iterations).")]
         public void UpdateDrawPerformance()
         {
             ObjectSql.Database db = TestUtils.Database;
@@ -93,7 +93,7 @@ namespace Definitif.Data.ObjectSql.Test
 
             time = DateTime.Now - start;
             Assert.IsTrue(
-                time <= new TimeSpan(0, 0, 0, 1, 500),
+                time <= new TimeSpan(0, 0, 1),
                 "100 000 updates rendering took " + time.ToString() + ".");
         }
     }
