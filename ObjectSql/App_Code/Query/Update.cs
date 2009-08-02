@@ -60,9 +60,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// </summary>
         /// <param name="Table">Table object to update.</param>
         /// <param name="Values">Parametrized array of IExpression objects representing new values.</param>
-        public Update(
-            ITable Table,
-            params IExpression[] Values)
+        public Update(ITable Table, params IExpression[] Values)
             : this(Values)
         {
             this.tables.Add(Table);
@@ -72,8 +70,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// Creates UPDATE query object with update expression specified.
         /// </summary>
         /// <param name="Values">Parametrized array of IExpression objects representing new values.</param>
-        public Update(
-            params IExpression[] Values)
+        public Update(params IExpression[] Values)
         {
             foreach (IExpression value in Values)
             {

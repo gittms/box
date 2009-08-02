@@ -17,8 +17,8 @@ namespace Definitif.Data.ObjectSql
         public string Draw(IQuery Query)
         {
                  if (Query is Query.Select) return this.Draw(Query as Query.Select);
-            else if (Query is Query.Update) return this.Draw(Query as Query.Update);
             else if (Query is Query.Insert) return this.Draw(Query as Query.Insert);
+            else if (Query is Query.Update) return this.Draw(Query as Query.Update);
             else if (Query is Query.Delete) return this.Draw(Query as Query.Delete);
             else return this.Except(Query);
         }
@@ -79,9 +79,7 @@ namespace Definitif.Data.ObjectSql
 
             if (Query.WHERE.Count > 0)
             {
-                where = this.Draw(
-                    new Expression.AND(
-                        Query.WHERE.ToArray()));
+                where = this.Draw(new Expression.AND(Query.WHERE.ToArray()));
             }
 
             // UPDATE Table SET Table.[Column] = Value
@@ -100,10 +98,10 @@ namespace Definitif.Data.ObjectSql
             string
                 columns = "",
                 values = "",
-                table = "";
+                into = "";
 
             if (Query.INTO as object == null) Query.UpdateInto();
-            table = this.Draw(Query.INTO);
+            into = this.Draw(Query.INTO);
 
             for (int i = 0; i < Query.VALUES.Count; i++)
             {
@@ -139,7 +137,7 @@ namespace Definitif.Data.ObjectSql
             }
 
             // INSERT INTO Table ( Table.[Column] ) VALUES ( Value )
-            return "INSERT INTO " + table +
+            return "INSERT INTO " + into +
                 " ( " + columns + " ) VALUES ( " + values + " )";
         }
 
@@ -150,7 +148,20 @@ namespace Definitif.Data.ObjectSql
         /// <returns>DELETE query object string representation.</returns>
         protected virtual string Draw(Query.Delete Query)
         {
-            return "";
+            string
+                from = "",
+                where = "";
+
+            from = this.Draw(Query.FROM);
+
+            if (Query.WHERE.Count > 0)
+            {
+                where = this.Draw(new Expression.AND(Query.WHERE.ToArray()));
+            }
+
+            // DELETE FROM Table [WHERE Table.[Column] > 100]
+            return "DELETE FROM " + from +
+                ((where != "") ? " WHERE " + where : "");
         }
 
         #region ITable objects drawing implementation.
@@ -247,10 +258,11 @@ namespace Definitif.Data.ObjectSql
         #endregion
 
         #region IColumn objects drawing implementation.
-        private const string
+        protected string
             SUM = "SUM",
             MAX = "MAX",
-            MIN = "MIN";
+            MIN = "MIN",
+            DATALENGTH = "DATALENGTH";
 
         /// <summary>
         /// Converts IColumn object to string representation.
@@ -284,9 +296,10 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Aggregator object string representation.</returns>
         private string Draw(Aggregator.Aggregator Aggregator)
         {
-            if (Aggregator is Aggregator.Sum) return this.Draw(Aggregator as Aggregator.Sum);
+                 if (Aggregator is Aggregator.Sum) return this.Draw(Aggregator as Aggregator.Sum);
             else if (Aggregator is Aggregator.Min) return this.Draw(Aggregator as Aggregator.Min);
             else if (Aggregator is Aggregator.Max) return this.Draw(Aggregator as Aggregator.Max);
+            else if (Aggregator is Aggregator.DataLength) return this.Draw(Aggregator as Aggregator.DataLength);
             else return this.Except(Aggregator);
         }
 
@@ -321,6 +334,17 @@ namespace Definitif.Data.ObjectSql
         {
             // MAX( Table.[Column] )
             return MAX + "( " + this.Draw(Aggregator.Column) + " )";
+        }
+
+        /// <summary>
+        /// Converts DATALENGTH aggregator object to string representation.
+        /// </summary>
+        /// <param name="Aggregator">DATALENGTH aggregator object.</param>
+        /// <returns>DATALENGTH aggregator object string representation.</returns>
+        protected virtual string Draw(Aggregator.DataLength Aggregator)
+        {
+            // DATALENGTH( Table.[Column] )
+            return DATALENGTH + "( " + this.Draw(Aggregator.Column) + " )";
         }
 
         /// <summary>
@@ -370,7 +394,7 @@ namespace Definitif.Data.ObjectSql
         #endregion
 
         #region IExpression objects drawing implementation.
-        private const string
+        protected string
             AND = "AND",
             OR = "OR";
 
@@ -521,6 +545,7 @@ namespace Definitif.Data.ObjectSql
                 }
                 else
                 {
+                    // Table.[Column] <> 'Value'
                     result = String.Format(
                         "{0} <> {1}",
                         this.Draw(Expression.FirstContainer[0]),

@@ -169,13 +169,21 @@ namespace Definitif.Data.ObjectSql
         /// Executes non-query command and returns number of rows
         /// affected by query.
         /// </summary>
-        /// <param name="Query">Query object to Execute.</param>
+        /// <param name="Queries">Qeries objects to Execute.</param>
         /// <returns>Number of rows affected.</returns>
-        public virtual int Execute(IQuery Query)
+        public virtual int Execute(params IQuery[] Queries)
         {
-            IDbCommand command = this.GetCommand(this.drawer.Draw(Query));
-            int result = command.ExecuteNonQuery();
-            command.Connection.Close();
+            int result = 0;
+            IDbCommand command;
+            IDbConnection connection = this.GetConnection();
+
+            foreach (IQuery query in Queries)
+            {
+                command = this.GetCommand(connection, this.drawer.Draw(query));
+                result += command.ExecuteNonQuery();
+            }
+
+            connection.Close();
             return result;
         }
         /// <summary>

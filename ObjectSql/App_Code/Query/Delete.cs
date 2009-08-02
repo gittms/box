@@ -8,8 +8,48 @@ namespace Definitif.Data.ObjectSql.Query
     /// </summary>
     public class Delete : IQuery
     {
-        public Delete()
+        private List<IExpression> where
+            = new List<IExpression>();
+        private Table from;
+
+        /// <summary>
+        /// Gets where clause.
+        /// </summary>
+        public List<IExpression> WHERE
         {
+            get { return this.where; }
+        }
+
+        /// <summary>
+        /// Gets or sets table to delete from.
+        /// </summary>
+        public Table FROM
+        {
+            get { return this.from; }
+            set { this.from = value; }
+        }
+
+        /// <summary>
+        /// Creates DELETE query with delete table and where clause specified.
+        /// </summary>
+        /// <param name="From">Table to delete from.</param>
+        /// <param name="Where">Where clause.</param>
+        public Delete(Table From, params IExpression[] Where)
+            : this(From)
+        {
+            foreach (IExpression clause in Where)
+            {
+                this.where.Add(clause);
+            }
+        }
+
+        /// <summary>
+        /// Creates DELETE query with delete table specified.
+        /// </summary>
+        /// <param name="From">Table to delete from.</param>
+        public Delete(Table From)
+        {
+            this.from = From;
         }
     }
 }

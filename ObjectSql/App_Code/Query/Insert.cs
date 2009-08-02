@@ -51,9 +51,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// </summary>
         /// <param name="Into">Table object to insert into.</param>
         /// <param name="Values">Values expression.</param>
-        public Insert(
-            Table Into,
-            params IExpression[] Values)
+        public Insert(Table Into, params IExpression[] Values)
             : this(Values)
         {
             this.into = Into;
@@ -64,12 +62,19 @@ namespace Definitif.Data.ObjectSql.Query
         /// values specified.
         /// </summary>
         /// <param name="Values">Values expression.</param>
-        public Insert(
-            params IExpression[] Values)
+        public Insert(params IExpression[] Values)
         {
             foreach (IExpression value in Values)
             {
-                this.values.Add(value);
+                if (value is Expression.Equals)
+                {
+                    this.values.Add(value);
+                }
+                else
+                {
+                    throw new ObjectSqlException(
+                        "Query.Insert VALUES should only contain == expressions.");
+                }
             }
         }
 

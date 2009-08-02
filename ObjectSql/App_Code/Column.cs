@@ -50,6 +50,17 @@ namespace Definitif.Data.ObjectSql
         }
 
         /// <summary>
+        /// Gets DATALENGTH aggregator for current column.
+        /// </summary>
+        public Aggregator.Aggregator LENGTH
+        {
+            get
+            {
+                return new Aggregator.DataLength(this);
+            }
+        }
+
+        /// <summary>
         /// Creates SUM aggregator.
         /// </summary>
         /// <param name="Column">Column to aggregate value of.</param>
@@ -77,6 +88,16 @@ namespace Definitif.Data.ObjectSql
         public static Aggregator.Aggregator MIN(Column Column)
         {
             return new Aggregator.Min(Column);
+        }
+
+        /// <summary>
+        /// Creates DATALENGTH aggregator.
+        /// </summary>
+        /// <param name="Column">Column to aggregate value of.</param>
+        /// <returns>New DATALENGTH aggregator.</returns>
+        public static Aggregator.Aggregator DATALENGTH(Column Column)
+        {
+            return new Aggregator.DataLength(Column);
         }
 
         /// <summary>

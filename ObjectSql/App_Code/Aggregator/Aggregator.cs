@@ -33,14 +33,12 @@ namespace Definitif.Data.ObjectSql.Aggregator
             get { return this.column.Name; }
         }
 
-        // AUTODOC
         public static ColumnAlias operator ==(Aggregator First, ColumnAlias Second)
         {
             Second.Column = First;
             return Second;
         }
 
-        // AUTODOC: Column.operator !=(Aggregator First, CAlias Second)
         public static ColumnAlias operator !=(Aggregator First, ColumnAlias Second)
         {
             throw new ArgumentException(
