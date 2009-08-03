@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Data;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Definitif.Data.ObjectSql;
@@ -59,7 +58,6 @@ namespace Definitif.Data.ObjectSql.Test
 
             Table tables = this.database["Tables"],
                 chairs = this.database["Chairs"];
-            IDataReader reader;
 
             this.database.Execute(
                 // Creating tables.
@@ -72,7 +70,7 @@ namespace Definitif.Data.ObjectSql.Test
                 new Query.Insert(chairs["ID"] == 3, chairs["TableID"] == 2, chairs["Name"] == "Chair for second table"),
                 new Query.Insert(chairs["ID"] == 4, chairs["TableID"] == 3, chairs["Name"] == "Chair for third table"));
 
-            reader = this.database.ExecuteReader(
+            Reader reader = this.database.ExecuteReader(
                 new Query.Select(tables["ID"], tables["Name"]) { WHERE = { tables["ID"] > 0 } });
 
             while (reader.Read())

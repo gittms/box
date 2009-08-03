@@ -8,8 +8,8 @@
     <ProjectGuid>{8DEEC172-D1AE-4422-8302-0C9D611FBF25}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ObjectSql</RootNamespace>
-    <AssemblyName>ObjectSql</AssemblyName>
+    <RootNamespace>Definitif.Data.ObjectSql</RootNamespace>
+    <AssemblyName>Definitif.Data.ObjectSql</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -84,6 +84,7 @@
     <Compile Include="App_Code\Query\Insert.cs" />
     <Compile Include="App_Code\Query\Select.cs" />
     <Compile Include="App_Code\Query\Update.cs" />
+    <Compile Include="App_Code\Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Code\Table.cs" />
   </ItemGroup>

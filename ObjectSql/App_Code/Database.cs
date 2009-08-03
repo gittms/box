@@ -134,18 +134,18 @@ namespace Definitif.Data.ObjectSql
         /// <param name="Command">Command object.</param>
         /// <param name="CloseConnection">If True, Connection will be closed after execution.</param>
         /// <returns>DataReader object.</returns>
-        protected IDataReader GetDataReader(IDbCommand Command, bool CloseConnection)
+        protected Reader GetDataReader(IDbCommand Command, bool CloseConnection)
         {
-            return CloseConnection ?
+            return new Reader(CloseConnection ?
                 Command.ExecuteReader(CommandBehavior.CloseConnection) :
-                Command.ExecuteReader();
+                Command.ExecuteReader());
         }
         /// <summary>
         /// Gets DataReader object for given Command with policy to close connection.
         /// </summary>
         /// <param name="Command">Command object.</param>
         /// <returns>DataReader object.</returns>
-        protected IDataReader GetDataReader(IDbCommand Command)
+        protected Reader GetDataReader(IDbCommand Command)
         {
             return this.GetDataReader(Command, true);
         }
@@ -154,7 +154,7 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="CommandText">Command text.</param>
         /// <returns>DataReader object.</returns>
-        protected IDataReader GetDataReader(string CommandText)
+        protected Reader GetDataReader(string CommandText)
         {
             return this.GetDataReader(
                 this.GetCommand(CommandText));
@@ -173,7 +173,19 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Number of rows affected.</returns>
         public virtual int Execute(params IQuery[] Queries)
         {
-            int result = 0;
+            return this.Execute(false, Queries);
+        }
+
+        /// <summary>
+        /// Executes non-query command and returns number of rows
+        /// affected by query or last query identity.
+        /// </summary>
+        /// <param name="GetIdentity">If "True", identity will be returned.</param>
+        /// <param name="Queries">Qeries objects to Execute.</param>
+        /// <returns>Number of rows affected.</returns>
+        public virtual int Execute(bool GetIdentity, params IQuery[] Queries)
+        {
+            int? result = 0;
             IDbCommand command;
             IDbConnection connection = this.GetConnection();
 
@@ -183,8 +195,16 @@ namespace Definitif.Data.ObjectSql
                 result += command.ExecuteNonQuery();
             }
 
+            // Getting identity for last executed query.
+            if (GetIdentity)
+            {
+                command = this.GetCommand(connection, this.drawer.IDENTITY);
+                result = command.ExecuteScalar() as int?;
+                if (result == null) result = 0;
+            }
+
             connection.Close();
-            return result;
+            return (int)result;
         }
         /// <summary>
         /// Executes readable command and returns executed
@@ -192,7 +212,7 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="Query">Query object to execute.</param>
         /// <returns>Executed reader object.</returns>
-        public virtual IDataReader ExecuteReader(IQuery Query)
+        public virtual Reader ExecuteReader(IQuery Query)
         {
             return this.GetDataReader(this.drawer.Draw(Query));
         }

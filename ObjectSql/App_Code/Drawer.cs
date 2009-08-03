@@ -10,6 +10,11 @@ namespace Definitif.Data.ObjectSql
     public abstract partial class Drawer
     {
         /// <summary>
+        /// Gets identity query.
+        /// </summary>
+        public abstract string IDENTITY { get; }
+
+        /// <summary>
         /// Converts IQuery object to string representation.
         /// </summary>
         /// <param name="Query">IQuery object.</param>
