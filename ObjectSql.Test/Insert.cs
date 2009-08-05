@@ -67,7 +67,7 @@ namespace Definitif.Data.ObjectSql.Test
         }
 
         [TestMethod, Priority(1)]
-        [Description("Query.Insert Draw() performance test (limit: 600ms for 100 000 iterations).")]
+        [Description("Query.Insert Draw() performance test (limit: 650ms for 100 000 iterations).")]
         public void InsertDrawPerformance()
         {
             ObjectSql.Database db = TestUtils.Database;
@@ -89,7 +89,7 @@ namespace Definitif.Data.ObjectSql.Test
 
             time = DateTime.Now - start;
             Assert.IsTrue(
-                time <= new TimeSpan(0, 0, 0,0, 600),
+                time <= new TimeSpan(0, 0, 0,0, 650),
                 "100 000 common inserts rendering took " + time.ToString() + ".");
         }
     }

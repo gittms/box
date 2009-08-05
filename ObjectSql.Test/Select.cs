@@ -77,6 +77,13 @@ namespace Definitif.Data.ObjectSql.Test
                         }
                 ),
                 "Greater than select with numeric operation draw failed.");
+
+            Assert.AreEqual(
+                "SELECT Table.* FROM Table",
+                db.Drawer.Draw(
+                    new Query.Select(db["Table"]["*"])
+                ),
+                "All from table select draw failed.");
         }
 
         [TestMethod, Priority(1)]

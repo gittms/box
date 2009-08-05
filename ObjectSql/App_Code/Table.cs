@@ -33,6 +33,7 @@ namespace Definitif.Data.ObjectSql
             string Name)
         {
             this.name = Name;
+            this.Add(new Column("*"));
         }
 
         /// <summary>

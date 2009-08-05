@@ -21,6 +21,13 @@ namespace Definitif.Data.ObjectSql
             get { return this.name; }
         }
         /// <summary>
+        /// Gets column type.
+        /// </summary>
+        public string Type
+        {
+            get { return this.type; }
+        }
+        /// <summary>
         /// Gets or sets parent Table object.
         /// </summary>
         public ITable Table
@@ -116,6 +123,9 @@ namespace Definitif.Data.ObjectSql
         // Table.[ID] AS [GUID]
         public static ColumnAlias operator ==(Column First, ColumnAlias Second)
         {
+            if (First.Name == "*") throw new ArgumentException(
+                "Unable to create ColumnAlias for all table's column objects.");
+
             Second.Column = First;
             return Second;
         }

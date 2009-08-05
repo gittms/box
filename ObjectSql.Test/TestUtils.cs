@@ -12,12 +12,12 @@ namespace Definitif.Data.ObjectSql.Test
             this.drawer = new Implementation.MsSql.Drawer();
         }
 
-        protected override IDbConnection GetConnection()
+        public override IDbConnection GetConnection()
         {
             throw new NotImplementedException();
         }
 
-        protected override IDbCommand GetCommand()
+        public override IDbCommand GetCommand()
         {
             throw new NotImplementedException();
         }

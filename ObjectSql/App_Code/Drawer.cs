@@ -290,8 +290,9 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Column object string representation.</returns>
         protected virtual string Draw(Column Column)
         {
-            // Table.[Column]
-            return Column.Table.Name + ".[" + Column.Name + "]";
+            // Table.[Column] or Table.*
+            return Column.Table.Name +
+                ((Column.Name == "*") ? ".*" : ".[" + Column.Name + "]");
         }
 
         /// <summary>

@@ -91,12 +91,12 @@ namespace Definitif.Data.ObjectSql
         /// Gets Connection object initialized.
         /// </summary>
         /// <returns>Connection object.</returns>
-        protected abstract IDbConnection GetConnection();
+        public abstract IDbConnection GetConnection();
         /// <summary>
         /// Gets Command object without new connection initialized.
         /// </summary>
         /// <returns>Command object.</returns>
-        protected abstract IDbCommand GetCommand();
+        public abstract IDbCommand GetCommand();
         /// <summary>
         /// Gets Command object for given Connection with given Command text.
         /// </summary>
