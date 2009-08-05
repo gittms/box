@@ -93,20 +93,23 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Connection object.</returns>
         protected abstract IDbConnection GetConnection();
         /// <summary>
+        /// Gets Command object without new connection initialized.
+        /// </summary>
+        /// <returns>Command object.</returns>
+        protected abstract IDbCommand GetCommand();
+        /// <summary>
         /// Gets Command object for given Connection with given Command text.
         /// </summary>
         /// <param name="Connection">Connection object.</param>
         /// <param name="CommandText">Command text.</param>
         /// <returns>Command object.</returns>
-        protected abstract IDbCommand GetCommand(IDbConnection Connection, string CommandText);
-        /// <summary>
-        /// Gets Command object with new Connection initialized.
-        /// </summary>
-        /// <returns>Command object.</returns>
-        protected IDbCommand GetCommand()
+        protected IDbCommand GetCommand(IDbConnection Connection, string CommandText)
         {
-            return this.GetCommand(
-                this.GetConnection(), "");
+            if (Connection.State != ConnectionState.Open) Connection.Open();
+            IDbCommand command = this.GetCommand();
+            command.Connection = Connection;
+            command.CommandText = CommandText;
+            return command;
         }
         /// <summary>
         /// Gets Command object for given Connection.
@@ -117,6 +120,18 @@ namespace Definitif.Data.ObjectSql
         {
             return this.GetCommand(
                 Connection, "");
+        }
+        /// <summary>
+        /// Gets Command object for given Query.
+        /// Does not assotiates connection.
+        /// </summary>
+        /// <param name="Query">Query object.</param>
+        /// <returns>Command object.</returns>
+        protected IDbCommand GetCommand(IQuery Query)
+        {
+            IDbCommand command = this.GetCommand();
+            command.CommandText = this.drawer.Draw(Query);
+            return command;
         }
         /// <summary>
         /// Gets Command object with given Command text.

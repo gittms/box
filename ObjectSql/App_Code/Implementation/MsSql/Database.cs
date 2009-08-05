@@ -16,10 +16,9 @@ namespace Definitif.Data.ObjectSql.Implementation.MsSql
             return new SqlConnection(this.connectionString);
         }
 
-        protected override IDbCommand GetCommand(IDbConnection Connection, string Command)
+        protected override IDbCommand GetCommand()
         {
-            if (Connection.State == ConnectionState.Closed) Connection.Open();
-            return new SqlCommand(Command, Connection as SqlConnection);
+            return new SqlCommand();
         }
 
         protected override void UpdateSchema()

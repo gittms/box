@@ -17,7 +17,7 @@ namespace Definitif.Data.ObjectSql.Test
             throw new NotImplementedException();
         }
 
-        protected override IDbCommand GetCommand(IDbConnection Connection, string CommandText)
+        protected override IDbCommand GetCommand()
         {
             throw new NotImplementedException();
         }
