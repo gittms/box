@@ -127,7 +127,7 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="Query">Query object.</param>
         /// <returns>Command object.</returns>
-        protected IDbCommand GetCommand(IQuery Query)
+        public IDbCommand GetCommand(IQuery Query)
         {
             IDbCommand command = this.GetCommand();
             command.CommandText = this.drawer.Draw(Query);
