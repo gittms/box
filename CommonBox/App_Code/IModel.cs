@@ -10,7 +10,7 @@ namespace Definitif.Data.CommonBox
     {
         Id Id { get; set; }
         int Version { get; set; }
-        IMapper Mapper { get; }
+        IMapper IMapper { get; }
         void SubscribeId(Id id);
     }
 }

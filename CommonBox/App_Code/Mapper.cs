@@ -12,16 +12,6 @@ namespace Definitif.Data.CommonBox
         where ModelType : class, IModel, new()
     {
         /// <summary>
-        /// Fills an IModel instance from database by specified Id.
-        /// </summary>
-        /// <param name="Object">IModel to fill.</param>
-        /// <param name="Id">Object Id.</param>
-        public void ReadInto(IModel Object, Id Id)
-        {
-            Object = this.Read(Id);
-        }
-
-        /// <summary>
         /// Reads an object with specified Id from database.
         /// </summary>
         /// <param name="Id">Model Id.</param>
@@ -39,7 +29,7 @@ namespace Definitif.Data.CommonBox
         /// <returns>Model instance.</returns>
         public virtual ModelType Read(IDbConnection Connection, Id Id)
         {
-            bool policy = this.InitConnection(Connection);
+            bool policy = this.InitConnection(ref Connection);
             IDbCommand command = this.ReadCommand(Id);
             command.Connection = Connection;
 
@@ -64,7 +54,7 @@ namespace Definitif.Data.CommonBox
         /// <returns>List of Model objects.</returns>
         public virtual List<ModelType> ReadAll(IDbConnection Connection)
         {
-            bool policy = this.InitConnection(Connection);
+            bool policy = this.InitConnection(ref Connection);
             IDbCommand command = this.ReadAllCommand();
             command.Connection = Connection;
 
@@ -110,7 +100,7 @@ namespace Definitif.Data.CommonBox
         /// <param name="Object">Object to write.</param>
         public virtual void Write(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
         {
-            bool policy = this.InitConnection(Connection);
+            bool policy = this.InitConnection(ref Connection);
             if (Object.Id.Equals(Id.Empty)) this.Insert(Connection, Transaction, Object);
             else this.Update(Connection, Transaction, Object);
 
@@ -125,7 +115,7 @@ namespace Definitif.Data.CommonBox
         /// <param name="Object">Object to insert.</param>
         protected virtual void Insert(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
         {
-            bool policy = this.InitConnection(Connection);
+            bool policy = this.InitConnection(ref Connection);
 
             List<IDbCommand> commands = this.InsertCommands(Object);
 
@@ -156,8 +146,7 @@ namespace Definitif.Data.CommonBox
         /// <param name="Object">Object to update.</param>
         protected virtual void Update(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
         {
-            bool policy = this.InitConnection(Connection);
-
+            bool policy = this.InitConnection(ref Connection);
             List<IDbCommand> commands = this.UpdateCommands(Object);
 
             for (int i = 0; i < commands.Count; i++)
@@ -176,7 +165,6 @@ namespace Definitif.Data.CommonBox
                     throw new DBConcurrencyException();
                 }
             }
-            Object.Version++;
 
             if (!policy) Connection.Close();
         }
@@ -218,7 +206,7 @@ namespace Definitif.Data.CommonBox
         /// <param name="Object">Object to delete.</param>
         public virtual void Delete(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
         {
-            bool policy = this.InitConnection(Connection);
+            bool policy = this.InitConnection(ref Connection);
 
             List<IDbCommand> commands = this.DeleteCommands(Object);
 
@@ -260,6 +248,7 @@ namespace Definitif.Data.CommonBox
         protected virtual Id ReadLastId(IDbConnection Connection, IDbTransaction Transaction)
         {
             IDbCommand command = this.LastIdCommand();
+            command.Connection = Connection;
             if (Transaction != null) command.Transaction = Transaction;
 
             return new Id(command.ExecuteScalar());
@@ -272,10 +261,13 @@ namespace Definitif.Data.CommonBox
         /// <returns>Number of rows affected.</returns>
         protected int ExecuteNonQuery(IDbCommand Command)
         {
-            bool policy = this.InitConnection(Command.Connection);
-            int result =  Command.ExecuteNonQuery();
+            IDbConnection connection = Command.Connection;
+            bool policy = this.InitConnection(ref connection);
+            Command.Connection = connection;
 
-            if (!policy) Command.Connection.Close();
+            int result = Command.ExecuteNonQuery();
+
+            if (!policy) connection.Close();
             return result;
         }
 
@@ -286,7 +278,10 @@ namespace Definitif.Data.CommonBox
         /// <returns>Number of rows affected.</returns>
         protected IDataReader ExecuteReader(IDbCommand Command)
         {
-            bool policy = this.InitConnection(Command.Connection);
+            IDbConnection connection = Command.Connection;
+            bool policy = this.InitConnection(ref connection);
+            Command.Connection = connection;
+
             IDataReader result = Command.ExecuteReader(policy ? 
                 CommandBehavior.Default : 
                 CommandBehavior.CloseConnection);
@@ -321,7 +316,7 @@ namespace Definitif.Data.CommonBox
             IDataReader reader = this.ExecuteReader(Command);
             while (reader.Read()) result.Add(this.Read(reader));
             reader.Close();
-            
+
             return result;
         }
 
@@ -337,7 +332,7 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         /// <param name="Connection">Connection to initialize.</param>
         /// <returns>True if connection should stay open, overwise false.</returns>
-        private bool InitConnection(IDbConnection Connection)
+        private bool InitConnection(ref IDbConnection Connection)
         {
             // Initializing connection if needed.
             if (Connection == null)

@@ -9,7 +9,6 @@ namespace Definitif.Data.CommonBox
     /// </summary>
     public interface IMapper
     {
-        void ReadInto(IModel obj, Id id);
         void Write(IModel obj);
         void Write(IDbConnection con, IDbTransaction trans, IModel obj);
         void Delete(IModel obj);

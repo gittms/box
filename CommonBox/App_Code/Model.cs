@@ -13,7 +13,7 @@ namespace Definitif.Data.CommonBox
         protected Id id = Id.Empty;
         protected int version = 1;
 
-        protected M mapper = new M();
+        protected static M mapper;
         protected List<Id> subscribed = new List<Id>();
 
         /// <summary>s
@@ -50,17 +50,11 @@ namespace Definitif.Data.CommonBox
         }
 
         /// <summary>
-        /// When overridden in derived class, returns a cloned copy of this instance.
-        /// </summary>
-        /// <returns>Cloned Model instance.</returns>
-        public abstract Model<M> Clone();
-
-        /// <summary>
         /// Stores this object.
         /// </summary>
         public void Save()
         {
-            this.mapper.Write(this);
+            this.IMapper.Write(this);
         }
 
         /// <summary>
@@ -68,25 +62,31 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         public void Delete()
         {
-            this.mapper.Delete(this);
+            this.IMapper.Delete(this);
         }
 
         /// <summary>
-        /// Reads the object with specified Id.
+        /// Gets new Mapper for this model.
         /// </summary>
-        /// <param name="id">Object Id.</param>
-        public void Read(Id id)
+        public static M Mapper
         {
-            this.mapper.ReadInto(this, id);
+            get
+            {
+                if (mapper == null)
+                {
+                    mapper = new M();
+                }
+                return mapper;
+            }
         }
 
         /// <summary>
-        /// Gets the Mapper associated with this Model.
+        /// Gets the IMapper associated with this Model.
         /// </summary>
         /// <returns>Mapper instance.</returns>
-        public IMapper Mapper
+        public IMapper IMapper
         {
-            get { return this.mapper; }
+            get { return Model<M>.Mapper; }
         }
 
         /// <summary>

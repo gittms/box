@@ -47,7 +47,7 @@ namespace Definitif.Data.CommonBox
             {
                 foreach (UoWAction action in this.actions)
                 {
-                    action.Transact(connection, transaction);
+                    action.Transact(ref connection, ref transaction);
                 }
                 transaction.Commit();
                 connection.Close();

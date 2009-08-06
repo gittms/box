@@ -25,22 +25,23 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Adds unit of work action to transaction.
         /// </summary>
-        internal void Transact(IDbConnection connection, IDbTransaction transaction)
+        internal void Transact(ref IDbConnection connection, ref IDbTransaction transaction)
         {
             // Initializing connection and transaction.
             if (connection == null)
             {
-                connection = this.Object.Mapper.GetConnection();
+                connection = this.Object.IMapper.GetConnection();
+                connection.Open();
                 transaction = connection.BeginTransaction();
             }
 
             if (this.Type == ActionType.Write)
             {
-                this.Object.Mapper.Write(connection, transaction, this.Object);
+                this.Object.IMapper.Write(connection, transaction, this.Object);
             }
             else if (this.Type == ActionType.Delete)
             {
-                this.Object.Mapper.Delete(connection, transaction, this.Object);
+                this.Object.IMapper.Delete(connection, transaction, this.Object);
             }
         }
     }
