@@ -54,7 +54,7 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         public void Save()
         {
-            this.IMapper.Write(this);
+            this.IMapper().Write(this);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         public void Delete()
         {
-            this.IMapper.Delete(this);
+            this.IMapper().Delete(this);
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace Definitif.Data.CommonBox
         /// Gets the IMapper associated with this Model.
         /// </summary>
         /// <returns>Mapper instance.</returns>
-        public IMapper IMapper
+        public IMapper IMapper()
         {
-            get { return Model<M>.Mapper; }
+            return Model<M>.Mapper;
         }
 
         /// <summary>

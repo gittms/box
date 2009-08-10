@@ -30,18 +30,18 @@ namespace Definitif.Data.CommonBox
             // Initializing connection and transaction.
             if (connection == null)
             {
-                connection = this.Object.IMapper.GetConnection();
+                connection = this.Object.IMapper().GetConnection();
                 connection.Open();
                 transaction = connection.BeginTransaction();
             }
 
             if (this.Type == ActionType.Write)
             {
-                this.Object.IMapper.Write(connection, transaction, this.Object);
+                this.Object.IMapper().Write(connection, transaction, this.Object);
             }
             else if (this.Type == ActionType.Delete)
             {
-                this.Object.IMapper.Delete(connection, transaction, this.Object);
+                this.Object.IMapper().Delete(connection, transaction, this.Object);
             }
         }
     }

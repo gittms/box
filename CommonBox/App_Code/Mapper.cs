@@ -235,9 +235,9 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// When overridden in derived class, returns a Model filled from executed IDataReader.
         /// </summary>
-        /// <param name="dr">Executed IDataReader.</param>
+        /// <param name="Reader">Executed IDataReader.</param>
         /// <returns>Filled Model instance.</returns>
-        protected abstract ModelType Read(IDataReader dr);
+        protected abstract ModelType Read(IDataReader Reader);
 
         /// <summary>
         /// Reads last inserted Id from database.
