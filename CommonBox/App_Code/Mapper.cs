@@ -162,9 +162,11 @@ namespace Definitif.Data.CommonBox
                 // it doesn't use string comparison.
                 if (i == 0 && result == 0)
                 {
+                    if (!policy) Connection.Close();
                     throw new DBConcurrencyException();
                 }
             }
+            Object.Version++;
 
             if (!policy) Connection.Close();
         }
@@ -223,6 +225,7 @@ namespace Definitif.Data.CommonBox
                 // it doesn't use string comparison.
                 if (i == 0 && result == 0)
                 {
+                    if (!policy) Connection.Close();
                     throw new DBConcurrencyException();
                 }
             }
