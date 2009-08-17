@@ -418,9 +418,9 @@ namespace Definitif.Data.ObjectSql
             else if (Expression is Expression.NotEquals) return this.Draw(Expression as Expression.NotEquals);
             else if (Expression is Expression.Less) return this.Draw(Expression as Expression.Less);
             else if (Expression is Expression.LessOrEquals) return this.Draw(Expression as Expression.LessOrEquals);
-            else if (Expression is Expression.More) return this.Draw(Expression as Expression.More);
-            else if (Expression is Expression.MoreOrEquals) return this.Draw(Expression as Expression.MoreOrEquals);
-            else if (Expression is Expression.Summ) return this.Draw(Expression as Expression.Summ);
+            else if (Expression is Expression.Greater) return this.Draw(Expression as Expression.Greater);
+            else if (Expression is Expression.GreaterOrEquals) return this.Draw(Expression as Expression.GreaterOrEquals);
+            else if (Expression is Expression.Sum) return this.Draw(Expression as Expression.Sum);
             else if (Expression is Expression.Subs) return this.Draw(Expression as Expression.Subs);
             else if (Expression is Expression.Multiply) return this.Draw(Expression as Expression.Multiply);
             else if (Expression is Expression.Divide) return this.Draw(Expression as Expression.Divide);
@@ -439,7 +439,14 @@ namespace Definitif.Data.ObjectSql
                  if (Object.Container is IColumn) return this.Draw(Object.Container as IColumn);
             // 'String''s container'
             else if (Object.Container is string) return "'" + (Object.Container as string).Replace("'", "''") + "'";
-            else if (Object.Container is DateTime) return ((DateTime)Object.Container).ToString("yyyy-MM-dd HH:mm:ss");
+            else if (Object.Container is DateTime)
+            {
+                DateTime time = (DateTime)Object.Container;
+                // MinValue for C# is '1 Jan 0001' and for MS SQL Server - '1 Jan 1900'.
+                if (time == DateTime.MinValue) time = new DateTime(1900, 1, 1);
+                // MaxValue are the same for C# and MS SQL Server, i.e. '31 Dec 9999'.
+                return time.ToString("yyyy-MM-dd HH:mm:ss");
+            }
             else return Object.Container.ToString();
         }
 
@@ -605,7 +612,7 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="Expression">&gt; expression object.</param>
         /// <returns>&gt; expression string representation.</returns>
-        protected virtual string Draw(Expression.More Expression)
+        protected virtual string Draw(Expression.Greater Expression)
         {
             // Table.[Column] > 100
             return this.Draw(Expression.FirstContainer[0]) +
@@ -617,7 +624,7 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="Expression">&gt;= expression object.</param>
         /// <returns>&gt;= expression string representation.</returns>
-        protected virtual string Draw(Expression.MoreOrEquals Expression)
+        protected virtual string Draw(Expression.GreaterOrEquals Expression)
         {
             // Table.[Column] >= 100
             return this.Draw(Expression.FirstContainer[0]) +
@@ -629,7 +636,7 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="Expression">+ expression object.</param>
         /// <returns>+ expression string representation.</returns>
-        protected virtual string Draw(Expression.Summ Expression)
+        protected virtual string Draw(Expression.Sum Expression)
         {
             string result = "";
 

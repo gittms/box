@@ -63,6 +63,14 @@ namespace Definitif.Data.ObjectSql
         }
 
         /// <summary>
+        /// Gets database NULL representation.
+        /// </summary>
+        public object NULL
+        {
+            get { return null; }
+        }
+
+        /// <summary>
         /// Initializes database instance by Connection String.
         /// </summary>
         /// <param name="ConnectionString">Connection String to use for initialization.</param>

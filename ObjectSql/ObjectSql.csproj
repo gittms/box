@@ -59,14 +59,14 @@
     <Compile Include="App_Code\Expression\Logic\Equals.cs" />
     <Compile Include="App_Code\Expression\Logic\Less.cs" />
     <Compile Include="App_Code\Expression\Logic\LessOrEquals.cs" />
-    <Compile Include="App_Code\Expression\Logic\More.cs" />
-    <Compile Include="App_Code\Expression\Logic\MoreOrEquals.cs" />
+    <Compile Include="App_Code\Expression\Logic\Greater.cs" />
+    <Compile Include="App_Code\Expression\Logic\GreaterOrEquals.cs" />
     <Compile Include="App_Code\Expression\Logic\NotEquals.cs" />
     <Compile Include="App_Code\Expression\Logic\Or.cs" />
     <Compile Include="App_Code\Expression\Math\Divide.cs" />
     <Compile Include="App_Code\Expression\Math\Multiply.cs" />
     <Compile Include="App_Code\Expression\Math\Subs.cs" />
-    <Compile Include="App_Code\Expression\Math\Summ.cs" />
+    <Compile Include="App_Code\Expression\Math\Sum.cs" />
     <Compile Include="App_Code\Expression\Object.cs" />
     <Compile Include="App_Code\Expression\Text\Contains.cs" />
     <Compile Include="App_Code\Expression\Text\Like.cs" />

@@ -39,7 +39,7 @@ namespace Definitif.Data.ObjectSql
         // 3. [Column] = [Column] * 10
         public static IExpression operator +(Operators First, object Second)
         {
-            return new Expression.Summ(
+            return new Expression.Sum(
                 Expression.Expression.CreateContainer(First, Second));
         }
         public static IExpression operator -(Operators First, object Second)
@@ -80,13 +80,13 @@ namespace Definitif.Data.ObjectSql
         // 2. [Column] > Value
         public static IExpression operator >(Operators First, object Second)
         {
-            return new Expression.More(
+            return new Expression.Greater(
                 Expression.Expression.CreateContainer(First),
                 Expression.Expression.CreateContainer(Second));
         }
         public static IExpression operator >=(Operators First, object Second)
         {
-            return new Expression.MoreOrEquals(
+            return new Expression.GreaterOrEquals(
                 Expression.Expression.CreateContainer(First),
                 Expression.Expression.CreateContainer(Second));
         }

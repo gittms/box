@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Definitif.Data.ObjectSql.Expression
 {
-    // AUTODOC: class MoreOrEquals
-    public class MoreOrEquals : DoubleContainer
+    // AUTODOC: class GreaterOrEquals
+    public class GreaterOrEquals : DoubleContainer
     {
-        // AUTODOC: MoreOrEquals(IExpression[] First, IExpression[] Second)
-        public MoreOrEquals(
+        // AUTODOC: GreaterOrEquals(IExpression[] First, IExpression[] Second)
+        public GreaterOrEquals(
             IExpression[] First,
             IExpression[] Second)
         {
             if (First.Length != 1 || Second.Length != 1)
             {
                 throw new ObjectSqlException(
-                    "Expression.MoreOrEquals should contain single expression in both First and Second containers."
+                    "Expression.GreaterOrEquals should contain single expression in both First and Second containers."
                     );
             }
 

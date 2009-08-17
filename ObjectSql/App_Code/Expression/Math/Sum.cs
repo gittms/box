@@ -8,9 +8,9 @@ namespace Definitif.Data.ObjectSql.Expression
     /// Represents + expression:
     /// [IExpression] + [IExpression]
     /// </summary>
-    public class Summ : SingleContainer
+    public class Sum : SingleContainer
     {
-        public Summ(
+        public Sum(
             params IExpression[] Expressions)
         {
             this.container = Expressions;

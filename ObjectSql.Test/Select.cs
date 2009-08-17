@@ -67,13 +67,13 @@ namespace Definitif.Data.ObjectSql.Test
                 "Aggregated select with object collection draw failed.");
 
             Assert.AreEqual(
-                "SELECT Table.[ID] FROM Table, Chair WHERE Table.[ID] >= Chair.[ID] + 2",
+                "SELECT Table.[ID] FROM Table, Chair WHERE ( Table.[Name] IS NOT NULL AND Table.[ID] >= Chair.[ID] + 2 )",
                 db.Drawer.Draw(
                     new Query.Select(
                         db["Table"]["ID"])
                         {
                             FROM = { db["Table"], db["Chair"] },
-                            WHERE = { db["Table"]["ID"] >= db["Chair"]["ID"] + 2 }
+                            WHERE = { db["Table"]["Name"] != db.NULL, db["Table"]["ID"] >= db["Chair"]["ID"] + 2 }
                         }
                 ),
                 "Greater than select with numeric operation draw failed.");
