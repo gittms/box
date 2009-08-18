@@ -243,6 +243,14 @@ namespace Definitif.Data.CommonBox
         public abstract ModelType ReadObject(IDataReader reader);
 
         /// <summary>
+        /// When overridden in derived class, returns a Model filled from executed IDataReader.
+        /// </summary>
+        /// <param name="reader">Executed IDataReader.</param>
+        /// <returns>Filled Model instance.</returns>
+        /// <param name="fieldPrefix">Prefix that should be added to database field names.</param>
+        public abstract ModelType ReadObject(IDataReader reader, string fieldPrefix);
+
+        /// <summary>
         /// Reads last inserted Id from database.
         /// </summary>
         /// <param name="connection">IDbConnection used for inserting the Id. Can not be null and should be opened.</param>
