@@ -14,27 +14,27 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Reads an object with specified Id from database.
         /// </summary>
-        /// <param name="Id">Model Id.</param>
+        /// <param name="id">Model Id.</param>
         /// <returns>Model instance.</returns>
-        public ModelType Read(Id Id)
+        public ModelType Read(Id id)
         {
-            return this.Read(null, Id);
+            return this.Read(null, id);
         }
 
         /// <summary>
         /// Reads an object with specified Id from database.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use. If null, new connection will be created.</param>
-        /// <param name="Id">Model Id.</param>
+        /// <param name="connection">IDbConnection to use. If null, new connection will be created.</param>
+        /// <param name="id">Model Id.</param>
         /// <returns>Model instance.</returns>
-        public virtual ModelType Read(IDbConnection Connection, Id Id)
+        public virtual ModelType Read(IDbConnection connection, Id id)
         {
-            bool policy = this.InitConnection(ref Connection);
-            IDbCommand command = this.ReadCommand(Id);
-            command.Connection = Connection;
+            bool policy = this.InitConnection(ref connection);
+            IDbCommand command = this.ReadCommand(id);
+            command.Connection = connection;
 
             ModelType result = this.Read(command);
-            if (!policy) Connection.Close();
+            if (!policy) connection.Close();
             return result;
         }
 
@@ -50,79 +50,79 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Reads all objects of current type from database.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use. If null, new connection will be created.</param>
+        /// <param name="connection">IDbConnection to use. If null, new connection will be created.</param>
         /// <returns>List of Model objects.</returns>
-        public virtual List<ModelType> ReadAll(IDbConnection Connection)
+        public virtual List<ModelType> ReadAll(IDbConnection connection)
         {
-            bool policy = this.InitConnection(ref Connection);
+            bool policy = this.InitConnection(ref connection);
             IDbCommand command = this.ReadAllCommand();
-            command.Connection = Connection;
+            command.Connection = connection;
 
             List<ModelType> result = this.ReadMultiple(command);
-            if (!policy) Connection.Close();
+            if (!policy) connection.Close();
             return result;
         }
 
         /// <summary>
         /// Writes an object to database.
         /// </summary>
-        /// <param name="Object">Object to write.</param>
-        public void Write(IModel Object)
+        /// <param name="obj">Object to write.</param>
+        public void Write(IModel obj)
         {
-            this.Write(Object as ModelType);
+            this.Write(obj as ModelType);
         }
 
         /// <summary>
         /// Writes an object to database.
         /// </summary>
-        /// <param name="Object">Object to write.</param>
-        public virtual void Write(ModelType Object)
+        /// <param name="obj">Object to write.</param>
+        public virtual void Write(ModelType obj)
         {
-            this.Write(null, null, Object);
+            this.Write(null, null, obj);
         }
 
         /// <summary>
         /// Writes an object to database.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use. If null, new connection will be created.</param>
-        /// <param name="Transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
-        /// <param name="Object">Object to write.</param>
-        public void Write(IDbConnection Connection, IDbTransaction Transaction, IModel Object)
+        /// <param name="connection">IDbConnection to use. If null, new connection will be created.</param>
+        /// <param name="transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
+        /// <param name="obj">Object to write.</param>
+        public void Write(IDbConnection connection, IDbTransaction transaction, IModel obj)
         {
-            this.Write(Connection, Transaction, Object as ModelType);
+            this.Write(connection, transaction, obj as ModelType);
         }
 
         /// <summary>
         /// Writes an object to database.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use. If null, new connection will be created.</param>
-        /// <param name="Transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
-        /// <param name="Object">Object to write.</param>
-        public virtual void Write(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
+        /// <param name="connection">IDbConnection to use. If null, new connection will be created.</param>
+        /// <param name="transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
+        /// <param name="obj">Object to write.</param>
+        public virtual void Write(IDbConnection connection, IDbTransaction transaction, ModelType obj)
         {
-            bool policy = this.InitConnection(ref Connection);
-            if (Object.Id.Equals(Id.Empty)) this.Insert(Connection, Transaction, Object);
-            else this.Update(Connection, Transaction, Object);
+            bool policy = this.InitConnection(ref connection);
+            if (obj.Id.Equals(Id.Empty)) this.Insert(connection, transaction, obj);
+            else this.Update(connection, transaction, obj);
 
-            if (!policy) Connection.Close();
+            if (!policy) connection.Close();
         }
 
         /// <summary>
         /// Inserts an object to database, then updates its Id.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use.</param>
-        /// <param name="Transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
-        /// <param name="Object">Object to insert.</param>
-        protected virtual void Insert(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
+        /// <param name="connection">IDbConnection to use.</param>
+        /// <param name="transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
+        /// <param name="obj">Object to insert.</param>
+        protected virtual void Insert(IDbConnection connection, IDbTransaction transaction, ModelType obj)
         {
-            bool policy = this.InitConnection(ref Connection);
+            bool policy = this.InitConnection(ref connection);
 
-            List<IDbCommand> commands = this.InsertCommands(Object);
+            List<IDbCommand> commands = this.InsertCommands(obj);
 
             for (int i = 0; i < commands.Count; i++)
             {
-                commands[i].Connection = Connection;
-                if (Transaction != null) commands[i].Transaction = Transaction;
+                commands[i].Connection = connection;
+                if (transaction != null) commands[i].Transaction = transaction;
 
                 this.ExecuteNonQuery(commands[i]);
 
@@ -131,28 +131,28 @@ namespace Definitif.Data.CommonBox
                 // TODO: Not very good implementation, I think.
                 if (i == 0)
                 {
-                    Object.Id = this.ReadLastId(Connection, Transaction);
+                    obj.Id = this.ReadLastId(connection, transaction);
                 }
             }
 
-            if (!policy) Connection.Close();
+            if (!policy) connection.Close();
         }
 
         /// <summary>
         /// Updates an object in database, then updates its version.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use.</param>
-        /// <param name="Transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
-        /// <param name="Object">Object to update.</param>
-        protected virtual void Update(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
+        /// <param name="connection">IDbConnection to use.</param>
+        /// <param name="transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
+        /// <param name="obj">Object to update.</param>
+        protected virtual void Update(IDbConnection connection, IDbTransaction transaction, ModelType obj)
         {
-            bool policy = this.InitConnection(ref Connection);
-            List<IDbCommand> commands = this.UpdateCommands(Object);
+            bool policy = this.InitConnection(ref connection);
+            List<IDbCommand> commands = this.UpdateCommands(obj);
 
             for (int i = 0; i < commands.Count; i++)
             {
-                commands[i].Connection = Connection;
-                if (Transaction != null) commands[i].Transaction = Transaction;
+                commands[i].Connection = connection;
+                if (transaction != null) commands[i].Transaction = transaction;
 
                 int result = this.ExecuteNonQuery(commands[i]);
 
@@ -162,60 +162,60 @@ namespace Definitif.Data.CommonBox
                 // it doesn't use string comparison.
                 if (i == 0 && result == 0)
                 {
-                    if (!policy) Connection.Close();
+                    if (!policy) connection.Close();
                     throw new DBConcurrencyException();
                 }
             }
-            Object.Version++;
+            obj.Version++;
 
-            if (!policy) Connection.Close();
+            if (!policy) connection.Close();
         }
 
         /// <summary>
         /// Deletes an object from database.
         /// </summary>
-        /// <param name="Object">Object to delete.</param>
-        public void Delete(IModel Object)
+        /// <param name="obj">Object to delete.</param>
+        public void Delete(IModel obj)
         {
-            this.Delete(Object as ModelType);
+            this.Delete(obj as ModelType);
         }
 
         /// <summary>
         /// Deletes an object from database.
         /// </summary>
-        /// <param name="Object">Object to delete.</param>
-        public void Delete(ModelType Object)
+        /// <param name="obj">Object to delete.</param>
+        public void Delete(ModelType obj)
         {
-            this.Delete(null, null, Object);
+            this.Delete(null, null, obj);
         }
 
         /// <summary>
         /// Deletes an object from database.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use. If null, new connection will be created.</param>
-        /// <param name="Transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
-        /// <param name="Object">Object to delete.</param>
-        public void Delete(IDbConnection Connection, IDbTransaction Transaction, IModel Object)
+        /// <param name="connection">IDbConnection to use. If null, new connection will be created.</param>
+        /// <param name="transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
+        /// <param name="obj">Object to delete.</param>
+        public void Delete(IDbConnection connection, IDbTransaction transaction, IModel obj)
         {
-            this.Delete(Connection, Transaction, Object as ModelType);
+            this.Delete(connection, transaction, obj as ModelType);
         }
 
         /// <summary>
         /// Deletes an object from database.
         /// </summary>
-        /// <param name="Connection">IDbConnection to use.</param>
-        /// <param name="Transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
-        /// <param name="Object">Object to delete.</param>
-        public virtual void Delete(IDbConnection Connection, IDbTransaction Transaction, ModelType Object)
+        /// <param name="connection">IDbConnection to use.</param>
+        /// <param name="transaction">IDbTransaction to use. If null, no transaction will ne used.</param>
+        /// <param name="obj">Object to delete.</param>
+        public virtual void Delete(IDbConnection connection, IDbTransaction transaction, ModelType obj)
         {
-            bool policy = this.InitConnection(ref Connection);
+            bool policy = this.InitConnection(ref connection);
 
-            List<IDbCommand> commands = this.DeleteCommands(Object);
+            List<IDbCommand> commands = this.DeleteCommands(obj);
 
             for (int i = 0; i < commands.Count; i++)
             {
-                commands[i].Connection = Connection;
-                if (Transaction != null) commands[i].Transaction = Transaction;
+                commands[i].Connection = connection;
+                if (transaction != null) commands[i].Transaction = transaction;
 
                 int result = this.ExecuteNonQuery(commands[i]);
 
@@ -225,34 +225,34 @@ namespace Definitif.Data.CommonBox
                 // it doesn't use string comparison.
                 if (i == 0 && result == 0)
                 {
-                    if (!policy) Connection.Close();
+                    if (!policy) connection.Close();
                     throw new DBConcurrencyException();
                 }
             }
-            if (Transaction == null) Object.Id = Id.Empty;
-            Object.Version = 0;
+            if (transaction == null) obj.Id = Id.Empty;
+            obj.Version = 0;
 
-            if (!policy) Connection.Close();
+            if (!policy) connection.Close();
         }
 
         /// <summary>
         /// When overridden in derived class, returns a Model filled from executed IDataReader.
         /// </summary>
-        /// <param name="Reader">Executed IDataReader.</param>
+        /// <param name="reader">Executed IDataReader.</param>
         /// <returns>Filled Model instance.</returns>
-        protected abstract ModelType Read(IDataReader Reader);
+        public abstract ModelType ReadObject(IDataReader reader);
 
         /// <summary>
         /// Reads last inserted Id from database.
         /// </summary>
-        /// <param name="Connection">IDbConnection used for inserting the Id. Can not be null and should be opened.</param>
-        /// <param name="Transaction">IDbTransaction used for inserting the Id. Can be null.</param>
+        /// <param name="connection">IDbConnection used for inserting the Id. Can not be null and should be opened.</param>
+        /// <param name="transaction">IDbTransaction used for inserting the Id. Can be null.</param>
         /// <returns>Id instance.</returns>
-        protected virtual Id ReadLastId(IDbConnection Connection, IDbTransaction Transaction)
+        protected virtual Id ReadLastId(IDbConnection connection, IDbTransaction transaction)
         {
             IDbCommand command = this.LastIdCommand();
-            command.Connection = Connection;
-            if (Transaction != null) command.Transaction = Transaction;
+            command.Connection = connection;
+            if (transaction != null) command.Transaction = transaction;
 
             return new Id(command.ExecuteScalar());
         }
@@ -260,15 +260,15 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Executes an IDbCommand and returns the number of rows affected.
         /// </summary>
-        /// <param name="Command">IDbCommand to execute.</param>
+        /// <param name="command">IDbCommand to execute.</param>
         /// <returns>Number of rows affected.</returns>
-        protected int ExecuteNonQuery(IDbCommand Command)
+        protected int ExecuteNonQuery(IDbCommand command)
         {
-            IDbConnection connection = Command.Connection;
+            IDbConnection connection = command.Connection;
             bool policy = this.InitConnection(ref connection);
-            Command.Connection = connection;
+            command.Connection = connection;
 
-            int result = Command.ExecuteNonQuery();
+            int result = command.ExecuteNonQuery();
 
             if (!policy) connection.Close();
             return result;
@@ -277,15 +277,15 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Executes and IDbCommand and returns executed reader.
         /// </summary>
-        /// <param name="Command">IDbCommand to execute.</param>
+        /// <param name="command">IDbCommand to execute.</param>
         /// <returns>Number of rows affected.</returns>
-        protected IDataReader ExecuteReader(IDbCommand Command)
+        protected IDataReader ExecuteReader(IDbCommand command)
         {
-            IDbConnection connection = Command.Connection;
+            IDbConnection connection = command.Connection;
             bool policy = this.InitConnection(ref connection);
-            Command.Connection = connection;
+            command.Connection = connection;
 
-            IDataReader result = Command.ExecuteReader(policy ? 
+            IDataReader result = command.ExecuteReader(policy ? 
                 CommandBehavior.Default : 
                 CommandBehavior.CloseConnection);
             return result;
@@ -294,14 +294,14 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Executes an IDbCommand and reads a single object.
         /// </summary>
-        /// <param name="Command">IDbCommand to execute.</param>
+        /// <param name="command">IDbCommand to execute.</param>
         /// <returns>Filled Model instance.</returns>
-        protected ModelType Read(IDbCommand Command)
+        protected ModelType Read(IDbCommand command)
         {
             ModelType result = default(ModelType);
 
-            IDataReader reader = this.ExecuteReader(Command);
-            if (reader.Read()) result = this.Read(reader);
+            IDataReader reader = this.ExecuteReader(command);
+            if (reader.Read()) result = this.ReadObject(reader);
             reader.Close();
 
             return result;
@@ -310,14 +310,14 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Executes an IDbCommand and reads all objects from the result.
         /// </summary>
-        /// <param name="Command">IDbCommand to execute.</param>
+        /// <param name="command">IDbCommand to execute.</param>
         /// <returns>List of Model instances.</returns>
-        protected List<ModelType> ReadMultiple(IDbCommand Command)
+        protected List<ModelType> ReadMultiple(IDbCommand command)
         {
             List<ModelType> result = new List<ModelType>();
 
-            IDataReader reader = this.ExecuteReader(Command);
-            while (reader.Read()) result.Add(this.Read(reader));
+            IDataReader reader = this.ExecuteReader(command);
+            while (reader.Read()) result.Add(this.ReadObject(reader));
             reader.Close();
 
             return result;
@@ -333,20 +333,20 @@ namespace Definitif.Data.CommonBox
         /// Initializes IDbConnection and returns behaviour
         /// policy.
         /// </summary>
-        /// <param name="Connection">Connection to initialize.</param>
+        /// <param name="connection">Connection to initialize.</param>
         /// <returns>True if connection should stay open, overwise false.</returns>
-        private bool InitConnection(ref IDbConnection Connection)
+        private bool InitConnection(ref IDbConnection connection)
         {
             // Initializing connection if needed.
-            if (Connection == null)
+            if (connection == null)
             {
-                Connection = this.GetConnection();
+                connection = this.GetConnection();
             }
 
             // Opening connection if needed.
-            if (Connection.State != ConnectionState.Open)
+            if (connection.State != ConnectionState.Open)
             {
-                Connection.Open();
+                connection.Open();
                 return false;
             }
             else
@@ -358,9 +358,9 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// When overridden in derived class, returns the query for reading a single object from database with specified Id.
         /// </summary>
-        /// <param name="Id">Object Id to read.</param>
+        /// <param name="id">Object Id to read.</param>
         /// <returns>Initialized IDbCommand instance.</returns>
-        protected abstract IDbCommand ReadCommand(Id Id);
+        protected abstract IDbCommand ReadCommand(Id id);
 
         /// <summary>
         /// When overridden in derived class, returns the query for reading all objects of current type from database.
@@ -371,23 +371,23 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// When overridden in derived class, returns queries for writing new object to database.
         /// </summary>
-        /// <param name="Object">Object to be inserted.</param>
+        /// <param name="obj">Object to be inserted.</param>
         /// <returns>List of IDbCommand instances.</returns>
-        protected abstract List<IDbCommand> InsertCommands(ModelType Object);
+        protected abstract List<IDbCommand> InsertCommands(ModelType obj);
 
         /// <summary>
         /// When overridden in derived class, returns queries for updating an object in database.
         /// </summary>
-        /// <param name="Object">Object to be updated.</param>
+        /// <param name="obj">Object to be updated.</param>
         /// <returns>List of IDbCommand instances.</returns>
-        protected abstract List<IDbCommand> UpdateCommands(ModelType Object);
+        protected abstract List<IDbCommand> UpdateCommands(ModelType obj);
 
         /// <summary>
         /// When overridden in derived class, returns queries for deleting an object from database.
         /// </summary>
-        /// <param name="Object">Object to be deleted.</param>
+        /// <param name="obj">Object to be deleted.</param>
         /// <returns>List of IDbCommand instances.</returns>
-        protected abstract List<IDbCommand> DeleteCommands(ModelType Object);
+        protected abstract List<IDbCommand> DeleteCommands(ModelType obj);
 
         /// <summary>
         /// Returns a query for reading the last inserted Id from database.
