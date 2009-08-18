@@ -240,7 +240,10 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         /// <param name="reader">Executed IDataReader.</param>
         /// <returns>Filled Model instance.</returns>
-        public abstract ModelType ReadObject(IDataReader reader);
+        public ModelType ReadObject(IDataReader reader)
+        {
+            return ReadObject(reader, "");
+        }
 
         /// <summary>
         /// When overridden in derived class, returns a Model filled from executed IDataReader.
