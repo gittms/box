@@ -346,7 +346,7 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         /// <param name="connection">Connection to initialize.</param>
         /// <returns>True if connection should stay open, overwise false.</returns>
-        private bool InitConnection(ref IDbConnection connection)
+        protected bool InitConnection(ref IDbConnection connection)
         {
             // Initializing connection if needed.
             if (connection == null)
