@@ -240,10 +240,7 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         /// <param name="reader">Executed IDataReader.</param>
         /// <returns>Filled Model instance.</returns>
-        public ModelType ReadObject(IDataReader reader)
-        {
-            return ReadObject(reader, "");
-        }
+        public abstract ModelType ReadObject(IDataReader reader);
 
         /// <summary>
         /// When overridden in derived class, returns a Model filled from executed IDataReader.
@@ -251,7 +248,10 @@ namespace Definitif.Data.CommonBox
         /// <param name="reader">Executed IDataReader.</param>
         /// <returns>Filled Model instance.</returns>
         /// <param name="fieldPrefix">Prefix that should be added to database field names.</param>
-        public abstract ModelType ReadObject(IDataReader reader, string fieldPrefix);
+        public virtual ModelType ReadObject(IDataReader reader, string fieldPrefix)
+        {
+            return ReadObject(reader);
+        }
 
         /// <summary>
         /// Reads last inserted Id from database.
