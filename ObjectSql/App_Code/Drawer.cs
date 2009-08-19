@@ -290,9 +290,26 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Column object string representation.</returns>
         protected virtual string Draw(Column Column)
         {
-            // Table.[Column] or Table.*
-            return Column.Table.Name +
-                ((Column.Name == "*") ? ".*" : ".[" + Column.Name + "]");
+            if (Column.Name == "**")
+            {
+                // Table.[Column] AS [Table_Column], ...
+                List<IColumn> columns = new List<IColumn>();
+                string prefix = Column.Table.Name + ".";
+
+                foreach (Column column in Column.Table.Columns.Values)
+                {
+                    if (column.Name.StartsWith("*")) continue;
+                    columns.Add(column == new ColumnAlias(prefix + column.Name));
+                }
+
+                return this.CommaSeparated(columns);
+            }
+            else
+            {
+                // Table.[Column] or Table.*
+                return Column.Table.Name +
+                    ((Column.Name == "*") ? ".*" : ".[" + Column.Name + "]");
+            }
         }
 
         /// <summary>

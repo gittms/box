@@ -79,6 +79,18 @@ namespace Definitif.Data.ObjectSql.Test
                 "Greater than select with numeric operation draw failed.");
 
             Assert.AreEqual(
+                "SELECT Table.[ID] AS [Table.ID], Table.[Name] AS [Table.Name] FROM Table WHERE Table.[Name] IS NOT NULL",
+                db.Drawer.Draw(
+                    new Query.Select(
+                        db["Table"]["**"])
+                        {
+                            WHERE = { db["Table"]["Name"] != db.NULL }
+                        }
+                ),
+                "Select using Table.** draw failed."
+                );
+
+            Assert.AreEqual(
                 "SELECT Table.* FROM Table",
                 db.Drawer.Draw(
                     new Query.Select(db["Table"]["*"])

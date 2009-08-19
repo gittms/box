@@ -34,10 +34,14 @@ namespace Definitif.Data.ObjectSql
         {
             this.name = Name;
             this.Add(new Column("*"));
+            this.Add(new Column("**"));
         }
 
         /// <summary>
-        /// Gets table column object by name.
+        /// Gets table column object by name or meta column.
+        /// 
+        /// Use "*" to select all columns values from table.
+        /// Use "**" to expand all table columns into column aliases.
         /// </summary>
         /// <param name="Column">Name of column to get.</param>
         /// <returns>Requested column object.</returns>
