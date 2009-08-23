@@ -21,7 +21,7 @@ namespace Definitif.Data.CommonBox
         /// <param name="value">Value to initialize instance with.</param>
         public Id(object value)
         {
-            this.value = value;
+            this.SetValue(value);
         }
 
         /// <summary>
@@ -47,7 +47,8 @@ namespace Definitif.Data.CommonBox
         /// <param name="value">Value to set.</param>
         internal void SetValue(object value)
         {
-            this.value = value;
+            if (value is decimal) this.value = Convert.ToInt32(value);
+            else this.value = value;
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Definitif.Data.CommonBox
             {
                 return false;
             }
-            return a.value == b.value;
+            return a.Equals(b);
         }
 
         public static bool operator !=(Id a, Id b)
@@ -87,7 +88,10 @@ namespace Definitif.Data.CommonBox
         {
             if (obj is Id)
             {
-                return this.value == (obj as Id).value;
+                Id b = (obj as Id);
+                if (this.value == null && b.value == null) return true;
+                else if (this.value == null || b.value == null) return false;
+                else return this.value.Equals((obj as Id).value);
             }
             else return false;
         }
