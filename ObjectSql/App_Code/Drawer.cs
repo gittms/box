@@ -462,7 +462,7 @@ namespace Definitif.Data.ObjectSql
                 // MinValue for C# is '1 Jan 0001' and for MS SQL Server - '1 Jan 1900'.
                 if (time == DateTime.MinValue) time = new DateTime(1900, 1, 1);
                 // MaxValue are the same for C# and MS SQL Server, i.e. '31 Dec 9999'.
-                return time.ToString("yyyy-MM-dd HH:mm:ss");
+                return "'" + time.ToString("yyyy-MM-dd HH:mm:ss") + "'";
             }
             else return Object.Container.ToString();
         }

@@ -64,6 +64,16 @@ namespace Definitif.Data.ObjectSql.Test
                         table["Name"] == (42).ToString())
                 ),
                 "Insert with auto table reference failed.");
+
+            Assert.AreEqual(
+                "INSERT INTO Chair ( Chair.[ID], Chair.[TableID], Chair.[Name] ) VALUES ( 13, 3, '2009-01-04 12:30:00' )",
+                db.Drawer.Draw(
+                    new Query.Insert(
+                        table["ID"] == 13,
+                        table["TableID"] == 3,
+                        table["Name"] == new DateTime(2009, 01,04, 12, 30, 0))
+                ),
+                "Insert with DateTime conversion failed.");
         }
 
         [TestMethod, Priority(1)]
