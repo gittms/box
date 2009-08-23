@@ -66,6 +66,20 @@ namespace Definitif.Data.ObjectSql.Test
                         }
                 ),
                 "Update with embedded select draw failed.");
+
+            Assert.AreEqual(
+                "UPDATE Table SET Table.[ID] = NULL WHERE Table.[ID] IS NOT NULL",
+                db.Drawer.Draw(
+                    new Query.Update(db["Table"],
+                        db["Table"]["ID"] == db.NULL)
+                        {
+                            WHERE =
+                            {
+                                db["Table"]["ID"] != db.NULL
+                            }
+                        }
+                ),
+                "Update NULL setter draw failed.");
         }
 
         [TestMethod, Priority(1)]

@@ -40,7 +40,7 @@ namespace Definitif.Data.ObjectSql.Test
 
         [TestMethod, Priority(1)]
         [Description("Query.Delete Draw() performance test (limit: 500ms for 100 000 iterations).")]
-        public void InsertDrawPerformance()
+        public void DeleteDrawPerformance()
         {
             ObjectSql.Database db = TestUtils.Database;
             DateTime start = DateTime.Now;

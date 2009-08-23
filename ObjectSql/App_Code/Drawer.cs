@@ -511,7 +511,18 @@ namespace Definitif.Data.ObjectSql
         /// </summary>
         /// <param name="Expression">= expression object.</param>
         /// <returns>= expression string representation.</returns>
-        protected virtual string Draw(Expression.Equals Expression)
+        private string Draw(Expression.Equals Expression)
+        {
+            return this.Draw(Expression, false);
+        }
+
+        /// <summary>
+        /// Converts = expression object to string representation.
+        /// </summary>
+        /// <param name="Expression">= expression object.</param>
+        /// <param name="UseEquals">If True, = will be used instead of IS.</param>
+        /// <returns>= expression string representation.</returns>
+        protected virtual string Draw(Expression.Equals Expression, bool UseEquals)
         {
             string result = "";
 
@@ -538,8 +549,10 @@ namespace Definitif.Data.ObjectSql
             else if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] == null)
             {
-                // Table.[Column] IS NULL
-                result = this.Draw(Expression.FirstContainer[0]) + " IS NULL";
+                // Table.[Column] IS NULL or
+                // Table.[Column] = NULL
+                result = this.Draw(Expression.FirstContainer[0]) +
+                    (UseEquals ? " = NULL" : " IS NULL");
             }
             else if (Expression.SecondContainer.Length > 1)
             {
@@ -565,36 +578,32 @@ namespace Definitif.Data.ObjectSql
             {
                 // This operator can be applied to subselect,
                 // for example WHERE NOT IN ( SELECT ... ).
-                if ((Expression.SecondContainer[0] as Expression.Object).Container is Query.Select)
+                if (Expression.SecondContainer[0] is Expression.Object &&
+                    (Expression.SecondContainer[0] as Expression.Object).Container is Query.Select)
                 {
-                    result = String.Format(
-                        "{0} NOT IN ( {1} )",
-                        this.Draw(Expression.FirstContainer[0]),
-                        this.Draw((Expression.SecondContainer[0]
-                            as Expression.Object).Container as Query.Select));
+                    // IN ( [SUBSELECT] )
+                    result = this.Draw(Expression.FirstContainer[0]) +
+                        " NOT IN ( " + this.Draw((Expression.SecondContainer[0]
+                            as Expression.Object).Container as Query.Select) + " )";
                 }
                 else
                 {
                     // Table.[Column] <> 'Value'
-                    result = String.Format(
-                        "{0} <> {1}",
-                        this.Draw(Expression.FirstContainer[0]),
-                        this.Draw(Expression.SecondContainer[0]));
+                    result = this.Draw(Expression.FirstContainer[0]) +
+                        " <> " + this.Draw(Expression.SecondContainer[0]);
                 }
             }
             else if (Expression.SecondContainer.Length == 1 &&
                 Expression.SecondContainer[0] == null)
             {
-                result = String.Format(
-                    "{0} IS NOT NULL",
-                    this.Draw(Expression.FirstContainer[0]));
+                // Table.[Column] IS NOT NULL
+                result = this.Draw(Expression.FirstContainer[0]) + " IS NOT NULL";
             }
             else if (Expression.SecondContainer.Length > 1)
             {
-                result = String.Format(
-                    "{0} NOT IN ( {1} )",
-                    this.Draw(Expression.FirstContainer[0]),
-                    this.CommaSeparated(Expression.SecondContainer));
+                // Table.[Column] NOT IN ( 1, 2, 3 )
+                result = this.Draw(Expression.FirstContainer[0]) +
+                    " NOT IN ( " + this.CommaSeparated(Expression.SecondContainer) + " )";
             }
 
             return result;
@@ -815,7 +824,14 @@ namespace Definitif.Data.ObjectSql
             for (int i = 0; i < List.Count; i++)
             {
                 if (i > 0) result += ", ";
-                result += this.Draw(List[i] as IExpression);
+                if (List[i] is Expression.Equals)
+                {
+                    result += this.Draw(List[i] as Expression.Equals, true);
+                }
+                else
+                {
+                    result += this.Draw(List[i] as IExpression);
+                }
             }
 
             return result;
@@ -831,7 +847,14 @@ namespace Definitif.Data.ObjectSql
             for (int i = 0; i < List.Length; i++)
             {
                 if (i > 0) result += ", ";
-                result += this.Draw(List[i] as IExpression);
+                if (List[i] is Expression.Equals)
+                {
+                    result += this.Draw(List[i] as Expression.Equals, true);
+                }
+                else
+                {
+                    result += this.Draw(List[i] as IExpression);
+                }
             }
 
             return result;
