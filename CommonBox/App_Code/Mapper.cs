@@ -29,6 +29,8 @@ namespace Definitif.Data.CommonBox
         /// <returns>Model instance.</returns>
         public virtual ModelType Read(IDbConnection connection, Id id)
         {
+            if (id.Equals(Id.Empty)) throw new ArgumentException(String.Format("Cannot read model by empty Id ({0}).", typeof(ModelType).ToString()));
+            
             bool policy = this.InitConnection(ref connection);
             IDbCommand command = this.ReadCommand(id);
             command.Connection = connection;
@@ -208,6 +210,8 @@ namespace Definitif.Data.CommonBox
         /// <param name="obj">Object to delete.</param>
         public virtual void Delete(IDbConnection connection, IDbTransaction transaction, ModelType obj)
         {
+            if (obj.Id.Equals(Id.Empty)) throw new ArgumentException(String.Format("Cannot delete model with empty Id ({0})", typeof(ModelType).ToString()));
+
             bool policy = this.InitConnection(ref connection);
 
             List<IDbCommand> commands = this.DeleteCommands(obj);
