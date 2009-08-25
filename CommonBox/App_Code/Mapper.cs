@@ -41,6 +41,22 @@ namespace Definitif.Data.CommonBox
         }
 
         /// <summary>
+        /// Executes an IDbCommand and reads a single object.
+        /// </summary>
+        /// <param name="command">IDbCommand to execute.</param>
+        /// <returns>Filled Model instance.</returns>
+        protected ModelType Read(IDbCommand command)
+        {
+            ModelType result = default(ModelType);
+
+            IDataReader reader = this.ExecuteReader(command);
+            if (reader.Read()) result = this.ReadObject(reader);
+            reader.Close();
+
+            return result;
+        }
+
+        /// <summary>
         /// Reads all objects of current type from database.
         /// </summary>
         /// <returns>List of Model objects.</returns>
@@ -258,6 +274,28 @@ namespace Definitif.Data.CommonBox
         }
 
         /// <summary>
+        /// Reads Id and Version into model from executed IDataReader.
+        /// </summary>
+        /// <param name="model">Model to read into.</param>
+        /// <param name="reader">Executed IDataReader instance.</param>
+        protected void FillBase(IModel model, IDataReader reader)
+        {
+            FillBase(model, reader, "");
+        }
+
+        /// <summary>
+        /// Reads Id and Version into model from executed IDataReader.
+        /// </summary>
+        /// <param name="model">Model to read into.</param>
+        /// <param name="reader">Executed IDataReader instance.</param>
+        /// <param name="fieldPrefix">Prefix that should be added to database field names.</param>
+        protected virtual void FillBase(IModel model, IDataReader reader, string fieldPrefix)
+        {
+            model.Id = new Id(reader[fieldPrefix + "Id"]);
+            model.Version = (int)reader[fieldPrefix + "Version"];
+        }
+
+        /// <summary>
         /// Reads last inserted Id from database.
         /// </summary>
         /// <param name="connection">IDbConnection used for inserting the Id. Can not be null and should be opened.</param>
@@ -303,22 +341,6 @@ namespace Definitif.Data.CommonBox
             IDataReader result = command.ExecuteReader(policy ? 
                 CommandBehavior.Default : 
                 CommandBehavior.CloseConnection);
-            return result;
-        }
-
-        /// <summary>
-        /// Executes an IDbCommand and reads a single object.
-        /// </summary>
-        /// <param name="command">IDbCommand to execute.</param>
-        /// <returns>Filled Model instance.</returns>
-        protected ModelType Read(IDbCommand command)
-        {
-            ModelType result = default(ModelType);
-
-            IDataReader reader = this.ExecuteReader(command);
-            if (reader.Read()) result = this.ReadObject(reader);
-            reader.Close();
-
             return result;
         }
 
