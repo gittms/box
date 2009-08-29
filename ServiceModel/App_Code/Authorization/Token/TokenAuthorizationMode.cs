@@ -9,7 +9,7 @@ namespace Definitif.ServiceModel.Authorization.Token
     /// Sets Token-based authorization mode for OperationContract.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class RequireTokenAuthorization : Attribute, IOperationBehavior
+    public class TokenAuthorizationMode : Attribute, IOperationBehavior
     {
         private TokenValidationMode mode = TokenValidationMode.Token;
 
@@ -25,13 +25,13 @@ namespace Definitif.ServiceModel.Authorization.Token
         /// Creates new Token-based authorization requirement using
         /// default Token validation mode.
         /// </summary>
-        public RequireTokenAuthorization() { }
+        public TokenAuthorizationMode() { }
         /// <summary>
         /// Creates new Token-based authorization requirement using
         /// given Token validation mode.
         /// <param name="mode">Token-based authorizatin validation mode.</param>
         /// </summary>
-        public RequireTokenAuthorization(TokenValidationMode mode)
+        public TokenAuthorizationMode(TokenValidationMode mode)
         {
             this.mode = mode;
         }
