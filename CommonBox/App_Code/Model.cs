@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Definitif.Data.CommonBox
 {
@@ -16,9 +17,10 @@ namespace Definitif.Data.CommonBox
         protected static M mapper;
         protected List<Id> subscribed = new List<Id>();
 
-        /// <summary>s
+        /// <summary>
         /// Gets or sets the Id.
         /// </summary>
+        [DataMember(Name = "Id", IsRequired = false)]
         public Id Id
         {
             get { return id; }
@@ -34,6 +36,7 @@ namespace Definitif.Data.CommonBox
         /// Gets or sets object version.
         /// This is used for checking when writing to database.
         /// </summary>
+        [DataMember(Name = "Version", IsRequired = false)]
         public int Version
         {
             get { return this.version; }
@@ -96,6 +99,15 @@ namespace Definitif.Data.CommonBox
         public void SubscribeId(Id id)
         {
             this.subscribed.Add(id);
+        }
+
+        [OnDeserialized]
+        internal void OnDeserialized(StreamingContext context)
+        {
+            // Clearing Id and Version values after
+            // deserialization for conflicts preservement.
+            this.id = Id.Empty;
+            this.version = 1;
         }
     }
 }
