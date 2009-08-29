@@ -125,6 +125,10 @@ namespace Definitif.ServiceModel.Authorization.Token
                             throw new WebException(
                                 System.Net.HttpStatusCode.Unauthorized,
                                 "Request must contain Authorization-Frob header.");
+                        else if (this.provider.GetKeyByFrob(frob) != key)
+                            throw new WebException(
+                                System.Net.HttpStatusCode.Unauthorized,
+                                "Authorization-Frob validation failed.");
                         // md5( method:Authorization-Key:Authorization-Frob:Random-Hash:Secret )
                         intsign = MD5.Hash(
                             method + ":" + key + ":" + frob + ":" + rnd + ":" + secret);
@@ -134,6 +138,10 @@ namespace Definitif.ServiceModel.Authorization.Token
                             throw new WebException(
                                 System.Net.HttpStatusCode.Unauthorized,
                                 "Request must contain Authorization-Token header.");
+                        else if (this.provider.GetKeyByToken(token) != token)
+                            throw new WebException(
+                                System.Net.HttpStatusCode.Unauthorized,
+                                "Authorizatin-Token validation failed.");
                         // md5( method:Authorization-Key:Authorization-Token:Random-Hash:Secret )
                         intsign = MD5.Hash(
                             method + ":" + key + ":" + token + ":" + rnd + ":" + secret);
@@ -151,8 +159,17 @@ namespace Definitif.ServiceModel.Authorization.Token
                 this.provider.SetLastRandom(key, rnd);
                 if (this.sessionKey != null)
                 {
-                    current.Session[this.sessionKey]
-                        = this.provider.GetUser(key);
+                    switch (mode)
+                    {
+                        case TokenValidationMode.Frob:
+                            current.Session[this.sessionKey]
+                                = this.provider.GetUserByFrob(frob);
+                            break;
+                        case TokenValidationMode.Token:
+                            current.Session[this.sessionKey]
+                                = this.provider.GetUserByToken(token);
+                            break;
+                    }
                 }
 
                 return true;
