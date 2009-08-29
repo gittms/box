@@ -42,11 +42,19 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Authorization\IAuthorizationInspector.cs" />
+    <Compile Include="App_Code\Authorization\Token\ITokenAuthorizationProvider.cs" />
+    <Compile Include="App_Code\Authorization\Token\TokenAuthorization.cs" />
+    <Compile Include="App_Code\Authorization\Token\TokenAuthorizationInspector.cs" />
     <Compile Include="App_Code\Authorization\Token\TokenValidationMode.cs" />
+    <Compile Include="App_Code\WebException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
