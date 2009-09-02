@@ -8,32 +8,28 @@ namespace Definitif.ServiceModel.Authorization.Token
     public interface ITokenAuthorizationProvider
     {
         /// <summary>
-        /// Gets user object by frob string.
+        /// Gets token details object by API key.
         /// </summary>
-        object GetUserByFrob(string frob);
+        /// <returns>TokenDetails object if frob is valid, overwise null.</returns>
+        TokenDetails GetDetailsByKey(string key);
         /// <summary>
-        /// Gets user object by authorization token string.
+        /// Gets token details object by authorization frob.
         /// </summary>
-        object GetUserByToken(string token);
+        /// <returns>TokenDetails object if frob is valid, overwise null.</returns>
+        TokenDetails GetDetailsByFrob(string frob);
         /// <summary>
-        /// Gets secret string by authorization key string.
+        /// Gets token details object by authorization token.
         /// </summary>
-        string GetSecret(string key);
+        /// <returns>TokenDetails object if frob is valid, overwise null.</returns>
+        TokenDetails GetDetailsByToken(string token);
+
         /// <summary>
-        /// Gets authorization key by frob string.
+        /// Sets last random value by token details object.
         /// </summary>
-        string GetKeyByFrob(string frob);
+        void SetLastRandom(TokenDetails details, string random);
         /// <summary>
-        /// Gets authorization key by authorization token string.
+        /// Sets new frob value by token details object.
         /// </summary>
-        string GetKeyByToken(string token);
-        /// <summary>
-        /// Gets last random hash used by authorization key string.
-        /// </summary>
-        string GetLastRandom(string key);
-        /// <summary>
-        /// Sets last random hash for authorization key string.
-        /// </summary>
-        void SetLastRandom(string key, string random);
+        void SetFrob(TokenDetails details, string frob);
     }
 }

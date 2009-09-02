@@ -88,10 +88,9 @@ namespace Definitif.ServiceModel.Authorization.Token
                        rnd = headers["Random-Hash"],
                        sign = headers["Request-Sign"],
                        secret = "", intsign = "";
+                TokenDetails details;
 
-                // Handling common errors:
-                //  1. Empty headers used in every request;
-                //  2. Non-unique Random-Hash value.
+                // Handling empty headers used in every request.
                 if (String.IsNullOrEmpty(key))
                     throw new WebException(
                         System.Net.HttpStatusCode.Unauthorized,
@@ -104,18 +103,17 @@ namespace Definitif.ServiceModel.Authorization.Token
                     throw new WebException(
                         System.Net.HttpStatusCode.Unauthorized,
                         "Request must contain Random-Hash header.");
-                else if (rnd == this.provider.GetLastRandom(key))
-                    throw new WebException(
-                        System.Net.HttpStatusCode.Unauthorized,
-                        "Request Random-Hash header must not equal last used one.");
-
-                // Getting secret private key for authorization
-                // key provided in Authorization-Key header.
-                secret = this.provider.GetSecret(key);
 
                 switch (mode)
                 {
                     case TokenValidationMode.Secret:
+                        details = this.provider.GetDetailsByKey(key);
+                        // Checking if Authorization key provided is
+                        // valid, i.e.contains details.
+                        if (details == null)
+                            throw new WebException(
+                                System.Net.HttpStatusCode.Unauthorized,
+                                "Authorization-Key validation failed.");
                         // md5( method:Authorization-Key:Random-Hash:Secret )
                         intsign = MD5.Hash(
                             method + ":" + key + ":" + rnd + ":" + secret);
@@ -125,7 +123,10 @@ namespace Definitif.ServiceModel.Authorization.Token
                             throw new WebException(
                                 System.Net.HttpStatusCode.Unauthorized,
                                 "Request must contain Authorization-Frob header.");
-                        else if (this.provider.GetKeyByFrob(frob) != key)
+                        // Getting TokenDetails by frob and verifying
+                        // if API key strings are equal.
+                        details = this.provider.GetDetailsByFrob(frob);
+                        if (details == null || details.Key != key)
                             throw new WebException(
                                 System.Net.HttpStatusCode.Unauthorized,
                                 "Authorization-Frob validation failed.");
@@ -138,7 +139,10 @@ namespace Definitif.ServiceModel.Authorization.Token
                             throw new WebException(
                                 System.Net.HttpStatusCode.Unauthorized,
                                 "Request must contain Authorization-Token header.");
-                        else if (this.provider.GetKeyByToken(token) != token)
+                        // Getting TokenDetails by token and verifying
+                        // if API key strings are equal.
+                        details = this.provider.GetDetailsByToken(token);
+                        if (details == null || details.Key != key)
                             throw new WebException(
                                 System.Net.HttpStatusCode.Unauthorized,
                                 "Authorizatin-Token validation failed.");
@@ -146,7 +150,17 @@ namespace Definitif.ServiceModel.Authorization.Token
                         intsign = MD5.Hash(
                             method + ":" + key + ":" + token + ":" + rnd + ":" + secret);
                         break;
+                    default:
+                        throw new NotImplementedException(
+                            "Handler for '" + mode.ToString() + "' validation mode not implemented.");
                 }
+
+                // Validating Random-Hash unique value.
+                if (details.LastRandom != null &&
+                    details.LastRandom == rnd)
+                    throw new WebException(
+                        System.Net.HttpStatusCode.Unauthorized,
+                        "Request Random-Hash header must not equal last used one.");
 
                 // Validating Request-Sign header value.
                 if (sign.ToLower() != intsign)
@@ -156,20 +170,11 @@ namespace Definitif.ServiceModel.Authorization.Token
 
                 // Saving Random-Hash used for current
                 // authorization and setting session state.
-                this.provider.SetLastRandom(key, rnd);
-                if (this.sessionKey != null)
+                this.provider.SetLastRandom(details, rnd);
+                if (this.sessionKey != null &&
+                    details.User != null)
                 {
-                    switch (mode)
-                    {
-                        case TokenValidationMode.Frob:
-                            current.Session[this.sessionKey]
-                                = this.provider.GetUserByFrob(frob);
-                            break;
-                        case TokenValidationMode.Token:
-                            current.Session[this.sessionKey]
-                                = this.provider.GetUserByToken(token);
-                            break;
-                    }
+                    current.Session[this.sessionKey] = details.User;
                 }
 
                 return true;
