@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Definitif.Data.ObjectSql
 {
@@ -454,17 +455,37 @@ namespace Definitif.Data.ObjectSql
         protected virtual string Draw(Expression.Object Object)
         {
                  if (Object.Container is IColumn) return this.Draw(Object.Container as IColumn);
-            // 'String''s container'
+            // Replacing ' char to double '', i.e.
+            // 'String''s container'.
             else if (Object.Container is string) return "'" + (Object.Container as string).Replace("'", "''") + "'";
             else if (Object.Container is DateTime)
             {
                 DateTime time = (DateTime)Object.Container;
-                // MinValue for C# is '1 Jan 0001' and for MS SQL Server - '1 Jan 1900'.
+                // MinValue for C# is '1 Jan 0001' and
+                // for MS SQL Server - '1 Jan 1900'.
                 if (time == DateTime.MinValue) time = new DateTime(1900, 1, 1);
-                // MaxValue are the same for C# and MS SQL Server, i.e. '31 Dec 9999'.
+                // MaxValue are the same for C# and
+                // MS SQL Server, i.e. '31 Dec 9999'.
                 return "'" + time.ToString("yyyy-MM-dd HH:mm:ss") + "'";
             }
-            else return Object.Container.ToString();
+            else
+            {
+                string result = Object.Container.ToString();
+                // If object string representation is empty,
+                // we need to return '' instead of empty string.
+                if (result == "") result = "''";
+                else
+                {
+                    // Numeric values can be not surrounded with '',
+                    // but string ones must, so we will also replace
+                    // ' char to double one ''.
+                    if (!Regex.IsMatch(result, @"^[\d\.]+$"))
+                    {
+                        result = "'" + result.Replace("'", "''") + "'";
+                    }
+                }
+                return result;
+            }
         }
 
         /// <summary>
