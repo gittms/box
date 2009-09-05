@@ -10,7 +10,7 @@ namespace Definitif.Data.ObjectSql.Query
     {
         private List<IExpression> where
             = new List<IExpression>();
-        private Table from;
+        private ITable from;
 
         /// <summary>
         /// Gets where clause.
@@ -23,7 +23,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// <summary>
         /// Gets or sets table to delete from.
         /// </summary>
-        public Table FROM
+        public ITable FROM
         {
             get { return this.from; }
             set { this.from = value; }
@@ -34,7 +34,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// </summary>
         /// <param name="From">Table to delete from.</param>
         /// <param name="Where">Where clause.</param>
-        public Delete(Table From, params IExpression[] Where)
+        public Delete(ITable From, params IExpression[] Where)
             : this(From)
         {
             foreach (IExpression clause in Where)
@@ -47,7 +47,7 @@ namespace Definitif.Data.ObjectSql.Query
         /// Creates DELETE query with delete table specified.
         /// </summary>
         /// <param name="From">Table to delete from.</param>
-        public Delete(Table From)
+        public Delete(ITable From)
         {
             this.from = From;
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Definitif.Data.ObjectSql.Join
 {
     // AUTODOC: class Join.Join
-    public class Join : ITable, IJoinable
+    public class Join : Joins, ITable, IJoinable
     {
         protected IJoinable first, second;
         protected List<IExpression> on

@@ -39,6 +39,14 @@ namespace Definitif.Data.ObjectSql.Test
                 "Update with auto table reference draw failed.");
 
             Assert.AreEqual(
+                "UPDATE Table SET Table.[ID] = ( SELECT MAX( Chair.[TableID] ) FROM Chair )",
+                db.Drawer.Draw(
+                    new Query.Update(
+                        db["Table"]["ID"] == new Query.Select(Column.MAX(db["Chair"]["TableID"])))
+                ),
+                "Update with inner select draw failed.");
+
+            Assert.AreEqual(
                 "UPDATE Table INNER JOIN Chair ON Table.[ID] = Chair.[TableID] SET Table.[Name] = Table.[Name] + ' (w. chairs)' WHERE Chair.[ID] > 4000",
                 db.Drawer.Draw(
                     new Query.Update(db["Table"].INNERJOIN(

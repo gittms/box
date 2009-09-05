@@ -520,7 +520,7 @@ namespace Definitif.Data.ObjectSql
         /// Converts = expression object to string representation.
         /// </summary>
         /// <param name="Expression">= expression object.</param>
-        /// <param name="UseEquals">If True, = will be used instead of IS.</param>
+        /// <param name="UseEquals">If True, = will be used instead of IS or IN.</param>
         /// <returns>= expression string representation.</returns>
         protected virtual string Draw(Expression.Equals Expression, bool UseEquals)
         {
@@ -534,9 +534,10 @@ namespace Definitif.Data.ObjectSql
                 if (Expression.SecondContainer[0] is Expression.Object &&
                     (Expression.SecondContainer[0] as Expression.Object).Container is Query.Select)
                 {
-                    // IN ( [SUBSELECT] )
+                    // IN ( [SUBSELECT] ) or
+                    // = ( [SUBSELECT] )
                     result = this.Draw(Expression.FirstContainer[0]) +
-                        " IN ( " + this.Draw((Expression.SecondContainer[0]
+                        (UseEquals ? " =" : " IN") +  " ( " + this.Draw((Expression.SecondContainer[0]
                             as Expression.Object).Container as Query.Select) + " )";
                 }
                 else

@@ -55,6 +55,18 @@ namespace Definitif.Data.ObjectSql.Test
                 "Multiple joined select with sorting draw failed.");
 
             Assert.AreEqual(
+                "SELECT Table.[Name], Chair.[Name] FROM Chair INNER JOIN Table ON Chair.[TableID] = Table.[ID] INNER JOIN Chair ON Chair.[TableID] > 2",
+                db.Drawer.Draw(
+                    new Query.Select(
+                        db["Table"]["Name"], db["Chair"]["Name"])
+                        {
+                            FROM = { db["Chair"].INNERJOIN(db["Table"], db["Chair"]["TableID"] == db["Table"]["ID"])
+                                                .INNERJOIN(db["Chair"], db["Chair"]["TableID"] > 2) }
+                        }
+                ),
+                "Multiple aranged joins select draw failed.");
+
+            Assert.AreEqual(
                 "SELECT MAX( Table.[ID] ) FROM Table WHERE Table.[Name] IN ( 'Long', 'Cycle' )",
                 db.Drawer.Draw(
                     new Query.Select(

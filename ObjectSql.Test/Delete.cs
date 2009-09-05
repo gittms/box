@@ -36,6 +36,20 @@ namespace Definitif.Data.ObjectSql.Test
                         }
                 ),
                 "Delete with subselect draw failed.");
+
+            Assert.AreEqual(
+                "DELETE FROM Table INNER JOIN Chair ON Table.[ID] = Chair.[TableID] WHERE Chair.[Name] = 'One'",
+                db.Drawer.Draw(
+                    new Query.Delete(
+                        db["Table"].INNERJOIN(db["Chair"], db["Table"]["ID"] == db["Chair"]["TableID"]))
+                        {
+                            WHERE =
+                            {
+                                db["Chair"]["Name"] == "One"
+                            }
+                        }
+                ),
+                "Delete with join draw failed.");
         }
 
         [TestMethod, Priority(1)]
