@@ -47,7 +47,7 @@ namespace Definitif.Data.CommonBox
         /// <param name="value">Value to set.</param>
         internal void SetValue(object value)
         {
-            if (value is decimal) this.value = Convert.ToInt32(value);
+            if (value is Int32 || value is decimal || value is Int16) this.value = Convert.ToInt64(value);
             else this.value = value;
         }
 
