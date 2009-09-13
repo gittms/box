@@ -34,16 +34,18 @@ namespace Definitif.Data.ObjectSql.Join
             get { return this.on; }
         }
 
+        #pragma warning disable 0809
         [Obsolete("Property Join.Name implemented for interface compatibility only.")]
-        public string Name
+        public override string Name
         {
             get { return ""; }
         }
+        #pragma warning restore 0809
 
         /// <summary>
         /// Gets table columns dictionary.
         /// </summary>
-        public Dictionary<string, Column> Columns
+        public override Dictionary<string, Column> Columns
         {
             get
             {
@@ -68,7 +70,7 @@ namespace Definitif.Data.ObjectSql.Join
         /// </summary>
         /// <param name="Column">Name of column to get.</param>
         /// <returns>Requested column object.</returns>
-        public Column this[string Column]
+        public override Column this[string Column]
         {
             get
             {
