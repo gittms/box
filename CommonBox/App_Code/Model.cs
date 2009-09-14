@@ -55,7 +55,7 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Stores this object.
         /// </summary>
-        public void Save()
+        public virtual void Save()
         {
             this.IMapper().Write(this);
         }
@@ -63,7 +63,7 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Deletes this object.
         /// </summary>
-        public void Delete()
+        public virtual void Delete()
         {
             this.IMapper().Delete(this);
         }
