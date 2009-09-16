@@ -87,7 +87,7 @@ namespace Definitif.ServiceModel.Authorization.Token
                        frob = headers["Authorization-Frob"],
                        rnd = headers["Random-Hash"],
                        sign = headers["Request-Sign"],
-                       secret = "", intsign = "";
+                       intsign = "";
                 TokenDetails details;
 
                 // Handling empty headers used in every request.
@@ -116,7 +116,7 @@ namespace Definitif.ServiceModel.Authorization.Token
                                 "Authorization-Key validation failed.");
                         // md5( method:Authorization-Key:Random-Hash:Secret )
                         intsign = MD5.Hash(
-                            method + ":" + key + ":" + rnd + ":" + secret);
+                            method + ":" + key + ":" + rnd + ":" + details.Secret);
                         break;
                     case TokenValidationMode.Frob:
                         if (String.IsNullOrEmpty(frob))
@@ -132,7 +132,7 @@ namespace Definitif.ServiceModel.Authorization.Token
                                 "Authorization-Frob validation failed.");
                         // md5( method:Authorization-Key:Authorization-Frob:Random-Hash:Secret )
                         intsign = MD5.Hash(
-                            method + ":" + key + ":" + frob + ":" + rnd + ":" + secret);
+                            method + ":" + key + ":" + frob + ":" + rnd + ":" + details.Secret);
                         break;
                     case TokenValidationMode.Token:
                         if (String.IsNullOrEmpty(token))
@@ -148,7 +148,7 @@ namespace Definitif.ServiceModel.Authorization.Token
                                 "Authorizatin-Token validation failed.");
                         // md5( method:Authorization-Key:Authorization-Token:Random-Hash:Secret )
                         intsign = MD5.Hash(
-                            method + ":" + key + ":" + token + ":" + rnd + ":" + secret);
+                            method + ":" + key + ":" + token + ":" + rnd + ":" + details.Secret);
                         break;
                     default:
                         throw new NotImplementedException(

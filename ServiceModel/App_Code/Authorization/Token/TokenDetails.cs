@@ -20,6 +20,10 @@ namespace Definitif.ServiceModel.Authorization.Token
         /// </summary>
         public string Token { get; set; }
         /// <summary>
+        /// Gets or sets API key secret pair.
+        /// </summary>
+        public string Secret { get; set; }
+        /// <summary>
         /// Gets or sets last Random value used.
         /// </summary>
         public string LastRandom { get; set; }
