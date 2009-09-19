@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="App_Code\DES.cs" />
     <Compile Include="App_Code\MD5.cs" />
+    <Compile Include="App_Code\StringGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
