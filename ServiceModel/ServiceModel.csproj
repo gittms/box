@@ -56,6 +56,7 @@
     <Compile Include="App_Code\Authorization\Token\TokenAuthorization.cs" />
     <Compile Include="App_Code\Authorization\Token\TokenAuthorizationInspector.cs" />
     <Compile Include="App_Code\Authorization\Token\TokenAuthorizationParameterInspector.cs" />
+    <Compile Include="App_Code\Authorization\Token\TokenGenerator.cs" />
     <Compile Include="App_Code\Authorization\Token\TokenValidationMode.cs" />
     <Compile Include="App_Code\WebException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
