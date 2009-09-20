@@ -27,9 +27,14 @@ namespace Definitif.ServiceModel.Authorization.Token
         /// Sets last random value by token details object.
         /// </summary>
         void SetLastRandom(TokenDetails details, string random);
+
         /// <summary>
-        /// Sets new frob value by token details object.
+        /// Updates token value by token details object.
         /// </summary>
-        void SetFrob(TokenDetails details, string frob);
+        string UpdateToken(TokenDetails details);
+        /// <summary>
+        /// Updates frob value by token details object.
+        /// </summary>
+        string UpdateFrob(TokenDetails details);
     }
 }
