@@ -108,6 +108,13 @@ namespace Definitif.Data.ObjectSql.Test
                     new Query.Select(db["Table"]["*"])
                 ),
                 "All from table select draw failed.");
+
+            Assert.AreEqual(
+                "SELECT DISTINCT( Table.[ID] ) FROM Table",
+                db.Drawer.Draw(
+                    new Query.Select(Column.DISTINCT(db["Table"]["ID"]))
+                ),
+                "Distinct ID select draw failed.");
         }
 
         [TestMethod, Priority(1)]
