@@ -108,6 +108,16 @@ namespace Definitif.Data.ObjectSql
         }
 
         /// <summary>
+        /// Creates DISTINCT aggregator.
+        /// </summary>
+        /// <param name="Column">Column to aggregate value of.</param>
+        /// <returns>New DISTINCT aggregator.</returns>
+        public static Aggregator.Aggregator DISTINCT(Column Column)
+        {
+            return new Aggregator.Distinct(Column);
+        }
+
+        /// <summary>
         /// Creates column alias object.
         /// </summary>
         /// <param name="Name">Name of alias to create.</param>

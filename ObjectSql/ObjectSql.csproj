@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="App_Code\Aggregator\Aggregator.cs" />
     <Compile Include="App_Code\Aggregator\DataLength.cs" />
+    <Compile Include="App_Code\Aggregator\Distinct.cs" />
     <Compile Include="App_Code\Aggregator\Max.cs" />
     <Compile Include="App_Code\Aggregator\Min.cs" />
     <Compile Include="App_Code\Aggregator\Sum.cs" />

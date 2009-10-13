@@ -268,7 +268,8 @@ namespace Definitif.Data.ObjectSql
             SUM = "SUM",
             MAX = "MAX",
             MIN = "MIN",
-            DATALENGTH = "DATALENGTH";
+            DATALENGTH = "DATALENGTH",
+            DISTINCT = "DISTINCT";
 
         /// <summary>
         /// Converts IColumn object to string representation.
@@ -324,6 +325,7 @@ namespace Definitif.Data.ObjectSql
             else if (Aggregator is Aggregator.Min) return this.Draw(Aggregator as Aggregator.Min);
             else if (Aggregator is Aggregator.Max) return this.Draw(Aggregator as Aggregator.Max);
             else if (Aggregator is Aggregator.DataLength) return this.Draw(Aggregator as Aggregator.DataLength);
+            else if (Aggregator is Aggregator.Distinct) return this.Draw(Aggregator as Aggregator.Distinct);
             else return this.Except(Aggregator);
         }
 
@@ -369,6 +371,17 @@ namespace Definitif.Data.ObjectSql
         {
             // DATALENGTH( Table.[Column] )
             return DATALENGTH + "( " + this.Draw(Aggregator.Column) + " )";
+        }
+
+        /// <summary>
+        /// Converts DISTINCT aggregator object to string representation.
+        /// </summary>
+        /// <param name="Aggregator">DISTINCT aggregator object.</param>
+        /// <returns>DISTINCT aggregator object string representation.</returns>
+        protected virtual string Draw(Aggregator.Distinct Aggregator)
+        {
+            // DISTINCT( Table.[Column] )
+            return DISTINCT + "( " + this.Draw(Aggregator.Column) + " )";
         }
 
         /// <summary>
