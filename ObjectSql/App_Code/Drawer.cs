@@ -492,9 +492,13 @@ namespace Definitif.Data.ObjectSql
                     // Numeric values can be not surrounded with '',
                     // but string ones must, so we will also replace
                     // ' char to double one ''.
-                    if (!Regex.IsMatch(result, @"^[\d\.]+$", RegexOptions.Compiled))
+                    if (!Regex.IsMatch(result, @"^[\d\.\,]+$", RegexOptions.Compiled))
                     {
                         result = "'" + result.Replace("'", "''") + "'";
+                    }
+                    else
+                    {
+                        result = result.Replace(",", ".");
                     }
                 }
                 return result;
