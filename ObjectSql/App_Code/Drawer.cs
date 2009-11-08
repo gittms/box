@@ -564,6 +564,7 @@ namespace Definitif.Data.ObjectSql
             // Replacing ' char to double '', i.e.
             // 'String''s container'.
             else if (Object.Container is string) return "'" + (Object.Container as string).Replace("'", "''") + "'";
+            else if (Object.Container is int) return Object.Container.ToString();
             else if (Object.Container is DateTime)
             {
                 DateTime time = (DateTime)Object.Container;
@@ -589,10 +590,7 @@ namespace Definitif.Data.ObjectSql
                     {
                         result = "'" + result.Replace("'", "''") + "'";
                     }
-                    else
-                    {
-                        result = result.Replace(",", ".");
-                    }
+                    else result = result.Replace(",", ".");
                 }
                 return result;
             }
