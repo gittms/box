@@ -29,6 +29,25 @@ namespace Definitif.Data.ObjectSql.Query
             set { this.from = value; }
         }
 
+        #region Linq-style extensions.
+        /// <summary>
+        /// Sets table to delete from.
+        /// </summary>
+        public Delete From(ITable table)
+        {
+            this.from = table;
+            return this;
+        }
+        /// <summary>
+        /// Sets where predicates.
+        /// </summary>
+        public Delete Where(params IExpression[] expressions)
+        {
+            this.where = new List<IExpression>(expressions);
+            return this;
+        }
+        #endregion
+
         /// <summary>
         /// Creates DELETE query with delete table and where clause specified.
         /// </summary>

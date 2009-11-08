@@ -38,6 +38,33 @@ namespace Definitif.Data.ObjectSql.Query
             get { return this.where; }
         }
 
+        #region Linq-style extensions.
+        /// <summary>
+        /// Sets values to update.
+        /// </summary>
+        public Update Values(params IExpression[] values)
+        {
+            this.values = new List<IExpression>(values);
+            return this;
+        }
+        /// <summary>
+        /// Sets tables to update.
+        /// </summary>
+        public Update Tables(params ITable[] tables)
+        {
+            this.tables = new List<ITable>(tables);
+            return this;
+        }
+        /// <summary>
+        /// Sets where predicates.
+        /// </summary>
+        public Update Where(params IExpression[] expressions)
+        {
+            this.where = new List<IExpression>(expressions);
+            return this;
+        }
+        #endregion
+
         /// <summary>
         /// Updates TABLES list based on VALUES collection.
         /// </summary>

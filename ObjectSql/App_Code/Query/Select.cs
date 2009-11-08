@@ -108,6 +108,49 @@ namespace Definitif.Data.ObjectSql.Query
             get { return this.group; }
         }
 
+        #region Linq-style extensions.
+        /// <summary>
+        /// Sets values to select.
+        /// </summary>
+        public Select Values(params IColumn[] columns)
+        {
+            this.values = new List<IColumn>(columns);
+            return this;
+        }
+        /// <summary>
+        /// Sets tables to select from.
+        /// </summary>
+        public Select From(params ITable[] tables)
+        {
+            this.from = new List<ITable>(tables);
+            return this;
+        }
+        /// <summary>
+        /// Sets where predicates.
+        /// </summary>
+        public Select Where(params IExpression[] expressions)
+        {
+            this.where = new List<IExpression>(expressions);
+            return this;
+        }
+        /// <summary>
+        /// Sets order by predicates.
+        /// </summary>
+        public Select OrderBy(params IColumn[] columns)
+        {
+            this.order = new List<IColumn>(columns);
+            return this;
+        }
+        /// <summary>
+        /// Sets group by predicates.
+        /// </summary>
+        public Select GroupBy(params IColumn[] columns)
+        {
+            this.group = new List<IColumn>(columns);
+            return this;
+        }
+        #endregion
+
         public Select()
         { }
 

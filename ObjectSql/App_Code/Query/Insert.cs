@@ -29,6 +29,25 @@ namespace Definitif.Data.ObjectSql.Query
             set { this.into = value; }
         }
 
+        #region Linq-style extensions.
+        /// <summary>
+        /// Sets values to insert.
+        /// </summary>
+        public Insert Values(params IExpression[] values)
+        {
+            this.values = new List<IExpression>(values);
+            return this;
+        }
+        /// <summary>
+        /// Sets table to insert into.
+        /// </summary>
+        public Insert Into(Table table)
+        {
+            this.into = table;
+            return this;
+        }
+        #endregion
+
         /// <summary>
         /// Updates INTO table based on VALUES collection.
         /// </summary>

@@ -115,6 +115,17 @@ namespace Definitif.Data.ObjectSql.Test
                     new Query.Select(Column.DISTINCT(db["Table"]["ID"]))
                 ),
                 "Distinct ID select draw failed.");
+
+            Assert.AreEqual(
+                "SELECT Table.* FROM Table WHERE Table.[ID] > 10 GROUP BY Table.[ID]",
+                db.Drawer.Draw(
+                    new Query.Select()
+                        .Values(db["Table"]["*"])
+                        .From(db["Table"])
+                        .Where(db["Table"]["ID"] > 10)
+                        .GroupBy(db["Table"]["ID"])
+                ),
+                "Linq-style select draw failed.");
         }
 
         [TestMethod, Priority(1)]
