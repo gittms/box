@@ -14,6 +14,7 @@ namespace Definitif.Data.ObjectSql.Query
             = new List<IExpression>();
         private List<ITable> tables
             = new List<ITable>();
+        private Limit limit;
 
         /// <summary>
         /// Gets list of UPDATE values.
@@ -22,7 +23,6 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.values; }
         }
-
         /// <summary>
         /// Gets list of tables to update.
         /// </summary>
@@ -36,6 +36,14 @@ namespace Definitif.Data.ObjectSql.Query
         public List<IExpression> WHERE
         {
             get { return this.where; }
+        }
+        /// <summary>
+        /// Gets or sets query limit.
+        /// </summary>
+        public Limit LIMIT
+        {
+            get { return this.limit; }
+            set { this.limit = value; }
         }
 
         #region Linq-style extensions.
@@ -63,6 +71,22 @@ namespace Definitif.Data.ObjectSql.Query
             this.where = new List<IExpression>(expressions);
             return this;
         }
+        /// <summary>
+        /// Sets query limit.
+        /// </summary>
+        public Update Limit(int start, int count)
+        {
+            this.limit = new Limit(start, count);
+            return this;
+        }
+        /// <summary>
+        /// Sets query limit.
+        /// </summary>
+        public Update Top(int top)
+        {
+            this.limit = new Limit(top);
+            return this;
+        }
         #endregion
 
         /// <summary>
@@ -81,6 +105,12 @@ namespace Definitif.Data.ObjectSql.Query
                 }
             }
         }
+
+        /// <summary>
+        /// Creates UPDATE query object.
+        /// </summary>
+        public Update()
+        { }
 
         /// <summary>
         /// Creates UPDATE query object with update table and expression specified.
@@ -114,9 +144,17 @@ namespace Definitif.Data.ObjectSql.Query
         }
 
         /// <summary>
-        /// Creates UPDATE query object.
+        /// Creates a copy of UPDATE query object.
         /// </summary>
-        public Update()
-        { }
+        public Update Copy()
+        {
+            Update copy = new Update()
+                .Values(this.values.ToArray())
+                .Where(this.where.ToArray())
+                .Tables(this.tables.ToArray());
+            if (this.limit != null) copy.LIMIT = this.limit;
+
+            return copy;
+        }
     }
 }

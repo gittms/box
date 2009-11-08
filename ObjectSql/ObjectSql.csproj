@@ -79,6 +79,7 @@
     <Compile Include="App_Code\Join\Join.cs" />
     <Compile Include="App_Code\Join\LeftJoin.cs" />
     <Compile Include="App_Code\Join\RightJoin.cs" />
+    <Compile Include="App_Code\Limit.cs" />
     <Compile Include="App_Code\Operators.cs" />
     <Compile Include="App_Code\Order.cs" />
     <Compile Include="App_Code\Query\Delete.cs" />

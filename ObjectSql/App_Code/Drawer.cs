@@ -29,6 +29,10 @@ namespace Definitif.Data.ObjectSql
             else return this.Except(Query);
         }
 
+        protected string
+            TOP = "TOP",
+            DEFAULTORDER = "( SELECT 0 )";
+
         /// <summary>
         /// Converts SELECT query object to string representation.
         /// </summary>
@@ -36,12 +40,43 @@ namespace Definitif.Data.ObjectSql
         /// <returns>SELECT query object string representation.</returns>
         protected virtual string Draw(Query.Select Query)
         {
+            return this.Draw(Query, false);
+        }
+
+        /// <summary>
+        /// Converts SELECT query object to string representation.
+        /// </summary>
+        /// <param name="Query">SELECT query object.</param>
+        /// <param name="rowNumber">If true, row numbers will be selected.</param>
+        /// <returns>SELECT query object string representation.</returns>
+        private string Draw(Query.Select Query, bool rowNumber)
+        {
             string
                 values = "",
                 from = "",
                 where = "",
                 order = "",
-                group = "";
+                group = "",
+                top = "";
+
+            if (Query.LIMIT != null)
+            {
+                if (Query.LIMIT.From == 0 &&
+                    Query.LIMIT.Count > 0)
+                {
+                    top = TOP + " " + Query.LIMIT.Count.ToString() + " ";
+                }
+                else if (Query.LIMIT.From > 0 &&
+                    Query.LIMIT.Count > 0)
+                {
+                    Query.Select query = Query.Copy();
+                    query.LIMIT = null;
+
+                    return "WITH _RowCounter AS ( " + this.Draw(query, true) + " ) SELECT *" +
+                        " FROM _RowCounter WHERE [_RowNum] >= " + Query.LIMIT.From.ToString() +
+                        " AND [_RowNum] < " + Query.LIMIT.To().ToString();
+                }
+            }
 
             values = this.CommaSeparated(Query.VALUES);
             if (Query.FROM.Count == 0) Query.UpdateFrom();
@@ -57,11 +92,19 @@ namespace Definitif.Data.ObjectSql
             order = this.CommaSeparated(Query.ORDERBY);
             group = this.CommaSeparated(Query.GROUPBY);
 
-            // SELECT Table.[Column] FROM Table
+            if (rowNumber)
+            {
+                if (group != "") throw new ObjectSqlException("GROUP BY clause is not supported for paged queries.");
+                if (order == "") order = DEFAULTORDER;
+                values += ", ROW_NUMBER() OVER( ORDER BY " + order + " ) AS [_RowNum]";
+                order = "";
+            }
+
+            // SELECT [TOP 10] Table.[Column] FROM Table
             // [WHERE Table.[Column] = Value]
             // [ORDER BY Table.[Column]]
             // [GROUP BY Table.[Column]]
-            return "SELECT " + values + " FROM " + from +
+            return "SELECT " + top + values + " FROM " + from +
                     ((where != "") ? " WHERE " + where : "") +
                     ((order != "") ? " ORDER BY " + order : "") +
                     ((group != "") ? " GROUP BY " + group : "");
@@ -77,9 +120,36 @@ namespace Definitif.Data.ObjectSql
             string
                 values = "",
                 where = "",
-                tables = "";
+                tables = "",
+                top = "";
 
             values = this.CommaSeparated(Query.VALUES);
+
+            if (Query.LIMIT != null)
+            {
+                if (Query.LIMIT.From == 0 &&
+                    Query.LIMIT.Count > 0)
+                {
+                    top = TOP + " " + Query.LIMIT.Count.ToString() + " ";
+                }
+                else if (Query.LIMIT.From > 0 &&
+                    Query.LIMIT.Count > 0)
+                {
+                    List<IColumn> columns = new List<IColumn>();
+                    foreach (ITable table in Query.TABLES)
+                        columns.Add(table["*"]);
+
+                    Query.Select query = new Query.Select();
+                    query.Values(columns.ToArray());
+                    query.From(Query.TABLES.ToArray());
+                    query.Where(Query.WHERE.ToArray());
+
+                    return "WITH _RowCounter AS ( " + this.Draw(query, true) + " ) UPDATE" +
+                        " _RowCounter SET " + values + " WHERE [_RowNum] >= " + Query.LIMIT.From.ToString() +
+                        " AND [_RowNum] < " + Query.LIMIT.To().ToString();
+                }
+            }
+
             if (Query.TABLES.Count == 0) Query.UpdateTables();
             tables = this.CommaSeparated(Query.TABLES);
 
@@ -88,9 +158,9 @@ namespace Definitif.Data.ObjectSql
                 where = this.Draw(new Expression.AND(Query.WHERE.ToArray()));
             }
 
-            // UPDATE Table SET Table.[Column] = Value
+            // UPDATE [TOP 10] Table SET Table.[Column] = Value
             // [WHERE Table.[Column] = Value]
-            return "UPDATE " + tables + " SET " + values +
+            return "UPDATE " + top + tables + " SET " + values +
                 ((where != "") ? " WHERE " + where : "");
         }
 
@@ -154,9 +224,32 @@ namespace Definitif.Data.ObjectSql
         /// <returns>DELETE query object string representation.</returns>
         protected virtual string Draw(Query.Delete Query)
         {
+            if (Query.FROM == null) throw new ObjectSqlException("Query.Delete object should contain table reference.");
+
             string
                 from = "",
-                where = "";
+                where = "",
+                top = "";
+
+            if (Query.LIMIT != null)
+            {
+                if (Query.LIMIT.From == 0 &&
+                    Query.LIMIT.Count > 0)
+                {
+                    top = TOP + " " + Query.LIMIT.Count.ToString() + " ";
+                }
+                else if (Query.LIMIT.From > 0 &&
+                    Query.LIMIT.Count > 0)
+                {
+                    Query.Select query = new Query.Select();
+                    query.Where(Query.WHERE.ToArray());
+                    query.From(Query.FROM);
+
+                    return "WITH _RowCounter AS ( " + this.Draw(query, true) + " ) DELETE FROM" +
+                        " _RowCounter WHERE [_RowNum] >= " + Query.LIMIT.From.ToString() +
+                        " AND [_RowNum] < " + Query.LIMIT.To().ToString();
+                }
+            }
 
             from = this.Draw(Query.FROM);
 
@@ -165,8 +258,8 @@ namespace Definitif.Data.ObjectSql
                 where = this.Draw(new Expression.AND(Query.WHERE.ToArray()));
             }
 
-            // DELETE FROM Table [WHERE Table.[Column] > 100]
-            return "DELETE FROM " + from +
+            // DELETE [TOP 10] FROM Table [WHERE Table.[Column] > 100]
+            return "DELETE " + top + "FROM " + from +
                 ((where != "") ? " WHERE " + where : "");
         }
 

@@ -18,7 +18,7 @@ namespace Definitif.Data.ObjectSql.Query
             = new List<IColumn>();
         private List<IColumn> group
             = new List<IColumn>();
-
+        private Limit limit;
 
         /// <summary>
         /// Gets table columns dictionary.
@@ -107,6 +107,14 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.group; }
         }
+        /// <summary>
+        /// Gets or sets query limit.
+        /// </summary>
+        public Limit LIMIT
+        {
+            get { return this.limit; }
+            set { this.limit = value; }
+        }
 
         #region Linq-style extensions.
         /// <summary>
@@ -147,6 +155,22 @@ namespace Definitif.Data.ObjectSql.Query
         public Select GroupBy(params IColumn[] columns)
         {
             this.group = new List<IColumn>(columns);
+            return this;
+        }
+        /// <summary>
+        /// Sets query limit.
+        /// </summary>
+        public Select Limit(int start, int count)
+        {
+            this.limit = new Limit(start, count);
+            return this;
+        }
+        /// <summary>
+        /// Sets query limit.
+        /// </summary>
+        public Select Top(int top)
+        {
+            this.limit = new Limit(top);
             return this;
         }
         #endregion
@@ -209,6 +233,22 @@ namespace Definitif.Data.ObjectSql.Query
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Creates a copy of SELECT query object.
+        /// </summary>
+        public Select Copy()
+        {
+            Select copy = new Select()
+                .Values(this.values.ToArray())
+                .Where(this.where.ToArray())
+                .From(this.from.ToArray())
+                .OrderBy(this.order.ToArray())
+                .GroupBy(this.group.ToArray());
+            if (this.limit != null) copy.LIMIT = this.limit;
+
+            return copy;
         }
     }
 }

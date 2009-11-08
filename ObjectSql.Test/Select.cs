@@ -126,6 +126,39 @@ namespace Definitif.Data.ObjectSql.Test
                         .GroupBy(db["Table"]["ID"])
                 ),
                 "Linq-style select draw failed.");
+
+            Assert.AreEqual(
+                "WITH _RowCounter AS ( SELECT Table.*, ROW_NUMBER() OVER( ORDER BY ( SELECT 0 ) ) AS [_RowNum] FROM Table ) " +
+                "SELECT * FROM _RowCounter WHERE [_RowNum] >= 10 AND [_RowNum] < 30",
+                db.Drawer.Draw(
+                    new Query.Select(db["Table"]["*"])
+                    {
+                        FROM = { db["Table"] },
+                        LIMIT = new Limit(10, 20)
+                    }
+                ),
+                "Paged select draw failed.");
+
+            Assert.AreEqual(
+                "WITH _RowCounter AS ( SELECT Table.[ID], ROW_NUMBER() OVER( ORDER BY Table.[ID] ) AS [_RowNum] FROM Table WHERE Table.[ID] > 10 ) " +
+                "SELECT * FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 200",
+                db.Drawer.Draw(
+                    new Query.Select()
+                        .Values(db["Table"]["ID"])
+                        .Where(db["Table"]["ID"] > 10)
+                        .OrderBy(db["Table"]["ID"])
+                        .Limit(100, 100)
+                ),
+                "Ordered and paged select linq-chain-style draw failed.");
+
+            Assert.AreEqual(
+                "SELECT TOP 100 Table.[ID], Table.[Name] FROM Table",
+                db.Drawer.Draw(
+                    new Query.Select()
+                        .Values(db["Table"]["ID"], db["Table"]["Name"])
+                        .Top(100)
+                ),
+                "Ordered top-paged linq-chain-style draw failed.");
         }
 
         [TestMethod, Priority(1)]

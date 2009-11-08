@@ -11,6 +11,7 @@ namespace Definitif.Data.ObjectSql.Query
         private List<IExpression> where
             = new List<IExpression>();
         private ITable from;
+        private Limit limit;
 
         /// <summary>
         /// Gets where clause.
@@ -19,7 +20,6 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.where; }
         }
-
         /// <summary>
         /// Gets or sets table to delete from.
         /// </summary>
@@ -27,6 +27,14 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.from; }
             set { this.from = value; }
+        }
+        /// <summary>
+        /// Gets or sets query limit.
+        /// </summary>
+        public Limit LIMIT
+        {
+            get { return this.limit; }
+            set { this.limit = value; }
         }
 
         #region Linq-style extensions.
@@ -46,7 +54,29 @@ namespace Definitif.Data.ObjectSql.Query
             this.where = new List<IExpression>(expressions);
             return this;
         }
+        /// <summary>
+        /// Sets query limit.
+        /// </summary>
+        public Delete Limit(int start, int count)
+        {
+            this.limit = new Limit(start, count);
+            return this;
+        }
+        /// <summary>
+        /// Sets query limit.
+        /// </summary>
+        public Delete Top(int top)
+        {
+            this.limit = new Limit(top);
+            return this;
+        }
         #endregion
+
+        /// <summary>
+        /// Creates DELETE query object.
+        /// </summary>
+        public Delete()
+        { }
 
         /// <summary>
         /// Creates DELETE query with delete table and where clause specified.
@@ -69,6 +99,19 @@ namespace Definitif.Data.ObjectSql.Query
         public Delete(ITable From)
         {
             this.from = From;
+        }
+
+        /// <summary>
+        /// Creates a copy of DELETE query object.
+        /// </summary>
+        public Delete Copy()
+        {
+            Delete copy = new Delete()
+                .Where(this.where.ToArray());
+            if (this.from != null) copy.FROM = this.from;
+            if (this.limit != null) copy.LIMIT = this.limit;
+
+            return copy;
         }
     }
 }

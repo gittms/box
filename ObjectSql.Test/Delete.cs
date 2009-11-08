@@ -50,6 +50,27 @@ namespace Definitif.Data.ObjectSql.Test
                         }
                 ),
                 "Delete with join draw failed.");
+
+            Assert.AreEqual(
+                "DELETE TOP 10 FROM Chair",
+                db.Drawer.Draw(
+                    new Query.Delete()
+                        .From(db["Chair"])
+                        .Top(10)
+                ),
+                "Delete query with linq-chain-based query failed.");
+
+            Assert.AreEqual(
+                "WITH _RowCounter AS ( SELECT , ROW_NUMBER() OVER( ORDER BY ( SELECT 0 ) ) AS [_RowNum] FROM Chair WHERE Chair.[TableID] > 4 ) " +
+                "DELETE FROM _RowCounter WHERE [_RowNum] >= 10 AND [_RowNum] < 2",
+                db.Drawer.Draw(
+                    new Query.Delete(db["Chair"])
+                    {
+                        WHERE = { db["Chair"]["TableID"] > 4 },
+                        LIMIT = new Limit(10, 10)
+                    }
+                ),
+                "Paged delete query failed.");
         }
 
         [TestMethod, Priority(1)]

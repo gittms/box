@@ -11,6 +11,7 @@ namespace Definitif.Data.ObjectSql.Query
         private List<IExpression> values
             = new List<IExpression>();
         private Table into;
+        private Limit limit;
 
         /// <summary>
         /// Gets list of INSERT values.
@@ -19,7 +20,6 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.values; }
         }
-
         /// <summary>
         /// Gets or sets table to insert into.
         /// </summary>
@@ -27,6 +27,14 @@ namespace Definitif.Data.ObjectSql.Query
         {
             get { return this.into; }
             set { this.into = value; }
+        }
+        /// <summary>
+        /// Gets or sets query limit.
+        /// </summary>
+        public Limit LIMIT
+        {
+            get { return this.limit; }
+            set { this.limit = value; }
         }
 
         #region Linq-style extensions.
@@ -65,6 +73,12 @@ namespace Definitif.Data.ObjectSql.Query
         }
 
         /// <summary>
+        /// Creates INSERT query object.
+        /// </summary>
+        public Insert()
+        { }
+
+        /// <summary>
         /// Creates INSERT query object with table and list of 
         /// insertable values specified.
         /// </summary>
@@ -98,9 +112,16 @@ namespace Definitif.Data.ObjectSql.Query
         }
 
         /// <summary>
-        /// Creates INSERT query object.
+        /// Creates a copy of INSERT query object.
         /// </summary>
-        public Insert()
-        { }
+        public Insert Copy()
+        {
+            Insert copy = new Insert()
+                .Values(this.values.ToArray());
+            if (!this.into.Equals(null)) copy.INTO = this.into;
+            if (this.limit != null) copy.LIMIT = this.limit;
+
+            return copy;
+        }
     }
 }
