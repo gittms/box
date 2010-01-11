@@ -42,6 +42,8 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         public void Commit()
         {
+            if (this.actions.Count == 0) return;
+
             IDbConnection connection = null; IDbTransaction transaction = null;
             try
             {
