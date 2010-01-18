@@ -8,6 +8,7 @@ namespace Definitif.Data.CommonBox
     public class Id
     {
         private object value = null;
+        private static readonly Id empty = new Id();
 
         /// <summary>
         /// Empty constructor is only used internally to instantiate Id.Empty.
@@ -29,7 +30,7 @@ namespace Definitif.Data.CommonBox
         /// </summary>
         public static Id Empty
         {
-            get { return new Id(); }
+            get { return empty; }
         }
 
         /// <summary>
