@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.ServiceModel.Dispatcher;
+using WcfRestContrib.ServiceModel.Web.Exceptions;
 
 namespace Definitif.ServiceModel.Authorization.Token
 {

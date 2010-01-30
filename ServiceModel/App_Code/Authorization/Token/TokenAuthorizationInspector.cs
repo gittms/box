@@ -3,6 +3,7 @@ using System.Web;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
+using WcfRestContrib.ServiceModel.Web.Exceptions;
 using Definitif.Security.Cryptography;
 
 namespace Definitif.ServiceModel.Authorization.Token
@@ -51,6 +52,14 @@ namespace Definitif.ServiceModel.Authorization.Token
                 // We have request context, have Session key set
                 // and user is authorized.
                 return true;
+            }
+            else if (mode == TokenValidationMode.Session)
+            {
+                // We have session validation mode required,
+                // but session is not active.
+                throw new WebException(
+                    System.Net.HttpStatusCode.Unauthorized,
+                    "Remote requests are not allowed.");
             }
             else
             {

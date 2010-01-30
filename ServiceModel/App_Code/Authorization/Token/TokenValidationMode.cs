@@ -29,6 +29,11 @@ namespace Definitif.ServiceModel.Authorization.Token
         /// Token mode checks for valid token and sign.
         /// md5( method:Authorization-Key:Authorization-Token:Random-Hash:Secret )
         /// </summary>
-        Token
+        Token,
+        /// <summary>
+        /// Token validation is skipped, so only in-session
+        /// requests are allowed.
+        /// </summary>
+        Session
     }
 }
