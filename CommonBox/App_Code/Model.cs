@@ -8,6 +8,7 @@ namespace Definitif.Data.CommonBox
     /// Base entity class.
     /// </summary>
     /// <typeparam name="M">Specific IMapper type to be associated with this entity.</typeparam>
+    [DataContract]
     public abstract class Model<M> : IModel
         where M : IMapper, new()
     {

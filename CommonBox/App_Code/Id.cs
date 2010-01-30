@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Definitif.Data.CommonBox
 {
     /// <summary>
     /// An Id field of database-stored objects.
     /// </summary>
+    [DataContract]
     public class Id
     {
         private object value = null;
@@ -36,6 +38,7 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Gets the Id value.
         /// </summary>
+        [DataMember(Name = "Value")]
         public object Value
         {
             get { return this.value; }
