@@ -21,7 +21,6 @@ namespace Definitif.Data.CommonBox
         /// <summary>
         /// Gets or sets the Id.
         /// </summary>
-        [DataMember(Name = "Id", IsRequired = false)]
         public Id Id
         {
             get { return id; }
@@ -109,6 +108,13 @@ namespace Definitif.Data.CommonBox
             // deserialization for conflicts preservement.
             this.id = Id.Empty;
             this.version = 1;
+        }
+
+        [DataMember(Name = "Id", IsRequired = false)]
+        private Int64 IdSurrogate
+        {
+            get { return (Int64)id.Value; }
+            set { this.Id = new Id(value); }
         }
     }
 }
