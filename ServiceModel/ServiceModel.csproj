@@ -39,6 +39,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -47,6 +50,10 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="WcfRestContrib, Version=1.0.5.0, Culture=neutral, PublicKeyToken=89183999a8dc93b5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\WcfRestContrib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Authorization\IAuthorizationInspector.cs" />
@@ -58,7 +65,6 @@
     <Compile Include="App_Code\Authorization\Token\TokenAuthorizationParameterInspector.cs" />
     <Compile Include="App_Code\Authorization\Token\TokenGenerator.cs" />
     <Compile Include="App_Code\Authorization\Token\TokenValidationMode.cs" />
-    <Compile Include="App_Code\WebException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
