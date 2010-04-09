@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8DEEC172-D1AE-4422-8302-0C9D611FBF25}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Definitif.Data.ObjectSql</RootNamespace>
+    <AssemblyName>Definitif.Data.ObjectSql</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Code\Aggregator\Aggregator.cs" />
+    <Compile Include="App_Code\Aggregator\DataLength.cs" />
+    <Compile Include="App_Code\Aggregator\Distinct.cs" />
+    <Compile Include="App_Code\Aggregator\Max.cs" />
+    <Compile Include="App_Code\Aggregator\Min.cs" />
+    <Compile Include="App_Code\Aggregator\Sum.cs" />
+    <Compile Include="App_Code\Alias.cs" />
+    <Compile Include="App_Code\Clause.cs" />
+    <Compile Include="App_Code\Column.cs" />
+    <Compile Include="App_Code\Database.cs" />
+    <Compile Include="App_Code\Drawer.cs" />
+    <Compile Include="App_Code\Exception.cs" />
+    <Compile Include="App_Code\Expression\Container.cs" />
+    <Compile Include="App_Code\Expression\Expression.cs" />
+    <Compile Include="App_Code\Expression\Logic\And.cs" />
+    <Compile Include="App_Code\Expression\Logic\Equals.cs" />
+    <Compile Include="App_Code\Expression\Logic\Less.cs" />
+    <Compile Include="App_Code\Expression\Logic\LessOrEquals.cs" />
+    <Compile Include="App_Code\Expression\Logic\Greater.cs" />
+    <Compile Include="App_Code\Expression\Logic\GreaterOrEquals.cs" />
+    <Compile Include="App_Code\Expression\Logic\NotEquals.cs" />
+    <Compile Include="App_Code\Expression\Logic\Or.cs" />
+    <Compile Include="App_Code\Expression\Math\Divide.cs" />
+    <Compile Include="App_Code\Expression\Math\Multiply.cs" />
+    <Compile Include="App_Code\Expression\Math\Subs.cs" />
+    <Compile Include="App_Code\Expression\Math\Sum.cs" />
+    <Compile Include="App_Code\Expression\Object.cs" />
+    <Compile Include="App_Code\Expression\Text\Contains.cs" />
+    <Compile Include="App_Code\Expression\Text\Like.cs" />
+    <Compile Include="App_Code\Interfaces.cs" />
+    <Compile Include="App_Code\Implementation\MsSql\Database.cs" />
+    <Compile Include="App_Code\Implementation\MsSql\Drawer.cs" />
+    <Compile Include="App_Code\Joins.cs" />
+    <Compile Include="App_Code\Join\InnerJoin.cs" />
+    <Compile Include="App_Code\Join\Join.cs" />
+    <Compile Include="App_Code\Join\LeftJoin.cs" />
+    <Compile Include="App_Code\Join\RightJoin.cs" />
+    <Compile Include="App_Code\Limit.cs" />
+    <Compile Include="App_Code\Operators.cs" />
+    <Compile Include="App_Code\Order.cs" />
+    <Compile Include="App_Code\Query\Delete.cs" />
+    <Compile Include="App_Code\Query\Insert.cs" />
+    <Compile Include="App_Code\Query\Select.cs" />
+    <Compile Include="App_Code\Query\Update.cs" />
+    <Compile Include="App_Code\Reader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="App_Code\Table.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
