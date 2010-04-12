@@ -62,7 +62,7 @@ namespace Definitif.Data.ObjectSql.Test
 
             Assert.AreEqual(
                 "WITH _RowCounter AS ( SELECT , ROW_NUMBER() OVER( ORDER BY ( SELECT 0 ) ) AS [_RowNum] FROM Chair WHERE Chair.[TableID] > 4 ) " +
-                "DELETE FROM _RowCounter WHERE [_RowNum] >= 10 AND [_RowNum] < 2",
+                "DELETE FROM _RowCounter WHERE [_RowNum] >= 10 AND [_RowNum] < 20",
                 db.Drawer.Draw(
                     new Query.Delete(db["Chair"])
                     {
