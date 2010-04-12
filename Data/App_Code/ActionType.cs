@@ -1,4 +1,4 @@
-﻿namespace Definitif.Data.CommonBox
+﻿namespace Definitif.Data
 {
     /// <summary>
     /// Defines type of action when commiting a unit of work.

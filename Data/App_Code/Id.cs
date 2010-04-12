@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Definitif.Data.CommonBox
+namespace Definitif.Data
 {
     /// <summary>
     /// An Id field of database-stored objects.

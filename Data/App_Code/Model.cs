@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Definitif.Data.CommonBox
+namespace Definitif.Data
 {
     /// <summary>
     /// Base entity class.

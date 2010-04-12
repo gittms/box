@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Definitif.Data.CommonBox
+namespace Definitif.Data
 {
     /// <summary>
     /// Defines an entity object with binding to a mapper.

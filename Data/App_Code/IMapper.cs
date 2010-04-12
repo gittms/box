@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Definitif.Data.CommonBox
+namespace Definitif.Data
 {
     /// <summary>
     /// Partially defines an object-relational mapper.

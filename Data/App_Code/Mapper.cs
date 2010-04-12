@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Definitif.Data.CommonBox
+namespace Definitif.Data
 {
     /// <summary>
     /// Base object-relational mapper class.
@@ -146,7 +146,7 @@ namespace Definitif.Data.CommonBox
 
                 // If this is the first command, executing it
                 // and getting last ID.
-                // TODO: Not very good implementation, I think.
+                // REFACTORING: Possibly make every command read last ID until it is available.
                 if (i == 0)
                 {
                     obj.Id = this.ReadLastId(connection, transaction);
@@ -176,8 +176,7 @@ namespace Definitif.Data.CommonBox
 
                 // If this is the first command, verifying for
                 // number of rows affected.
-                // TODO: Not very good implementation, though
-                // it doesn't use string comparison.
+                // REFACTORING: Possibly make every command verify number of rows.
                 if (i == 0 && result == 0)
                 {
                     if (!policy) connection.Close();
@@ -241,8 +240,7 @@ namespace Definitif.Data.CommonBox
 
                 // If this is the first command, verifying for
                 // number of rows affected.
-                // TODO: Not very good implementation, though
-                // it doesn't use string comparison.
+                // REFACTORING: Possibly make every command verify number of rows.
                 if (i == 0 && result == 0)
                 {
                     if (!policy) connection.Close();

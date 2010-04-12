@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Definitif.Data.CommonBox
+namespace Definitif.Data
 {
     /// <summary>
     /// IModel object associated with a unit of work action type.
