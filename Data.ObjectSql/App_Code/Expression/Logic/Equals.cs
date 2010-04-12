@@ -7,19 +7,6 @@ namespace Definitif.Data.ObjectSql.Expression
     public class Equals : DoubleContainer
     {
         // AUTODOC: Equals(IExpression[] First, IExpression[] Second)
-        public Equals(
-            IExpression[] First,
-            IExpression[] Second)
-        {
-            if (First.Length != 1)
-            {
-                throw new ObjectSqlException(
-                    "Expression.Equals should contain single expression in First container."
-                    );
-            }
-
-            this.first = First;
-            this.second = Second;
-        }
+        public Equals(IExpression[] First, IExpression[] Second) : base(First, Second, false) { }
     }
 }

@@ -10,10 +10,7 @@ namespace Definitif.Data.ObjectSql.Expression
     /// </summary>
     public class OR : SingleContainer
     {
-        public OR(
-            params IExpression[] Expressions)
-        {
-            this.container = Expressions;
-        }
+        // AUTODOC
+        public OR(params IExpression[] Expressions) : base(Expressions) { }
     }
 }

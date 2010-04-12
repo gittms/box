@@ -7,19 +7,6 @@ namespace Definitif.Data.ObjectSql.Expression
     public class NotEquals : DoubleContainer
     {
         // AUTODOC: NotEquals(IExpression[] First, IExpression[] Second)
-        public NotEquals(
-            IExpression[] First,
-            IExpression[] Second)
-        {
-            if (First.Length != 1)
-            {
-                throw new ObjectSqlException(
-                    "Expression.NotEquals should contain single expression in First container."
-                    );
-            }
-
-            this.first = First;
-            this.second = Second;
-        }
+        public NotEquals(IExpression[] First, IExpression[] Second) : base(First, Second) { }
     }
 }

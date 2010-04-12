@@ -16,8 +16,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>JOIN expression.</returns>
         public Join.Join JOIN(IJoinable Table, params IExpression[] On)
         {
-            return
-                new Join.Join(this, Table, On);
+            return new Join.Join(this, Table, On);
         }
 
         /// <summary>
@@ -28,8 +27,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>INNER JOIN expression.</returns>
         public Join.InnerJoin INNERJOIN(IJoinable Table, params IExpression[] On)
         {
-            return
-                new Join.InnerJoin(this, Table, On);
+            return new Join.InnerJoin(this, Table, On);
         }
 
         /// <summary>
@@ -40,8 +38,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>RIGHT JOIN expression.</returns>
         public Join.RightJoin RIGHTJOIN(IJoinable Table, params IExpression[] On)
         {
-            return
-                new Join.RightJoin(this, Table, On);
+            return new Join.RightJoin(this, Table, On);
         }
 
         /// <summary>
@@ -52,8 +49,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>LEFT JOIN expression.</returns>
         public Join.LeftJoin LEFTJOIN(IJoinable Table, params IExpression[] On)
         {
-            return
-                new Join.LeftJoin(this, Table, On);
+            return new Join.LeftJoin(this, Table, On);
         }
 
         public virtual Column this[string Column]
