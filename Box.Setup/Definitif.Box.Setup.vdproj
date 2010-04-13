@@ -147,6 +147,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -383,7 +396,7 @@
                                                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_A8647AC9E570454DB244CACF379835CD"
                                                                             {
                                                                             "Name" = "8:Definitif.Box"
-                                                                            "Condition" = "8:VS10EXT == True"
+                                                                            "Condition" = "8:VS10EXT = True"
                                                                             "AlwaysCreate" = "11:FALSE"
                                                                             "DeleteAtUninstall" = "11:TRUE"
                                                                             "Transitive" = "11:FALSE"
@@ -435,7 +448,7 @@
                                                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_66A46D0DFE9242A5883452ACB0B887BF"
                                                                             {
                                                                             "Name" = "8:.box"
-                                                                            "Condition" = "8:VS10EXT == True"
+                                                                            "Condition" = "8:VS10EXT = True"
                                                                             "AlwaysCreate" = "11:FALSE"
                                                                             "DeleteAtUninstall" = "11:TRUE"
                                                                             "Transitive" = "11:FALSE"
@@ -471,7 +484,7 @@
                                                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_B644ADD6E0974AF9AC9F1EB4867F3089"
                                                                             {
                                                                             "Name" = "8:.box"
-                                                                            "Condition" = "8:VS10EXT == True"
+                                                                            "Condition" = "8:VS10EXT = True"
                                                                             "AlwaysCreate" = "11:FALSE"
                                                                             "DeleteAtUninstall" = "11:TRUE"
                                                                             "Transitive" = "11:FALSE"
@@ -493,7 +506,7 @@
                                                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_E326C999D9654E1287E1F3178168338D"
                                                                             {
                                                                             "Name" = "8:Definitif.Box"
-                                                                            "Condition" = "8:VS10EXT == True"
+                                                                            "Condition" = "8:VS10EXT = True"
                                                                             "AlwaysCreate" = "11:FALSE"
                                                                             "DeleteAtUninstall" = "11:TRUE"
                                                                             "Transitive" = "11:FALSE"
@@ -545,7 +558,7 @@
                                                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_107F2DC737AC4059AC31A8F9AAC819BE"
                                                                             {
                                                                             "Name" = "8:.box"
-                                                                            "Condition" = "8:VS10EXT == True"
+                                                                            "Condition" = "8:VS10EXT = True"
                                                                             "AlwaysCreate" = "11:FALSE"
                                                                             "DeleteAtUninstall" = "11:TRUE"
                                                                             "Transitive" = "11:FALSE"
@@ -567,7 +580,7 @@
                                                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_CD75639175184B13B8581003C94CF210"
                                                                             {
                                                                             "Name" = "8:Definitif.Box"
-                                                                            "Condition" = "8:VS10EXT == True"
+                                                                            "Condition" = "8:VS10EXT = True"
                                                                             "AlwaysCreate" = "11:FALSE"
                                                                             "DeleteAtUninstall" = "11:TRUE"
                                                                             "Transitive" = "11:FALSE"
@@ -680,7 +693,7 @@
                                                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_1549A9896A5846678F8043E55993B09A"
                                                                     {
                                                                     "Name" = "8:.box"
-                                                                    "Condition" = "8:VS10EXT == True"
+                                                                    "Condition" = "8:VS10EXT = True"
                                                                     "AlwaysCreate" = "11:FALSE"
                                                                     "DeleteAtUninstall" = "11:TRUE"
                                                                     "Transitive" = "11:FALSE"
@@ -716,7 +729,7 @@
                                                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_45EDD05D1A8B4A9CA0DB6FDBC2D1E720"
                                                                     {
                                                                     "Name" = "8:Definitif.Box"
-                                                                    "Condition" = "8:VS10EXT == True"
+                                                                    "Condition" = "8:VS10EXT = True"
                                                                     "AlwaysCreate" = "11:FALSE"
                                                                     "DeleteAtUninstall" = "11:TRUE"
                                                                     "Transitive" = "11:FALSE"
@@ -754,7 +767,7 @@
                                                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_56AA92B6EBDC4A78A9A78532ED61AB6D"
                                                                     {
                                                                     "Name" = "8:.box"
-                                                                    "Condition" = "8:VS10EXT == True"
+                                                                    "Condition" = "8:VS10EXT = True"
                                                                     "AlwaysCreate" = "11:FALSE"
                                                                     "DeleteAtUninstall" = "11:TRUE"
                                                                     "Transitive" = "11:FALSE"
@@ -790,7 +803,7 @@
                                                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_532C022407E24BFE9A42E3477283E9E4"
                                                                     {
                                                                     "Name" = "8:Definitif.Box"
-                                                                    "Condition" = "8:VS10EXT == True"
+                                                                    "Condition" = "8:VS10EXT = True"
                                                                     "AlwaysCreate" = "11:FALSE"
                                                                     "DeleteAtUninstall" = "11:TRUE"
                                                                     "Transitive" = "11:FALSE"
@@ -842,7 +855,7 @@
                                                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_52BC718AD867423E96A8CAD894E0718E"
                                                                     {
                                                                     "Name" = "8:Definitif.Box"
-                                                                    "Condition" = "8:VS10EXT == True"
+                                                                    "Condition" = "8:VS10EXT = True"
                                                                     "AlwaysCreate" = "11:FALSE"
                                                                     "DeleteAtUninstall" = "11:TRUE"
                                                                     "Transitive" = "11:FALSE"
@@ -880,7 +893,7 @@
                                                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_CEAFBA0B4E3A4F5EA39BB15EE324AA09"
                                                                     {
                                                                     "Name" = "8:.box"
-                                                                    "Condition" = "8:VS10EXT == True"
+                                                                    "Condition" = "8:VS10EXT = True"
                                                                     "AlwaysCreate" = "11:FALSE"
                                                                     "DeleteAtUninstall" = "11:TRUE"
                                                                     "Transitive" = "11:FALSE"
