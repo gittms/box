@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Definitif.Data.ObjectSql
+namespace Definitif.Data
 {
     /// <summary>
     /// Represents trowable ObjectSql exception.

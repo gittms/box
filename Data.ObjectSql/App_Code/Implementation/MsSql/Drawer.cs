@@ -2,7 +2,7 @@
 
 namespace Definitif.Data.ObjectSql.Implementation.MsSql
 {
-    public class Drawer : ObjectSql.Drawer
+    public sealed class Drawer : ObjectSql.Drawer
     {
         public override string IDENTITY
         {

@@ -25,10 +25,8 @@ namespace Definitif.Data.ObjectSql
     /// </summary>
     public abstract class Database : IEnumerable
     {
-        protected Dictionary<string, Table> tables
-            = new Dictionary<string, Table>();
-        protected DatabaseState state
-            = DatabaseState.NotInitialized;
+        protected Dictionary<string, Table> tables = new Dictionary<string, Table>();
+        protected DatabaseState state = DatabaseState.NotInitialized;
         protected string name;
         protected string connectionString;
         protected Drawer drawer;

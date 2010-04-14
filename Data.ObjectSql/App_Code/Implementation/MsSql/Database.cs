@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace Definitif.Data.ObjectSql.Implementation.MsSql
 {
-    public class Database : ObjectSql.Database
+    public sealed class Database : ObjectSql.Database
     {
         protected override ObjectSql.Drawer GetDrawer()
         {

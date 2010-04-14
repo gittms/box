@@ -29,8 +29,7 @@ namespace Definitif.Data.ObjectSql
             set { this.database = value; }
         }
 
-        public Table(
-            string Name)
+        public Table(string Name)
         {
             this.name = Name;
             this.Add(new Column("*"));

@@ -11,7 +11,8 @@ namespace Definitif.Data.ObjectSql.Expression
     {
         protected IExpression[] container;
 
-        public SingleContainer() { }
+        public SingleContainer()
+        { }
 
         public SingleContainer(params IExpression[] Expressions)
         {
@@ -38,7 +39,8 @@ namespace Definitif.Data.ObjectSql.Expression
         /// <summary>
         /// Creates double container expression object.
         /// </summary>
-        public DoubleContainer() { }
+        public DoubleContainer()
+        { }
 
         public DoubleContainer(IExpression[] firstContainer, IExpression[] secondContainer)
             : this(firstContainer, secondContainer, true) { }
