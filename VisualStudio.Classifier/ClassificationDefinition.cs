@@ -47,7 +47,7 @@ namespace Definitif.VisualStudio.Classifier
         [ClassificationType(ClassificationTypeNames = "box.cyan")]
         internal sealed class CyanFormat : ClassificationFormatDefinition
         {
-            public CyanFormat() { this.ForegroundColor = Color.FromRgb(0, 0xBB, 0); }
+            public CyanFormat() { this.ForegroundColor = Color.FromRgb(0x2B, 0x91, 0xAF); }
         }
 
         /// <summary>

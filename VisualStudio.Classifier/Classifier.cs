@@ -1,117 +1,98 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 
 namespace Definitif.VisualStudio.Classifier
 {
+    /// <summary>
+    /// Represents classifier regular expression.
+    /// </summary>
+    internal class ClassifierRegex
+    {
+        private Regex expression;
+        private IClassificationType type;
+
+        public ClassifierRegex(Regex expression, IClassificationType type)
+        {
+            this.expression = expression;
+            this.type = type;
+        }
+
+        public void ProcessLine(ITextSnapshotLine line, List<ClassificationSpan> result)
+        {
+            string text = line.GetText();
+            int lastIndex = 0;
+
+            while (true)
+            {
+                Match match = this.expression.Match(text, lastIndex);
+                if (!match.Success) break;
+
+                Group span = match.Groups["span"];
+                result.Add(new ClassificationSpan(
+                    new SnapshotSpan(line.Snapshot, line.Start + span.Index, span.Length),
+                    this.type));
+                lastIndex = span.Index + span.Length;
+            }
+        }
+    }
+
     public class Classifier : IClassifier
     {
-        IClassificationTypeRegistryService registry;
+        private IClassificationTypeRegistryService registry;
+
+        private static ClassifierRegex[] expressions;
 
         internal Classifier(IClassificationTypeRegistryService registry)
         {
             this.registry = registry;
+
+            expressions = new ClassifierRegex[] {
+                // Keywords classifier.
+                new ClassifierRegex(new Regex(
+                    "(\\s|^)(?<span>" +
+                        "namespace|" +
+                        "public|private|protected|internal|" +
+                        "static|" +
+                        "new|return|get|set|in|" +
+                        "this|if|then|break|" +
+                        "for|foreach|while|" +
+                        "true|false|string|int|" +
+                        "model|many\\ to\\ many|" +
+                        "foreign\\ key|primary\\ key)" +
+                    "(\\s|$|;)", RegexOptions.Compiled), 
+                    this.registry.GetClassificationType("box.blue")),
+                // Strings.
+                new ClassifierRegex(new Regex(
+                    "(?<span>\\\"[^\"]*?\\\")", RegexOptions.Compiled),
+                    this.registry.GetClassificationType("box.red")),
+                // Type definitions and names.
+                new ClassifierRegex(new Regex(
+                    "(model|class|foreign\\ key|new)\\s(?<span>[a-z0-9]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
+                new ClassifierRegex(new Regex(
+                    "(?<span>[a-z0-9]+)\\s[a-z0-9]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
+                // Generic comments.
+                new ClassifierRegex(new Regex(
+                    "(?<span>\\/\\/.+)", RegexOptions.Compiled),
+                    this.registry.GetClassificationType("box.green")),
+                // Autodoc comments.
+                new ClassifierRegex(new Regex(
+                    "(?<span>\\/\\/\\/ \\<.*)", RegexOptions.Compiled),
+                    this.registry.GetClassificationType("box.gray")),
+                new ClassifierRegex(new Regex(
+                    "(?<span>\\/\\/\\/)", RegexOptions.Compiled),
+                    this.registry.GetClassificationType("box.gray")),
+            };
         }
 
         #pragma warning disable 67
         public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
         #pragma warning restore 67
-
-        private static string[] keywords = new string[] {
-                "public", "private", "protected", "internal",
-                "static",
-                "new", "return", "get", "set", "in",
-                "this", "if", "then", "break",
-                "foreach", "for", "while",
-                "true", "false", "string", "int",
-
-                "model", "foreign key", "primary key",
-                "many to many"
-        };
-
-        public void ProcessLine(ITextSnapshotLine line, List<ClassificationSpan> result)
-        {
-            string text = line.GetText();
-
-            IClassificationType
-                stringType = this.registry.GetClassificationType("box.red"),
-                keywordType = this.registry.GetClassificationType("box.blue"),
-                commentType = this.registry.GetClassificationType("box.green"),
-                typeType = this.registry.GetClassificationType("box.cyan"),
-                autodocType = this.registry.GetClassificationType("box.gray");
-
-            int commentPosition;
-            // Autodocumentation comments lines.
-            commentPosition = text.IndexOf("///");
-            if (commentPosition >= 0)
-            {
-                if (commentPosition == 0 || text.Trim().IndexOf("///") == 0)
-                {
-                    result.Add(new ClassificationSpan(
-                        new SnapshotSpan(line.Snapshot, new Span(line.Start + commentPosition, line.Length - commentPosition)),
-                        autodocType));
-                    return;
-                }
-            }
-            // Generic single line comments.
-            commentPosition = text.IndexOf("//");
-            if (commentPosition >= 0)
-            {
-                result.Add(new ClassificationSpan(
-                    new SnapshotSpan(line.Snapshot, new Span(line.Start + commentPosition, line.Length - commentPosition)),
-                    commentType));
-                if (text.Trim().IndexOf("//") == 0) return;
-            }
-
-            // Keywords.
-            foreach (string keyword in keywords)
-            {
-                int keywordPosition = text.IndexOf(keyword),
-                    keywordPositionEnd = keywordPosition + keyword.Length;
-
-                if (keywordPosition < 0 || (commentPosition >= 0 && keywordPosition > commentPosition)) continue;
-
-                // If no leading whitespace character..
-                if (keywordPosition > 0 && !char.IsWhiteSpace(text[keywordPosition - 1])) continue;
-                // .. or trailing one.
-                if (keywordPositionEnd < text.Length - 1 && !char.IsWhiteSpace(text[keywordPositionEnd])) continue;
-
-                result.Add(new ClassificationSpan(
-                    new SnapshotSpan(line.Snapshot, new Span(line.Start + keywordPosition, keyword.Length)),
-                    keywordType));
-            }
-
-            // String definition.
-            int stringSearchStart = 0;
-            while (true)
-            {
-                int stringPosition = text.IndexOf("\"", stringSearchStart);
-                if (stringPosition >= stringSearchStart)
-                {
-                    int stringClosePosition = text.IndexOf("\"", stringPosition + 1);
-                    if (stringClosePosition > stringSearchStart)
-                    {
-                        result.Add(new ClassificationSpan(
-                            new SnapshotSpan(line.Snapshot, new Span(line.Start + stringPosition, stringClosePosition - stringPosition + 1)),
-                            stringType));
-                        stringSearchStart = stringClosePosition + 1;
-                    }
-                    else
-                    {
-                        result.Add(new ClassificationSpan(
-                            new SnapshotSpan(line.Snapshot, new Span(line.Start + stringPosition, line.End - (line.Start + stringPosition))),
-                            stringType));
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
 
         /// <summary>
         /// Classify the given spans, which, for diff files, classifies
@@ -130,9 +111,14 @@ namespace Definitif.VisualStudio.Classifier
 
             while (true)
             {
-                ProcessLine(line, result);
+                foreach (ClassifierRegex expression in expressions)
+                {
+                    expression.ProcessLine(line, result);
+                }
 
                 if (line.LineNumber == endLine.LineNumber) break;
+                if (snapshot.Length <= line.EndIncludingLineBreak.Position + 1) break;
+
                 line = snapshot.GetLineFromPosition(line.EndIncludingLineBreak + 1);
             }
 
