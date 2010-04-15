@@ -98,6 +98,12 @@
     <Compile Include="App_Code\Expression\Object.cs" />
     <Compile Include="App_Code\Expression\Text\Contains.cs" />
     <Compile Include="App_Code\Expression\Text\Like.cs" />
+    <Compile Include="App_Code\Implementation\MySql\Database.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Code\Implementation\MySql\Drawer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="App_Code\Interfaces.cs" />
     <Compile Include="App_Code\Implementation\MsSql\Database.cs" />
     <Compile Include="App_Code\Implementation\MsSql\Drawer.cs" />

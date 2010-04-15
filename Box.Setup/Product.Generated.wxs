@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="Product.Generated">
+      <ComponentGroupRef Id="Definitif.Data.ObjectSql.Binaries" />
+      <ComponentGroupRef Id="Definitif.Data.ObjectSql.Content" />
+      <ComponentGroupRef Id="Definitif.Data.ObjectSql.Satellites" />
+      <ComponentGroupRef Id="Definitif.Data.Binaries" />
+      <ComponentGroupRef Id="Definitif.Data.Content" />
+      <ComponentGroupRef Id="Definitif.Data.Satellites" />
+      <ComponentGroupRef Id="Definitif.Security.Cryptography.Binaries" />
+      <ComponentGroupRef Id="Definitif.Security.Cryptography.Content" />
+      <ComponentGroupRef Id="Definitif.Security.Cryptography.Satellites" />
+      <ComponentGroupRef Id="Definitif.ServiceModel.Binaries" />
+      <ComponentGroupRef Id="Definitif.ServiceModel.Content" />
+      <ComponentGroupRef Id="Definitif.ServiceModel.Satellites" />
+      <ComponentGroupRef Id="Definitif.VisualStudio.Classifier.Binaries" />
+      <ComponentGroupRef Id="Definitif.VisualStudio.Classifier.Content" />
+      <ComponentGroupRef Id="Definitif.VisualStudio.Classifier.Satellites" />
+      <ComponentGroupRef Id="Definitif.VisualStudio.Generator.Binaries" />
+      <ComponentGroupRef Id="Definitif.VisualStudio.Generator.Content" />
+      <ComponentGroupRef Id="Definitif.VisualStudio.Generator.Satellites" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>

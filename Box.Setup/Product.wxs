@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="0c4435c6-f47f-420d-b1eb-811eaa4a912d"
+           UpgradeCode="4227793c-8570-4b6a-a327-89510c6861eb"
+           Name="Definitif Box" Version="1.0.0.0"
+           Manufacturer="Definitif"
+           Language="1033">
+    <Package InstallerVersion="300" Compressed="yes" />
+    
+    <!-- Intallation conditions -->
+    <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
+    
+    <!-- Media packaging -->
+    <Media Id="1" Cabinet="box.cab" EmbedCab="yes" />
+
+    <!-- Installation preparation -->
+    <Property Id="VSINSTALLDIR">
+      <RegistrySearch Id="VSInstallRegistry" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0" Name="InstallDir" Type="directory" />
+    </Property>
+    <Property Id="DefinitifClassifierId" Value="Definitif.VisualStudio.Classifier.Microsoft.c93524c7-ea1e-4c7c-9d36-b03815379e78" />
+    <Property Id="DefinitifClassifierVsix" Value="Definitif Box Classifier.vsix" />
+
+    <!-- Custom actions -->
+    <CustomAction Id="InstallVsix" Execute="immediate" Directory="EXTENSIONSLOCATION"
+                  ExeCommand='"[VSINSTALLDIR]vsixinstaller.exe" "[DefinitifClassifierVsix]"' Return="ignore">Extensions=3</CustomAction>
+    <CustomAction Id="UninstallVsix" Execute="immediate" Directory="EXTENSIONSLOCATION"
+                  ExeCommand='"[VSINSTALLDIR]vsixinstaller.exe" /q /uninstall:[DefinitifClassifierId]' Return="ignore">NOT VSINSTALLDIR=""</CustomAction>
+
+    <!-- Creating directories -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MANUFACTURERDIR" Name="Definitif">
+          <Directory Id="INSTALLLOCATION" Name="Definitif Box">
+            <!-- Common directories manipulation -->
+            <Component Id="Common" Guid="338F1D99-7E73-4ac8-B84A-8912E9C6BD2C">
+              <RemoveFolder Id="INSTALLLOCATION" On="uninstall" />
+            </Component>
+            <Directory Id="LIBRARIESLOCATION" Name="Bin">
+              <!-- Definitif.Data.* -->
+              <Component Id="LibraryDefinitifData" Guid="F0F4D4F8-209A-44af-A797-52760DB0BC5C">
+                <File Assembly=".net" KeyPath="yes" Id="DefinitifData" DiskId="1"
+                      Name="$(var.Definitif.Data.TargetFileName)" Source="$(var.Definitif.Data.TargetPath)" />
+              </Component>
+              <Component Id="LibraryDefinitifDataObjectSql" Guid="84C53FBF-6843-4058-AE92-EAF7C32D0D81">
+                <File Assembly=".net" KeyPath="yes" Id="DefinitifDataObjectSql" DiskId="1"
+                      Name="$(var.Definitif.Data.ObjectSql.TargetFileName)" Source="$(var.Definitif.Data.ObjectSql.TargetPath)" />
+              </Component>
+              <!-- Definitif.Security.* -->
+              <Component Id="LibraryDefinitifSecurityCryptography" Guid="30262A47-170D-4612-860A-B6BEF2D185A6">
+                <File Assembly=".net" KeyPath="yes" Id="DefinitifSecurityCryptography" DiskId="1"
+                      Name="$(var.Definitif.Security.Cryptography.TargetFileName)" Source="$(var.Definitif.Security.Cryptography.TargetPath)" />
+              </Component>
+              <!-- Definitif.ServiceModel.* -->
+              <Component Id="LibraryDefinitifServiceModel" Guid="A6CF1643-76C3-46f8-8224-FB7D69148FE7">
+                <File Assembly=".net" KeyPath="yes" Id="DefinitifServiceModel" DiskId="1"
+                      Name="$(var.Definitif.ServiceModel.TargetFileName)" Source="$(var.Definitif.ServiceModel.TargetPath)" />
+              </Component>
+              <Component Id="LibraryWcfContrib" Guid="3ECE0358-052B-4f60-81BF-2AE807D8DDCF">
+                <File Assembly=".net" KeyPath="yes" Id="WcfContrib" DiskId="1"
+                      Name="WcfRestContrib.dll" Source="$(var.Definitif.ServiceModel.ProjectDir)Bin\WcfRestContrib.dll" />
+              </Component>
+            </Directory>
+            <Directory Id="EXTENSIONSLOCATION" Name="Extensions">
+              <Component Id="ExtensionDefinitifVisualStudioClassifier" Guid="DAC27856-3ABA-4d67-8C1B-472846EED3F8">
+                <File Assembly="no" Id="DefinitifVisualStudioClassifier" DiskId="1"
+                      Name="Definitif Box Classifier.vsix" Source="$(var.Definitif.VisualStudio.Classifier.TargetDir)$(var.Definitif.VisualStudio.Classifier.TargetName).vsix" />
+              </Component>
+              <Component Id="ExtensionDefinitifVisualStudioGenerator" Guid="E8350BCC-BF67-4c22-B302-3CDDAA68C220">
+                <File Assembly=".net" KeyPath="yes" Id="DefinitifVisualStudioGenerator" DiskId="1"
+                      Name="$(var.Definitif.VisualStudio.Generator.TargetFileName)" Source="$(var.Definitif.VisualStudio.Generator.TargetPath)" />
+                <!-- x64: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box -->
+                <Registry Id="DefinitifVisualStudioGeneratorReg1x64" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg2x64" Action="write"  Root="HKLM"
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" Type="string" Value="DefinitifBoxGenerator" />
+                <!-- x64: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator -->
+                <Registry Id="DefinitifVisualStudioGeneratorReg3x64" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg4x64" Action="write" Root="HKLM"
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Type="string" Value="Definitif Box Generator" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg5x64" Action="write" Root="HKLM"
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="CLSID" Type="string" Value="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg6x64" Action="write" Root="HKLM"
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="GeneratesDesignTimeSource" Type="integer" Value="1" />
+                
+                <!-- x86: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box -->
+                <Registry Id="DefinitifVisualStudioGeneratorReg1x86" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg2x86" Action="write"  Root="HKLM"
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" Type="string" Value="DefinitifBoxGenerator" />
+                <!-- x86: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator -->
+                <Registry Id="DefinitifVisualStudioGeneratorReg3x86" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg4x86" Action="write" Root="HKLM"
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Type="string" Value="Definitif Box Generator" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg5x86" Action="write" Root="HKLM"
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="CLSID" Type="string" Value="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" />
+                <Registry Id="DefinitifVisualStudioGeneratorReg6x86" Action="write" Root="HKLM"
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="GeneratesDesignTimeSource" Type="integer" Value="1" />
+              </Component>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Complete" Title="Definitif Box" Level="1" Display="expand">
+      <ComponentRef Id="Common" />
+      <!-- Common Definitif Box libraries -->
+      <Feature Id="Libraries" Title="Libraries" Level="1"
+               Description="Installs Definitif Box libraries to GAC.">
+        <ComponentRef Id="LibraryDefinitifData" />
+        <ComponentRef Id="LibraryDefinitifDataObjectSql" />
+        <ComponentRef Id="LibraryDefinitifSecurityCryptography" />
+        <ComponentRef Id="LibraryDefinitifServiceModel" />
+        <ComponentRef Id="LibraryWcfContrib" />
+      </Feature>
+      <!-- Visual Studio 2010 extensions -->
+      <Feature Id="Extensions" Title="VS 2010 Extensions" Level="1"
+               Description="Installs Visual Studio 2010 Extensions.">
+        <Condition Level="5">VSINSTALLDIR=""</Condition>
+        <ComponentRef Id="ExtensionDefinitifVisualStudioClassifier" />
+        <ComponentRef Id="ExtensionDefinitifVisualStudioGenerator" />
+      </Feature>
+    </Feature>
+
+    <InstallExecuteSequence>
+      <Custom Action="InstallVsix" After="InstallFinalize" />
+      <Custom Action="UninstallVsix" Before="RemoveFiles" />
+    </InstallExecuteSequence>
+    
+    <!-- User interface -->
+    <UIRef Id="WixUI_FeatureTree" />
+  </Product>
+</Wix>
