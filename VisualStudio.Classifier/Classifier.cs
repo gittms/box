@@ -51,13 +51,23 @@ namespace Definitif.VisualStudio.Classifier
             this.registry = registry;
 
             expressions = new ClassifierRegex[] {
+                // Type definitions and names.
+                new ClassifierRegex(new Regex(
+                    "(model|class)\\s(?<span>[a-z0-9\\_]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
+                new ClassifierRegex(new Regex(
+                    "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9\\_]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
+                new ClassifierRegex(new Regex(
+                    "(?<span>[a-z0-9\\_]+)\\s[a-z0-9\\_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
                 // Keywords classifier.
                 new ClassifierRegex(new Regex(
                     "(\\s|^)(?<span>" +
                         "namespace|" +
                         "public|private|protected|internal|" +
                         "static|" +
-                        "new|return|get|set|in|" +
+                        "new|return|get|set|in|as|" +
                         "this|if|then|break|" +
                         "for|foreach|while|" +
                         "true|false|string|int|" +
@@ -69,13 +79,6 @@ namespace Definitif.VisualStudio.Classifier
                 new ClassifierRegex(new Regex(
                     "(?<span>\\\"[^\"]*?\\\")", RegexOptions.Compiled),
                     this.registry.GetClassificationType("box.red")),
-                // Type definitions and names.
-                new ClassifierRegex(new Regex(
-                    "(model|class|foreign\\ key|new)\\s(?<span>[a-z0-9]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
-                    this.registry.GetClassificationType("box.cyan")),
-                new ClassifierRegex(new Regex(
-                    "(?<span>[a-z0-9]+)\\s[a-z0-9]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
-                    this.registry.GetClassificationType("box.cyan")),
                 // Generic comments.
                 new ClassifierRegex(new Regex(
                     "(?<span>\\/\\/.+)", RegexOptions.Compiled),
