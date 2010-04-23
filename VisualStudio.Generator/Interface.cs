@@ -4,25 +4,35 @@ using System.Text;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Runtime.InteropServices;
+using Definitif.VisualStudio.Generator;
 
-namespace Definitif.VisualStudio.Generator
+namespace Definitif.VisualStudio
 {
     [Guid("CAE380BA-42D4-11DF-B540-4B2F56D89593")]
-    public class Generator : IVsSingleFileGenerator, IDisposable
+    public class BoxFileGenerator : IVsSingleFileGenerator, IDisposable
     {
         IntPtr resPtr;
 
+        /// <summary>
+        /// Provides default output file extension.
+        /// </summary>
         int IVsSingleFileGenerator.DefaultExtension(out string pbstrDefaultExtension)
         {
             pbstrDefaultExtension = ".cs";
             return VSConstants.S_OK;
         }
 
+        /// <summary>
+        /// Performs code generation based on input.
+        /// </summary>
         int IVsSingleFileGenerator.Generate(
             string wszInputFilePath, string bstrInputFileContents, string wszDefaultNamespace,
             IntPtr[] rgbOutputFileContents, out uint pcbOutput, IVsGeneratorProgress pGenerateProgress)
         {
-            byte[] result = Encoding.UTF8.GetBytes("// Output of Definitif.VisualStudio.Generator");
+            string code = "// Output of Definitif.VisualStudio.Generator";
+
+            // Passing code output to Visual Studio.
+            byte[] result = Encoding.UTF8.GetBytes(code);
             pcbOutput = (uint)result.Length;
 
             resPtr = Marshal.AllocCoTaskMem(result.Length);
@@ -31,6 +41,9 @@ namespace Definitif.VisualStudio.Generator
             return VSConstants.S_OK;
         }
 
+        /// <summary>
+        /// Disposes generator object and pointers.
+        /// </summary>
         void IDisposable.Dispose()
         {
             Marshal.ZeroFreeCoTaskMemUnicode(resPtr);

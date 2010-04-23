@@ -3,15 +3,23 @@
   <TestList name="Data.ObjectSql - Local only" id="1a8877b0-3b53-4e9c-b27c-b17724b9b21c" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
     <Description>Tests that do not need existing database connection.</Description>
     <TestLinks>
-      <TestLink id="9b5e0133-30cf-49f4-14eb-504df5e3d689" name="UpdateDrawPerformance" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-      <TestLink id="53d7c049-a578-e221-ae84-cbf5fc0f721e" name="DeleteDraw" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="d78effa1-9617-9246-16b7-9049ec10ee8a" name="SelectDraw" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="53d7c049-a578-e221-ae84-cbf5fc0f721e" name="DeleteDraw" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="b85e4291-f962-a6f2-de71-59c35ccb7b7d" name="UpdateDraw" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="5f48106d-3200-1f03-6c17-e578571555e3" name="InsertDrawPerformance" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="d3b1401a-bb4c-0e48-32e9-2788c3bc8791" name="SelectDrawPerformance" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="f7e3bb3b-bd98-76b8-b8e7-13a052d3f879" name="InsertDraw" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="e2f3702e-1aa6-784f-7439-895c75de8700" name="DeleteDrawPerformance" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="9b5e0133-30cf-49f4-14eb-504df5e3d689" name="UpdateDrawPerformance" storage="data.objectsql.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     </TestLinks>
   </TestList>
-  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6" />
+  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <RunConfiguration id="b6c6b6e9-f298-4ea3-a3c0-5efd5ddf46c8" name="Local" storage="local.testsettings" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestList>
+  <TestList name="VisualStudio.Generator" id="9915f00c-be9e-451e-b3a2-2314040d0efa" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <TestLinks>
+      <TestLink id="93811f61-80b5-9344-9caf-240a90664ede" name="CodeDomCommon" storage="visualstudio.generator.test\bin\debug\visualstudio.generator.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="4b791bf3-0ee0-1a9f-59be-a28bb6fea54f" name="CodeDomNamespacesException" storage="visualstudio.generator.test\bin\debug\visualstudio.generator.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
 </TestLists>

@@ -1,0 +1,57 @@
+﻿/// <summary>
+/// Represents many to many linking between person and model.
+/// </summary>
+["ModelsToPersons"]
+public many to many model ModelToPerson
+{
+	["ModelId"]
+	foreign key TestModel Model;
+	["PersonId"]
+	foreign key TestPerson Person;
+
+	["Type" as int]
+	public LinkType Type;
+}
+
+namespace TestNamespace
+{
+	["Models"]
+	public model TestModel
+	{
+		protected int protectedInt = 100;
+
+		["Name"]
+		private string Name;
+
+		/// <summary>
+		/// Gets or sets items count.
+		/// </summary>
+		["ItemsCount"]
+		private int ItemsCount;
+	}
+
+	/// <summary>
+	/// Represents test person object.
+	/// </summary>
+	["Persons"]
+	public model TestPerson
+	{
+		["UserName"]
+		public string UserName;
+
+		/// <summary>
+		/// Represents static property with custom body.
+		/// </summary>
+		public static StaticProperty
+		{
+			get { return true; }
+		}
+	}
+
+	["ModelParts"]
+	public model TestModelPart
+	{
+		["TestModel"]
+		foreign key TestModel Model;
+	}
+}
