@@ -73,7 +73,7 @@ namespace Definitif.VisualStudio.Classifier
                         "true|false|string|int|" +
                         "model|many\\ to\\ many|" +
                         "foreign\\ key|primary\\ key)" +
-                    "(\\s|$|;)", RegexOptions.Compiled), 
+                    "(\\s|$|;|\\])", RegexOptions.Compiled), 
                     this.registry.GetClassificationType("box.blue")),
                 // Strings.
                 new ClassifierRegex(new Regex(
