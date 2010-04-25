@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="App_Code\Attribute.cs" />
     <Compile Include="App_Code\CodeDom.cs" />
+    <Compile Include="App_Code\CodeGenerator.cs" />
     <Compile Include="App_Code\CodeParser.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="App_Code\Modifier.cs" />

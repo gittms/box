@@ -52,6 +52,9 @@
     <None Include="Tests\CodeDomCommon.box">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Tests\CodeDomCommon.result">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VisualStudio.Generator\Definitif.VisualStudio.Generator.csproj">

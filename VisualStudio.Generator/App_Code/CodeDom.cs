@@ -32,5 +32,14 @@ namespace Definitif.VisualStudio.Generator
         {
             return CodeDom.Parse(File.ReadAllText(filename));
         }
+
+        /// <summary>
+        /// Generates source code for given CodeDom.
+        /// </summary>
+        /// <returns>String containing source code.</returns>
+        public string Generate()
+        {
+            return CodeGenerator.Generate(this);
+        }
     }
 }

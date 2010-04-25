@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +9,7 @@ namespace Definitif.VisualStudio.Generator.Test
 {
     [TestClass]
     [DeploymentItem(@"Tests\CodeDomCommon.box", "Tests")]
+    [DeploymentItem(@"Tests\CodeDomCommon.result", "Tests")]
     public class CodeDomTest
     {
         [TestMethod, Priority(15)]
@@ -39,6 +41,17 @@ namespace Definitif.VisualStudio.Generator.Test
             Assert.AreEqual("int", codeDom.Namespaces[0].Models[0].Members[2].ColumnCastingType);
             Assert.AreEqual("ModelsToPersons", codeDom.Namespaces[0].Models[0].TableName);
             Assert.AreEqual("PersonId", codeDom.Namespaces[0].Models[0].Members[1].ColumnName);
+        }
+
+        [TestMethod, Priority(10)]
+        [Description("CodeDom generator test.")]
+        public void CodeDomGenerator()
+        {
+            CodeDom codeDom = CodeDom.ParseFile(@"Tests\CodeDomCommon.box");
+            string code = codeDom.Generate();
+            string file = File.ReadAllText(@"Tests\CodeDomCommon.result");
+
+            Assert.AreEqual(file, code);
         }
 
         [TestMethod, Priority(25)]
