@@ -48,12 +48,15 @@ namespace Definitif.VisualStudio.Generator
         {
             if (String.IsNullOrWhiteSpace(str)) return Modifier.Default;
 
+            // Preparing string by replacing some misc substrings.
+            str = str.Replace(" key", "_key");
+
             int result = 0;
             string[] parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string part in parts)
             {
                 Modifier modifier = Modifier.Default;
-                if (Enum.TryParse<Modifier>(part.Replace(' ', '_').Capitalize(), out modifier))
+                if (Enum.TryParse<Modifier>(part.Capitalize(), out modifier))
                 {
                     result += (int)modifier;
                 }

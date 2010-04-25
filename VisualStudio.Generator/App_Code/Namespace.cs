@@ -10,7 +10,7 @@ namespace Definitif.VisualStudio.Generator
     {
         public string Name { get; set; }
         public List<Model> Models { get; set; }
-        public Namespace ParentNamespace { get; set; }
+        public Namespace Parent { get; set; }
 
         public Namespace()
         {

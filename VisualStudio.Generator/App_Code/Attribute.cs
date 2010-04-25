@@ -31,7 +31,7 @@ namespace Definitif.VisualStudio.Generator
 
             return new Attribute()
             {
-                String = trimmed.Substring(1, trimmed.IndexOf('"', 2) - 1),
+                String = trimmed.Substring(2, trimmed.IndexOf('"', 2) - 2),
                 As = (trimmed.IndexOf(" as ") > 0) ?
                     trimmed.Split(new string[] { " as " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
             };

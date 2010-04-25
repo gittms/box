@@ -18,7 +18,7 @@ namespace Definitif.VisualStudio.Generator.Test
 
             // Checking namespaces.
             Assert.AreEqual(2, codeDom.Namespaces.Count);
-            Assert.AreEqual(typeof(DefaultNamespace), codeDom.Namespaces[1].ParentNamespace.GetType());
+            Assert.AreEqual(typeof(Namespace.Default), codeDom.Namespaces[1].Parent.GetType());
             Assert.AreEqual("TestNamespace", codeDom.Namespaces[1].Name);
 
             // Checking models counters.
@@ -34,6 +34,11 @@ namespace Definitif.VisualStudio.Generator.Test
             // Checking modifiers.
             Assert.AreEqual((int)Modifier.Foreign_key, (int)codeDom.Namespaces[0].Models[0].Members[0].Modifiers);
             Assert.AreEqual((int)(Modifier.Public | Modifier.Static), (int)codeDom.Namespaces[1].Models[1].Members[1].Modifiers);
+
+            // Checking attributes.
+            Assert.AreEqual("int", codeDom.Namespaces[0].Models[0].Members[2].ColumnCastingType);
+            Assert.AreEqual("ModelsToPersons", codeDom.Namespaces[0].Models[0].TableName);
+            Assert.AreEqual("PersonId", codeDom.Namespaces[0].Models[0].Members[1].ColumnName);
         }
 
         [TestMethod, Priority(25)]

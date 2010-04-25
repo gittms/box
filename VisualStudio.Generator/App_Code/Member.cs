@@ -16,7 +16,7 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         public string Type { get; set; }
         /// <summary>
-        /// Gets or sets columen name.
+        /// Gets or sets column name.
         /// </summary>
         public string ColumnName { get; set; }
         /// <summary>
