@@ -21,6 +21,10 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         public string TableName { get; set; }
         /// <summary>
+        /// Gets or sets databse reference.
+        /// </summary>
+        public string DatabaseRef { get; set; }
+        /// <summary>
         /// Gets or sets model members.
         /// </summary>
         public List<Member> Members { get; set; }

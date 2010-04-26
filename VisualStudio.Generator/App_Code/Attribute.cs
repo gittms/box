@@ -15,6 +15,10 @@ namespace Definitif.VisualStudio.Generator
         /// Gets or sets as value from attribute.
         /// </summary>
         public string As { get; set; }
+        /// <summary>
+        /// Gets or sets in value from attribute.
+        /// </summary>
+        public string In { get; set; }
 
         /// <summary>
         /// Parses passed attribute represented as line.
@@ -34,6 +38,8 @@ namespace Definitif.VisualStudio.Generator
                 String = trimmed.Substring(2, trimmed.IndexOf('"', 2) - 2),
                 As = (trimmed.IndexOf(" as ") > 0) ?
                     trimmed.Split(new string[] { " as " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
+                In = (trimmed.IndexOf(" in ") > 0) ?
+                    trimmed.Split(new string[] { " in " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
             };
         }
     }

@@ -61,6 +61,9 @@ namespace Definitif.VisualStudio.Classifier
                 new ClassifierRegex(new Regex(
                     "(?<span>[a-z0-9\\_]+)\\s[a-z0-9\\_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
+                new ClassifierRegex(new Regex(
+                    "\\[.+\\s(in|as)\\s(?<span>.+)\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
                 // Keywords classifier.
                 new ClassifierRegex(new Regex(
                     "(\\s|^)(?<span>" +

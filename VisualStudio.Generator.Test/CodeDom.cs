@@ -41,6 +41,7 @@ namespace Definitif.VisualStudio.Generator.Test
             Assert.AreEqual("int", codeDom.Namespaces[0].Models[0].Members[2].ColumnCastingType);
             Assert.AreEqual("ModelsToPersons", codeDom.Namespaces[0].Models[0].TableName);
             Assert.AreEqual("PersonId", codeDom.Namespaces[0].Models[0].Members[1].ColumnName);
+            Assert.AreEqual("Core.Database", codeDom.Namespaces[1].Models[0].DatabaseRef);
         }
 
         [TestMethod, Priority(10)]

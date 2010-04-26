@@ -139,6 +139,7 @@ namespace Definitif.VisualStudio.Generator
                     Autodoc = String.Join(Environment.NewLine, context.Autodoc.ToArray()),
                     Name = trimmed.Split(' ').Last(),
                     TableName = attr.String,
+                    DatabaseRef = attr.In,
                     Modifiers = Modifier.Default.Parse(trimmed),
                 };
 
@@ -170,7 +171,7 @@ namespace Definitif.VisualStudio.Generator
                 }
 
                 // Getting member name.
-                Match match = Re.Match(trimmed, "(?<name>[A-Za-z0-9]+)(?<body>\\s*(;|=|\\{|$).*)");
+                Match match = Re.Match(trimmed, "(?<name>[A-Za-z0-9\\.]+)(?<body>\\s*(;|=|\\{|$).*)");
                 if (!match.Success)
                 {
                     throw new FormatException("Model member declaration can not be parsed.");

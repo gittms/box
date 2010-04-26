@@ -15,7 +15,7 @@ public many to many model ModelToPerson
 
 namespace TestNamespace
 {
-	["Models"]
+	["Models" in App.Database]
 	public model TestModel
 	{
 		protected int protectedInt = 100;
