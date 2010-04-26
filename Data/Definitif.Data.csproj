@@ -74,8 +74,13 @@
   <ItemGroup>
     <Compile Include="App_Code\ActionType.cs" />
     <Compile Include="App_Code\Id.cs" />
+    <Compile Include="App_Code\ManyToMany\IManyToManyLinkMapper.cs" />
+    <Compile Include="App_Code\ManyToMany\IManyToManyModel.cs" />
     <Compile Include="App_Code\IMapper.cs" />
     <Compile Include="App_Code\IModel.cs" />
+    <Compile Include="App_Code\BaseMapper.cs" />
+    <Compile Include="App_Code\ManyToMany\ManyToManyMapper.cs" />
+    <Compile Include="App_Code\ManyToMany\ManyToManyModel.cs" />
     <Compile Include="App_Code\Mapper.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Definitif.Data.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data.ObjectSql\Definitif.Data.ObjectSql.csproj">
+      <Project>{8DEEC172-D1AE-4422-8302-0C9D611FBF25}</Project>
+      <Name>Definitif.Data.ObjectSql</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

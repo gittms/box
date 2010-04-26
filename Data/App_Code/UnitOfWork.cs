@@ -9,8 +9,7 @@ namespace Definitif.Data
     /// </summary>
     public class UnitOfWork
     {
-        private List<UoWAction> actions
-            = new List<UoWAction>();
+        private List<UoWAction> actions = new List<UoWAction>();
 
         /// <summary>
         /// Creates new instance.
