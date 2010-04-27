@@ -36,10 +36,11 @@ namespace Definitif.VisualStudio.Generator
         /// <summary>
         /// Generates source code for given CodeDom.
         /// </summary>
+        /// <param name="defaultNamespace">Default namespace name.</param>
         /// <returns>String containing source code.</returns>
-        public string Generate()
+        public string Generate(string defaultNamespace)
         {
-            return CodeGenerator.Generate(this);
+            return CodeGenerator.Generate(this, defaultNamespace);
         }
     }
 }

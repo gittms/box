@@ -81,7 +81,8 @@ namespace Definitif.VisualStudio.Generator
             {
                 if (Re.IsMatch(trimmed, "^\\/\\/\\/"))
                 {
-                    context.Autodoc.Add(trimmed);
+                    // Formating autodoc comment as required by code style.
+                    context.Autodoc.Add(" " + trimmed.Replace("///", "").Trim());
                 }
                 return;
             }
@@ -136,7 +137,7 @@ namespace Definitif.VisualStudio.Generator
 
                 context.CurrentModel = new Model()
                 {
-                    Autodoc = String.Join(Environment.NewLine, context.Autodoc.ToArray()),
+                    Autodoc = String.Join(Environment.NewLine, context.Autodoc.ToArray()).Trim(),
                     Name = trimmed.Split(' ').Last(),
                     TableName = attr.String,
                     DatabaseRef = attr.In,
@@ -158,9 +159,11 @@ namespace Definitif.VisualStudio.Generator
             {
                 context.CurrentMember = new Member()
                 {
+                    Autodoc = String.Join(Environment.NewLine, context.Autodoc.ToArray()).Trim(),
                     Modifiers = Modifier.Default.Parse(trimmed),
                 };
                 context.CurrentModel.Members.Add(context.CurrentMember);
+                context.Autodoc.Clear();
 
                 Attribute attr = null;
                 if (!String.IsNullOrWhiteSpace(context.Attribute))

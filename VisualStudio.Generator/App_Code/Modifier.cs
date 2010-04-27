@@ -50,19 +50,20 @@ namespace Definitif.VisualStudio.Generator
 
             // Preparing string by replacing some misc substrings.
             str = str.Replace(" key", "_key");
+            str = str.Replace(" to ", "_to_");
 
-            int result = 0;
+            Modifier result = Modifier.Default;
             string[] parts = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string part in parts)
             {
                 Modifier modifier = Modifier.Default;
                 if (Enum.TryParse<Modifier>(part.Capitalize(), out modifier))
                 {
-                    result += (int)modifier;
+                    result |= modifier;
                 }
             }
 
-            return (Modifier)result;
+            return result;
         }
 
         /// <summary>

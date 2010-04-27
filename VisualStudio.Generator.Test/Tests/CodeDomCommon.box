@@ -49,7 +49,7 @@ namespace TestNamespace
 	}
 
 	["ModelParts"]
-	public model TestModelPart
+	internal model TestModelPart
 	{
 		["TestModel"]
 		foreign key TestModel Model;

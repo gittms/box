@@ -8,6 +8,10 @@ namespace Definitif.VisualStudio.Generator
     public class Member
     {
         /// <summary>
+        /// Gets or sets model autodoc.
+        /// </summary>
+        public string Autodoc { get; set; }
+        /// <summary>
         /// Gets or sets member name.
         /// </summary>
         public string Name { get; set; }
