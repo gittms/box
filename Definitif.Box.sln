@@ -26,6 +26,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Definitif.Box.Setup", "Box.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualStudio.Generator.Test", "VisualStudio.Generator.Test\VisualStudio.Generator.Test.csproj", "{81B386D0-E825-4329-81F7-7632A861C397}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Box", "Box\Definitif.Box.csproj", "{97C4D0E5-0140-4E7C-979D-16EB25BED208}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Definitif.Box.vsmdi
@@ -64,11 +66,17 @@ Global
 		{1DF7A7D4-B129-441A-9C94-4DFCA48C8DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DF7A7D4-B129-441A-9C94-4DFCA48C8DE9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA4E1980-9318-4972-B206-E6C5BC784593}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DA4E1980-9318-4972-B206-E6C5BC784593}.Debug|Any CPU.Build.0 = Debug|x86
 		{DA4E1980-9318-4972-B206-E6C5BC784593}.Release|Any CPU.ActiveCfg = Release|x86
+		{DA4E1980-9318-4972-B206-E6C5BC784593}.Release|Any CPU.Build.0 = Release|x86
 		{81B386D0-E825-4329-81F7-7632A861C397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81B386D0-E825-4329-81F7-7632A861C397}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81B386D0-E825-4329-81F7-7632A861C397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81B386D0-E825-4329-81F7-7632A861C397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C4D0E5-0140-4E7C-979D-16EB25BED208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C4D0E5-0140-4E7C-979D-16EB25BED208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C4D0E5-0140-4E7C-979D-16EB25BED208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C4D0E5-0140-4E7C-979D-16EB25BED208}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
