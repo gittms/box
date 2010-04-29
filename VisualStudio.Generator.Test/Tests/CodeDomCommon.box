@@ -18,6 +18,9 @@ namespace TestNamespace
 	["Models" in App.Database]
 	public model TestModel
 	{
+		/// <summary>
+		/// Protected integer.
+		/// </summary>
 		protected int protectedInt = 100;
 
 		["Name"]
@@ -42,7 +45,7 @@ namespace TestNamespace
 		/// <summary>
 		/// Represents static property with custom body.
 		/// </summary>
-		public static StaticProperty
+		public static bool StaticProperty
 		{
 			get { return true; }
 		}
