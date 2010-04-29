@@ -29,6 +29,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Box\Definitif.Box.csproj">
+      <Name>Definitif.Box</Name>
+      <Project>{97c4d0e5-0140-4e7c-979d-16eb25bed208}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\Data.ObjectSql\Definitif.Data.ObjectSql.csproj">
       <Name>Definitif.Data.ObjectSql</Name>
       <Project>{8deec172-d1ae-4422-8302-0c9d611fbf25}</Project>

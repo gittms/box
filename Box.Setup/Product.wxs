@@ -36,6 +36,11 @@
               <RemoveFolder Id="INSTALLLOCATION" On="uninstall" />
             </Component>
             <Directory Id="LIBRARIESLOCATION" Name="Bin">
+              <!-- Definitif.* -->
+              <Component Id="LibraryDefinitifBox" Guid="D8962C74-7A20-43c5-89B2-C5E6DCDD3832">
+                <File Assembly=".net" KeyPath="yes" Id="DefinitifBox" DiskId="1"
+                      Name="$(var.Definitif.Box.TargetFileName)" Source="$(var.Definitif.Box.TargetPath)" />
+              </Component>
               <!-- Definitif.Data.* -->
               <Component Id="LibraryDefinitifData" Guid="F0F4D4F8-209A-44af-A797-52760DB0BC5C">
                 <File Assembly=".net" KeyPath="yes" Id="DefinitifData" DiskId="1"
@@ -109,6 +114,7 @@
       <!-- Common Definitif Box libraries -->
       <Feature Id="Libraries" Title="Libraries" Level="1"
                Description="Installs Definitif Box libraries to GAC.">
+        <ComponentRef Id="LibraryDefinitifBox" />
         <ComponentRef Id="LibraryDefinitifData" />
         <ComponentRef Id="LibraryDefinitifDataObjectSql" />
         <ComponentRef Id="LibraryDefinitifSecurityCryptography" />
