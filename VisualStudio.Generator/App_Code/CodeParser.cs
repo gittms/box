@@ -20,6 +20,7 @@ namespace Definitif.VisualStudio.Generator
             public Namespace CurrentNamespace { get; set; }
             public Model CurrentModel { get; set; }
             public Member CurrentMember { get; set; }
+            public string CurrentIndent { get; set; }
             public List<string> Autodoc { get; set; }
             public string Attribute { get; set; }
 
@@ -51,7 +52,8 @@ namespace Definitif.VisualStudio.Generator
             {
                 try
                 {
-                    CodeParser.ParseLine(dom, line, context);
+                    string retabbed = line.Replace("\t", "    ");
+                    CodeParser.ParseLine(dom, retabbed, context);
                     lineNumber++;
                 }
                 catch (FormatException inner)
@@ -65,6 +67,16 @@ namespace Definitif.VisualStudio.Generator
         }
 
         /// <summary>
+        /// Contains collection of characters to trim.
+        /// </summary>
+        private static char[] trimCharacters = new char[] {
+            // Whitespace characters.
+            ' ', '\t',
+            // Newline characters.
+            '\n', '\r',
+        };
+
+        /// <summary>
         /// Parses single input line using parsing contexst.
         /// </summary>
         /// <param name="dom">CodeDom instance to parse into.</param>
@@ -72,7 +84,9 @@ namespace Definitif.VisualStudio.Generator
         /// <param name="context">Context to use.</param>
         private static void ParseLine(CodeDom dom, string line, Context context)
         {
-            string trimmed = line.Trim();
+            string trimmed = line.Trim(trimCharacters),
+                trimmedEnd = line.TrimEnd(trimCharacters),
+                indent = trimmedEnd.Substring(0, trimmedEnd.Length - trimmed.Length);
 
             // Commented blocks - generic comments and autodoc.
             // Comments can be completely ignored, and autodocs
@@ -81,8 +95,7 @@ namespace Definitif.VisualStudio.Generator
             {
                 if (Re.IsMatch(trimmed, "^\\/\\/\\/"))
                 {
-                    // Formating autodoc comment as required by code style.
-                    context.Autodoc.Add(" " + trimmed.Replace("///", "").Trim());
+                    context.Autodoc.Add(trimmed);
                 }
                 return;
             }
@@ -146,6 +159,7 @@ namespace Definitif.VisualStudio.Generator
 
                 // Clearing autodoc and saving refs.
                 context.CurrentNamespace.Models.Add(context.CurrentModel);
+                context.CurrentIndent = indent;
                 context.Brackets.Add(context.CurrentModel);
                 context.Autodoc.Clear();
                 context.Attribute = null;
@@ -163,6 +177,7 @@ namespace Definitif.VisualStudio.Generator
                     Modifiers = Modifier.Default.Parse(trimmed),
                 };
                 context.CurrentModel.Members.Add(context.CurrentMember);
+                context.CurrentIndent = indent;
                 context.Autodoc.Clear();
 
                 Attribute attr = null;
@@ -172,14 +187,16 @@ namespace Definitif.VisualStudio.Generator
                     context.CurrentMember.ColumnName = attr.String;
                     context.CurrentMember.ColumnCastingType = attr.As;
                 }
+                context.Attribute = null;
 
                 // Getting member name.
-                Match match = Re.Match(trimmed, "(?<name>[A-Za-z0-9\\.]+)(?<body>\\s*(;|=|\\{|$).*)");
+                Match match = Re.Match(trimmed, "(?<type>[A-Za-z0-9\\.]+)\\s+(?<name>[A-Za-z0-9\\.]+)(?<body>\\s*(;|=|\\{|\\(|$).*)");
                 if (!match.Success)
                 {
                     throw new FormatException("Model member declaration can not be parsed.");
                 }
                 context.CurrentMember.Name = match.Groups["name"].Value;
+                context.CurrentMember.Type = match.Groups["type"].Value;
 
                 // If member has no body declaration, going further.
                 if (match.Groups[1].Value == ";")
@@ -213,7 +230,12 @@ namespace Definitif.VisualStudio.Generator
             // Model members body.
             else if (context.CurrentModel != null && context.CurrentMember != null)
             {
-                context.CurrentMember.MemberBody += Environment.NewLine + trimmed;
+                string indented = trimmed;
+                if (trimmed.Length > 0)
+                {
+                    indented = trimmedEnd.Substring(context.CurrentIndent.Length);
+                }
+                context.CurrentMember.MemberBody += Environment.NewLine + indented;
                 string body = context.CurrentMember.MemberBody;
                 if (Re.IsMatch(body, "^\\s*=") &&
                     Re.IsMatch(body, ";$"))
