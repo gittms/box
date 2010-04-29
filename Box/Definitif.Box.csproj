@@ -8,8 +8,8 @@
     <ProjectGuid>{97C4D0E5-0140-4E7C-979D-16EB25BED208}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Box</RootNamespace>
-    <AssemblyName>Box</AssemblyName>
+    <RootNamespace>Definitif</RootNamespace>
+    <AssemblyName>Definitif.Box</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Json.cs" />
     <Compile Include="String.cs" />
     <Compile Include="App_Code\NamedFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
