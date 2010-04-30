@@ -2,6 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <ComponentGroup Id="Product.Generated">
+      <ComponentGroupRef Id="Definitif.Box.Binaries" />
+      <ComponentGroupRef Id="Definitif.Box.Content" />
+      <ComponentGroupRef Id="Definitif.Box.Satellites" />
       <ComponentGroupRef Id="Definitif.Data.ObjectSql.Binaries" />
       <ComponentGroupRef Id="Definitif.Data.ObjectSql.Content" />
       <ComponentGroupRef Id="Definitif.Data.ObjectSql.Satellites" />
