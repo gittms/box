@@ -2,12 +2,25 @@
 using System.IO;
 using System.CodeDom;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.CSharp;
+using Definitif;
 
 namespace Definitif.VisualStudio.Generator
 {
+    /// <summary>
+    /// Represents Generator Constants.
+    /// </summary>
+    public static class Constants
+    {
+        /// <summary>
+        /// Default database reference string.
+        /// </summary>
+        public static string DefaultDatabase { get { return "Core.Database"; } }
+    }
+
     /// <summary>
     /// Represents code generator for CodeDom.
     /// </summary>
@@ -27,22 +40,27 @@ namespace Definitif.VisualStudio.Generator
             {
                 Imports = {
                     new CodeNamespaceImport("System"),
+                    new CodeNamespaceImport("System.Collections.Generic"),
                     new CodeNamespaceImport("System.Data"),
                     new CodeNamespaceImport("Definitif.Data"),
                     new CodeNamespaceImport("Definitif.Data.ObjectSql"),
+                    new CodeNamespaceImport("Definitif.Data.ObjectSql.Query"),
                 },
             });
 
             // Generating code for namespaces.
             foreach (Namespace ns in dom.Namespaces)
             {
+                // Skipping empty namespaces.
                 if (ns.Models.Count == 0) continue;
 
+                // Setting name for default one.
                 if (ns is Namespace.Default)
                 {
                     ns.Name = defaultNamespace;
                 }
 
+                // Adding generated namespaces.
                 code.Namespaces.AddRange(ns.ToCodeNamespaces());
             }
 
@@ -74,14 +92,34 @@ namespace Definitif.VisualStudio.Generator
 
             foreach (Model model in ns.Models)
             {
-                modelsNamespace.Types.Add(model.ToModelCodeType(mappersNamespace));
-                mappersNamespace.Types.Add(model.ToMapperCodeType(modelsNamespace));
+                // Many to many model.
+                if ((model.Modifiers & Modifier.Many_to_many) != 0)
+                {
+                    modelsNamespace.Types.Add(model.ToManyToManyModelCodeType(mappersNamespace));
+                    mappersNamespace.Types.Add(model.ToManyToManyMapperCodeType(modelsNamespace));
+                }
+                else
+                {
+                    modelsNamespace.Types.Add(model.ToModelCodeType(mappersNamespace));
+                    mappersNamespace.Types.Add(model.ToMapperCodeType(modelsNamespace));
+                }
             }
 
             return new CodeNamespace[] {
                 modelsNamespace,
                 mappersNamespace,
             };
+        }
+
+        /// <summary>
+        /// Converts Modifier value to related TypeAttributes one.
+        /// </summary>
+        /// <returns>TypeAttributes value.</returns>
+        public static TypeAttributes ToTypeAttributes(this Modifier modifiers)
+        {
+            if ((modifiers & Modifier.Private) != 0) return TypeAttributes.NestedPrivate;
+            else if ((modifiers & Modifier.Internal) != 0) return TypeAttributes.NotPublic;
+            else return TypeAttributes.Public;
         }
 
         /// <summary>
@@ -95,37 +133,8 @@ namespace Definitif.VisualStudio.Generator
                 IsClass = true,
                 IsPartial = true,
             };
-
-            // Adding parameters.
-            if ((model.Modifiers & Modifier.Private) != 0) codeType.TypeAttributes = TypeAttributes.NestedPrivate;
-            else if ((model.Modifiers & Modifier.Internal) != 0) codeType.TypeAttributes = TypeAttributes.NotPublic;
-            else codeType.TypeAttributes = TypeAttributes.Public;
-
-            // Adding autodoc.
-            if (withAutodoc && !String.IsNullOrEmpty(model.Autodoc))
-            {
-                codeType.Comments.Add(new CodeCommentStatement(new CodeComment(model.Autodoc, true)));
-            }
-
-            return codeType;
-        }
-
-        /// <summary>
-        /// Gets model mapped members list.
-        /// </summary>
-        public static Member[] GetMappedMembers(this Model model)
-        {
-            return model.Members.Where(member => member.ColumnName != null).ToArray();
-        }
-
-        /// <summary>
-        /// Converts Model object to Model CodeType instance.
-        /// </summary>
-        public static CodeTypeDeclaration ToModelCodeType(this Model model, CodeNamespace mappersNamespace)
-        {
-            if ((model.Modifiers & Modifier.Many_to_many) != 0) return model.ToManyToManyModelCodeType(mappersNamespace);
-            CodeTypeDeclaration codeType = model.ToCodeType(true);
-            codeType.BaseTypes.Add(String.Format("Model<{0}.{1}>", mappersNamespace.Name, model.Name));
+            if (withAutodoc) codeType.AddAutodoc(model.Autodoc);
+            codeType.TypeAttributes = model.Modifiers.ToTypeAttributes();
 
             return codeType;
         }
@@ -135,17 +144,8 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         private static CodeTypeDeclaration ToManyToManyModelCodeType(this Model model, CodeNamespace mappersNamespace)
         {
-            return new CodeTypeDeclaration();
-        }
-
-        /// <summary>
-        /// Converts Model object to Mapper CodeType instance.
-        /// </summary>
-        public static CodeTypeDeclaration ToMapperCodeType(this Model model, CodeNamespace modelsNamespace)
-        {
-            if ((model.Modifiers & Modifier.Many_to_many) != 0) return model.ToManyToManyMapperCodeType(modelsNamespace);
-            CodeTypeDeclaration codeType = model.ToCodeType(false);
-            codeType.BaseTypes.Add(String.Format("Mapper<{0}.{1}>", modelsNamespace.Name, model.Name));
+            // Generating generic model codetype.
+            CodeTypeDeclaration codeType = model.ToModelCodeType(mappersNamespace);
 
             return codeType;
         }
@@ -155,7 +155,10 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         private static CodeTypeDeclaration ToManyToManyMapperCodeType(this Model model, CodeNamespace modelsNamespace)
         {
-            return new CodeTypeDeclaration();
+            // Generating generic mapper codetype.
+            CodeTypeDeclaration codeType = model.ToMapperCodeType(modelsNamespace);
+
+            return codeType;
         }
     }
 }

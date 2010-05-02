@@ -25,7 +25,7 @@ namespace Definitif.VisualStudio.Generator
         /// Converts Modifier to string representation.
         /// </summary>
         /// <returns>String representation of Modifier.</returns>
-        public static string ToString(this Modifier modifiers)
+        public static string ToString(this Modifier modifiers, bool globalOnly)
         {
             if (modifiers == Modifier.Default) return Modifier.Public.ToString().ToLower();
             List<string> variants = new List<string>();
@@ -33,9 +33,16 @@ namespace Definitif.VisualStudio.Generator
             foreach (int value in Enum.GetValues(typeof(Modifier)))
             {
                 Modifier modifier = (Modifier)value;
+
+                if (globalOnly &&
+                    (modifier == Modifier.Foreign_key ||
+                     modifier == Modifier.Private_key ||
+                     modifier == Modifier.Many_to_many)) continue;
+
                 if ((modifiers & modifier) != 0) variants.Add(modifier.ToString().Replace('_', ' ').ToLower());
             }
 
+            if (variants.Count == 0) return Modifier.Public.ToString().ToLower();
             return String.Join(" ", variants.ToArray());
         }
 

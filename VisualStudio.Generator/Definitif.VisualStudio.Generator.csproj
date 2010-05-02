@@ -51,7 +51,11 @@
     <Compile Include="App_Code\Attribute.cs" />
     <Compile Include="App_Code\CodeDom.cs" />
     <Compile Include="App_Code\CodeGenerator.cs" />
+    <Compile Include="App_Code\CodeGenerators\Autodoc.cs" />
     <Compile Include="App_Code\CodeParser.cs" />
+    <Compile Include="App_Code\CodeGenerators\CodeTypeMember.cs" />
+    <Compile Include="App_Code\CodeGenerators\ModelCodeType.cs" />
+    <Compile Include="App_Code\CodeGenerators\MapperCodeType.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="App_Code\Modifier.cs" />
     <Compile Include="App_Code\Namespace.cs" />
@@ -61,6 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Definitif.VisualStudio.Generator.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Box\Definitif.Box.csproj">
+      <Project>{97C4D0E5-0140-4E7C-979D-16EB25BED208}</Project>
+      <Name>Definitif.Box</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

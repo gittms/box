@@ -33,6 +33,14 @@ namespace Definitif.VisualStudio.Generator
         public Modifier Modifiers { get; set; }
 
         /// <summary>
+        /// Gets member protected name.
+        /// </summary>
+        public string NameProtected
+        {
+            get { return "p_" + this.Name.ToLower(); }
+        }
+
+        /// <summary>
         /// Gets or sets member body.
         /// </summary>
         public string MemberBody { get; set; }

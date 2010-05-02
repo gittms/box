@@ -64,7 +64,7 @@ namespace Definitif.VisualStudio.Generator.Test
             CodeDom codeDom = CodeDom.Parse(
             @"namespace TestNamespace {
                 namespace InnerNamespace {
-                    " + "[\"Models\"]" + @"
+                    [""Models""]
                     model Model {
                         namespace InnerNamespace {
                         }
