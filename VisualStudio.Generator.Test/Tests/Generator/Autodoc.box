@@ -1,0 +1,20 @@
+﻿/// <summary>
+/// Represents test person object.
+/// </summary>
+["Persons"]
+public model TestPerson
+{
+    /// <summary>
+    /// Represents mapped username property.
+    /// </summary>
+	["UserName"]
+	public string UserName;
+
+	/// <summary>
+	/// Represents static property with custom body.
+	/// </summary>
+	public static bool StaticProperty
+	{
+		get { return true; }
+	}
+}

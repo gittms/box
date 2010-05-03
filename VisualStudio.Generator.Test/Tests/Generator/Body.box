@@ -1,0 +1,19 @@
+﻿namespace TestNamespace
+{
+	["Models" in App.Database]
+	public model TestModel
+	{
+		["Name"]
+		private string Name;
+
+		["ItemsCount"]
+		private int ItemsCount;
+
+		protected int protectedInt = 100;
+
+		public static bool StaticProperty
+		{
+			get { return true; }
+		}
+	}
+}

@@ -1,0 +1,9 @@
+﻿["TestModels"]
+public model TestModel
+{
+    ["Name"]
+    public string Name;
+
+    ["ForeignId"]
+    public foreign key ForeignModel Foreign;
+}
