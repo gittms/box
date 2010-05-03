@@ -35,13 +35,13 @@ namespace Definitif.Test {
         protected string p_name;
 
     }
-    public partial class Achivement : Model<Definitif.Test.Mappers.Achivement> {
+    public partial class Achievement : Model<Definitif.Test.Mappers.Achievement> {
 
         /// <summary>
-        /// Gets Achivement instance from database by given Id.
+        /// Gets Achievement instance from database by given Id.
         /// </summary>
-        public Achivement Get(Id id) {
-            return Achivement.Mapper.Get(id);
+        public Achievement Get(Id id) {
+            return Achievement.Mapper.Get(id);
         }
 
         public string Name {
@@ -51,13 +51,13 @@ namespace Definitif.Test {
         protected string p_name;
 
     }
-    public partial class UserAchivement : Model<Definitif.Test.Mappers.UserAchivement>, IManyToMany {
+    public partial class UserAchievement : Model<Definitif.Test.Mappers.UserAchievement>, IManyToMany {
 
         /// <summary>
-        /// Gets UserAchivement instance from database by given Id.
+        /// Gets UserAchievement instance from database by given Id.
         /// </summary>
-        public UserAchivement Get(Id id) {
-            return UserAchivement.Mapper.Get(id);
+        public UserAchievement Get(Id id) {
+            return UserAchievement.Mapper.Get(id);
         }
 
         protected Id UserId {
@@ -80,25 +80,25 @@ namespace Definitif.Test {
         }
         protected User p_user = null;
 
-        protected Id AchivementId {
-            get { return id_achivement; }
-            set { id_achivement = value; }
+        protected Id AchievementId {
+            get { return id_Achievement; }
+            set { id_Achievement = value; }
         }
-        protected Id id_achivement = Id.Empty;
+        protected Id id_Achievement = Id.Empty;
 
-        public Achivement Achivement {
+        public Achievement Achievement {
             get {
-                if (p_achivement == null && id_achivement != Id.Empty) {
-                    p_achivement = Achivement.Get(id_achivement);
+                if (p_Achievement == null && id_Achievement != Id.Empty) {
+                    p_Achievement = Achievement.Get(id_Achievement);
                 }
-                return p_achivement;
+                return p_Achievement;
             }
             set {
-                p_achivement = value;
-                id_achivement = value.Id;
+                p_Achievement = value;
+                id_Achievement = value.Id;
             }
         }
-        protected Achivement p_achivement = null;
+        protected Achievement p_Achievement = null;
 
         public DateTime Received {
             get { return p_received; }
@@ -110,20 +110,20 @@ namespace Definitif.Test {
     public partial class User {
 
         /// <summary>
-        /// Gets linked Achivement objects.
+        /// Gets linked Achievement objects.
         /// </summary>
-        public List<ManyToMany<UserAchivement, Achivement>> GetAchivements() {
-            return ManyToMany<UserAchivement, Achivement>.Mapper.Get(this.id);
+        public List<ManyToMany<UserAchievement, Achievement>> GetAchievements() {
+            return ManyToMany<UserAchievement, Achievement>.Mapper.Get(this.id);
         }
 
     }
-    public partial class Achivement {
+    public partial class Achievement {
 
         /// <summary>
         /// Gets linked User objects.
         /// </summary>
-        public List<ManyToMany<UserAchivement, User>> GetUsers() {
-            return ManyToMany<UserAchivement, User>.Mapper.Get(this.id);
+        public List<ManyToMany<UserAchievement, User>> GetUsers() {
+            return ManyToMany<UserAchievement, User>.Mapper.Get(this.id);
         }
 
     }
@@ -206,26 +206,26 @@ namespace Definitif.Test.Mappers {
         partial void DeleteCommandsExtension(Definitif.Test.User obj, List<IDbCommand> list);
 
     }
-    public partial class Achivement : Mapper<Definitif.Test.Achivement> {
+    public partial class Achievement : Mapper<Definitif.Test.Achievement> {
 
-        public Achivement()
+        public Achievement()
         {
             this.database = Core.Database;
-            this.table = this.database["Achivements"];
+            this.table = this.database["Achievements"];
         }
 
-        public sealed override Definitif.Test.Achivement ReadObject(IDataReader reader)
+        public sealed override Definitif.Test.Achievement ReadObject(IDataReader reader)
         {
-            Definitif.Test.Achivement result = new Definitif.Test.Achivement()
+            Definitif.Test.Achievement result = new Definitif.Test.Achievement()
             {
                 Name = (string)reader["Name"],
             };
             FillBase(result, reader);
             return result;
         }
-        public sealed override Definitif.Test.Achivement ReadObject(IDataReader reader, string fieldPrefix)
+        public sealed override Definitif.Test.Achievement ReadObject(IDataReader reader, string fieldPrefix)
         {
-            Definitif.Test.Achivement result = new Definitif.Test.Achivement()
+            Definitif.Test.Achievement result = new Definitif.Test.Achievement()
             {
                 Name = (string)reader[fieldPrefix + "Name"],
             };
@@ -233,7 +233,7 @@ namespace Definitif.Test.Mappers {
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.Achivement obj) {
+        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.Achievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
                     new Insert() {
@@ -245,9 +245,9 @@ namespace Definitif.Test.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(Definitif.Test.Achivement obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(Definitif.Test.Achievement obj, List<IDbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.Achivement obj) {
+        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.Achievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
                     new Insert() {
@@ -264,9 +264,9 @@ namespace Definitif.Test.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(Definitif.Test.Achivement obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(Definitif.Test.Achievement obj, List<IDbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.Achivement obj) {
+        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.Achievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
@@ -279,47 +279,47 @@ namespace Definitif.Test.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(Definitif.Test.Achivement obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(Definitif.Test.Achievement obj, List<IDbCommand> list);
 
     }
-    public partial class UserAchivement : Mapper<Definitif.Test.UserAchivement>, IManyToManyMapper {
+    public partial class UserAchievement : Mapper<Definitif.Test.UserAchievement>, IManyToManyMapper {
 
-        public UserAchivement()
+        public UserAchievement()
         {
             this.database = Core.Database;
-            this.table = this.database["UserAchivements"];
+            this.table = this.database["UserAchievements"];
         }
 
-        public sealed override Definitif.Test.UserAchivement ReadObject(IDataReader reader)
+        public sealed override Definitif.Test.UserAchievement ReadObject(IDataReader reader)
         {
-            Definitif.Test.UserAchivement result = new Definitif.Test.UserAchivement()
+            Definitif.Test.UserAchievement result = new Definitif.Test.UserAchievement()
             {
                 UserId = (reader["UserId"] == DBNull.Value) ? Id.Empty : new Id(reader["UserId"]),
-                AchivementId = (reader["AchivementId"] == DBNull.Value) ? Id.Empty : new Id(reader["AchivementId"]),
+                AchievementId = (reader["AchievementId"] == DBNull.Value) ? Id.Empty : new Id(reader["AchievementId"]),
                 Received = (DateTime)reader["Received"],
             };
             FillBase(result, reader);
             return result;
         }
-        public sealed override Definitif.Test.UserAchivement ReadObject(IDataReader reader, string fieldPrefix)
+        public sealed override Definitif.Test.UserAchievement ReadObject(IDataReader reader, string fieldPrefix)
         {
-            Definitif.Test.UserAchivement result = new Definitif.Test.UserAchivement()
+            Definitif.Test.UserAchievement result = new Definitif.Test.UserAchievement()
             {
                 UserId = (reader[fieldPrefix + "UserId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "UserId"]),
-                AchivementId = (reader[fieldPrefix + "AchivementId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "AchivementId"]),
+                AchievementId = (reader[fieldPrefix + "AchievementId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "AchievementId"]),
                 Received = (DateTime)reader[fieldPrefix + "Received"],
             };
             FillBase(result, reader, fieldPrefix);
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.UserAchivement obj) {
+        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.UserAchievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
                             table["UserId"] == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User,
-                            table["AchivementId"] == (obj.AchivementId == Id.Empty) ? DBNull.Value : obj.Achivement,
+                            table["AchievementId"] == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement,
                             table["Received"] == obj.Received,
                         }
                     })
@@ -327,16 +327,16 @@ namespace Definitif.Test.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(Definitif.Test.UserAchivement obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(Definitif.Test.UserAchievement obj, List<IDbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.UserAchivement obj) {
+        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.UserAchievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
                             table["Version"] == obj.Version + 1,
                             table["UserId"] == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User,
-                            table["AchivementId"] == (obj.AchivementId == Id.Empty) ? DBNull.Value : obj.Achivement,
+                            table["AchievementId"] == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement,
                             table["Received"] == obj.Received,
                         },
                         WHERE = {
@@ -348,9 +348,9 @@ namespace Definitif.Test.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(Definitif.Test.UserAchivement obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(Definitif.Test.UserAchievement obj, List<IDbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.UserAchivement obj) {
+        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.UserAchievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
@@ -363,23 +363,23 @@ namespace Definitif.Test.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(Definitif.Test.UserAchivement obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(Definitif.Test.UserAchievement obj, List<IDbCommand> list);
 
         public string FieldNameJoin(IModel model) {
             if (model is System.CodeDom.CodeNamespace.User) {
                 return "UserId";
             }
-            else if (model is System.CodeDom.CodeNamespace.Achivement) {
-                return "AchivementId";
+            else if (model is System.CodeDom.CodeNamespace.Achievement) {
+                return "AchievementId";
             }
             else throw new ArgumentException();
         }
 
         public string FieldNameWhere(IModel model) {
             if (model is System.CodeDom.CodeNamespace.User) {
-                return "AchivementId";
+                return "AchievementId";
             }
-            else if (model is System.CodeDom.CodeNamespace.Achivement) {
+            else if (model is System.CodeDom.CodeNamespace.Achievement) {
                 return "UserId";
             }
             else throw new ArgumentException();

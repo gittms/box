@@ -17,7 +17,7 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         public static CodeTypeMember ToCodeTypeMember(this Member member)
         {
-            if (!String.IsNullOrWhiteSpace(member.ColumnName))
+            if (member.IsMapped)
             {
                 return member.ToProperty();
             }

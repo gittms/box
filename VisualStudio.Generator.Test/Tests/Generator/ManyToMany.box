@@ -5,21 +5,21 @@ public model User
     public string Name;
 }
 
-["Achivements"]
-public model Achivement
+["Achievements"]
+public model Achievement
 {
     ["Name"]
     public string Name;
 }
 
 ["UserAchivements"]
-public many to many model UserAchivement
+public many to many model UserAchievement
 {
     ["UserId"]
     public foreign key User User;
 
-    ["AchivementId"]
-    public foreign key Achivement Achivement;
+    ["AchievementId"]
+    public foreign key Achievement Achievement;
 
     ["Received"]
     public DateTime Received;

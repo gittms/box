@@ -26,7 +26,7 @@ namespace Definitif.VisualStudio.Generator
                 readsWithPrefix = new List<string>();
             foreach (Member member in model.Members)
             {
-                if (String.IsNullOrWhiteSpace(member.ColumnName)) continue;
+                if (!member.IsMapped) continue;
 
                 var replacement = new
                 {
