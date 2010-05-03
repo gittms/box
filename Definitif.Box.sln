@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB9330D4-DC86-4A61-9B6A-BADD59E2619B}"
 	ProjectSection(SolutionItems) = preProject
 		Definitif.Box.vsmdi = Definitif.Box.vsmdi
+		README.mkd = README.mkd
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.VisualStudio.Classifier", "VisualStudio.Classifier\Definitif.VisualStudio.Classifier.csproj", "{1C4585CE-2529-4962-91B5-306280C7A6F6}"
