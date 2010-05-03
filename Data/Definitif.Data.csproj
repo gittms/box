@@ -74,13 +74,13 @@
   <ItemGroup>
     <Compile Include="App_Code\ActionType.cs" />
     <Compile Include="App_Code\Id.cs" />
-    <Compile Include="App_Code\ManyToMany\IManyToManyLinkMapper.cs" />
-    <Compile Include="App_Code\ManyToMany\IManyToManyModel.cs" />
+    <Compile Include="App_Code\ManyToMany\IManyToManyMapper.cs" />
+    <Compile Include="App_Code\ManyToMany\IManyToMany.cs" />
     <Compile Include="App_Code\IMapper.cs" />
     <Compile Include="App_Code\IModel.cs" />
     <Compile Include="App_Code\BaseMapper.cs" />
     <Compile Include="App_Code\ManyToMany\ManyToManyMapper.cs" />
-    <Compile Include="App_Code\ManyToMany\ManyToManyModel.cs" />
+    <Compile Include="App_Code\ManyToMany\ManyToMany.cs" />
     <Compile Include="App_Code\Mapper.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

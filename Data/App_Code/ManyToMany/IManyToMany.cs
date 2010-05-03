@@ -5,8 +5,6 @@ namespace Definitif.Data
     /// <summary>
     /// Represents interface for implementing ManyToMany relations.
     /// </summary>
-    public interface IManyToManyModel : IModel
-    {
-        IManyToManyLinkMapper IManyToManyLinkMapper();
-    }
+    public interface IManyToMany : IModel
+    { }
 }

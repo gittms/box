@@ -41,6 +41,14 @@ namespace Definitif.VisualStudio.Generator
         }
 
         /// <summary>
+        /// Checks if member is mapped.
+        /// </summary>
+        public bool IsMapped
+        {
+            get { return !String.IsNullOrWhiteSpace(this.ColumnName); }
+        }
+
+        /// <summary>
         /// Gets or sets member body.
         /// </summary>
         public string MemberBody { get; set; }

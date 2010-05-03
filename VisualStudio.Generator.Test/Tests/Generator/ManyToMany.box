@@ -1,0 +1,26 @@
+﻿["Users"]
+public model User
+{
+    ["Name"]
+    public string Name;
+}
+
+["Achivements"]
+public model Achivement
+{
+    ["Name"]
+    public string Name;
+}
+
+["UserAchivements"]
+public many to many model UserAchivement
+{
+    ["UserId"]
+    public foreign key User User;
+
+    ["AchivementId"]
+    public foreign key Achivement Achivement;
+
+    ["Received"]
+    public DateTime Received;
+}

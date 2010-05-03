@@ -96,8 +96,8 @@ namespace Definitif.VisualStudio.Generator
                 // Many to many model.
                 if ((model.Modifiers & Modifier.Many_to_many) != 0)
                 {
-                    modelsNamespace.Types.Add(model.ToManyToManyModelCodeType(mappersNamespace));
-                    mappersNamespace.Types.Add(model.ToManyToManyMapperCodeType(modelsNamespace));
+                    modelsNamespace.Types.AddRange(model.ToManyToManyModelCodeType(mappersNamespace));
+                    mappersNamespace.Types.AddRange(model.ToManyToManyMapperCodeType(modelsNamespace));
                 }
                 else
                 {
@@ -128,7 +128,6 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         public static CodeTypeDeclaration ToCodeType(this Model model, bool withAutodoc)
         {
-            // Creating declaration.
             CodeTypeDeclaration codeType = new CodeTypeDeclaration(model.Name)
             {
                 IsClass = true,
@@ -141,25 +140,15 @@ namespace Definitif.VisualStudio.Generator
         }
 
         /// <summary>
-        /// Converts Model object to ManyToMany Model CodyType instance.
+        /// Converts Member object to CodeType extension instance.
         /// </summary>
-        private static CodeTypeDeclaration ToManyToManyModelCodeType(this Model model, CodeNamespace mappersNamespace)
+        public static CodeTypeDeclaration ToCodeType(this Member member)
         {
-            // Generating generic model codetype.
-            CodeTypeDeclaration codeType = model.ToModelCodeType(mappersNamespace);
-
-            return codeType;
-        }
-
-        /// <summary>
-        /// Converts Model object to ManyToMany Mapper CodyType instance.
-        /// </summary>
-        private static CodeTypeDeclaration ToManyToManyMapperCodeType(this Model model, CodeNamespace modelsNamespace)
-        {
-            // Generating generic mapper codetype.
-            CodeTypeDeclaration codeType = model.ToMapperCodeType(modelsNamespace);
-
-            return codeType;
+            return new CodeTypeDeclaration(member.Type)
+            {
+                IsClass = true,
+                IsPartial = true,
+            };
         }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="App_Code\CodeDom.cs" />
     <Compile Include="App_Code\CodeGenerator.cs" />
     <Compile Include="App_Code\CodeGenerators\Autodoc.cs" />
+    <Compile Include="App_Code\CodeGenerators\ManyToManyCodeType.cs" />
     <Compile Include="App_Code\CodeParser.cs" />
     <Compile Include="App_Code\CodeGenerators\CodeTypeMember.cs" />
     <Compile Include="App_Code\CodeGenerators\ModelCodeType.cs" />

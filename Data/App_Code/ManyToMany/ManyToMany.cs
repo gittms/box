@@ -8,8 +8,8 @@ namespace Definitif.Data
     /// </summary>
     /// <typeparam name="L">Link type.</typeparam>
     /// <typeparam name="M">Model type.</typeparam>
-    public class ManyToManyModel<L, M> : Model<ManyToManyMapper<L, M>>
-        where L : class, IManyToManyModel, new()
+    public class ManyToMany<L, M> : Model<ManyToManyMapper<L, M>>
+        where L : class, IManyToMany, new()
         where M : class, IModel, new()
     {
         protected L link = new L();

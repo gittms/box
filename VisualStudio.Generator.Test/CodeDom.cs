@@ -17,6 +17,8 @@ namespace Definitif.VisualStudio.Generator.Test
     [DeploymentItem(@"Tests\Generator\Body.result", @"Tests\Generator")]
     [DeploymentItem(@"Tests\Generator\ForeignKey.box", @"Tests\Generator")]
     [DeploymentItem(@"Tests\Generator\ForeignKey.result", @"Tests\Generator")]
+    [DeploymentItem(@"Tests\Generator\ManyToMany.box", @"Tests\Generator")]
+    [DeploymentItem(@"Tests\Generator\ManyToMany.result", @"Tests\Generator")]
     [DeploymentItem(@"Tests\Generator\Model.box", @"Tests\Generator")]
     [DeploymentItem(@"Tests\Generator\Model.result", @"Tests\Generator")]
     public class CodeDomTest
@@ -86,6 +88,9 @@ namespace Definitif.VisualStudio.Generator.Test
 
             CodeDomGeneratorSnip("ForeignKey.box", "ForeignKey.result",
                 "Foreign keys test failed.");
+
+            CodeDomGeneratorSnip("ManyToMany.box", "ManyToMany.result",
+                "Many to many model test failed.");
         }
 
         [TestMethod, Priority(25)]

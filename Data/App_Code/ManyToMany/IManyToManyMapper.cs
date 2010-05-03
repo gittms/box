@@ -5,7 +5,7 @@ namespace Definitif.Data
     /// <summary>
     /// Represents interface for implementing ManyToMany relations.
     /// </summary>
-    public interface IManyToManyLinkMapper : IMapper
+    public interface IManyToManyMapper : IMapper
     {
         /// <summary>
         /// Gets the database field name that should be used

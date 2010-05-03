@@ -70,7 +70,7 @@ namespace Definitif.Data
         public List<ModelType> Filter(string field, Id id)
         {
             if (id.Equals(Id.Empty)) return new List<ModelType>();
-            else return this.Filter(Table[field] == id.Value);
+            else return this.Filter(table[field] == id.Value);
         }
         /// <summary>
         /// Filters models by given field.
@@ -79,7 +79,7 @@ namespace Definitif.Data
         /// <param name="value">Value to filter.</param>
         public List<ModelType> Filter(string field, object value)
         {
-            return this.Filter(Table[field] == value);
+            return this.Filter(table[field] == value);
         }
     }
 }

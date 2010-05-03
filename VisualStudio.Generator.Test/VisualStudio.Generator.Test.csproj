@@ -64,6 +64,12 @@
     <None Include="Tests\Generator\Autodoc.result">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Tests\Generator\ManyToMany.result">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Tests\Generator\ManyToMany.box">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Tests\Generator\ForeignKey.result">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
