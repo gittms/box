@@ -4,7 +4,7 @@ Box is available under MIT license.
 
 ### Database Mapping
 Main feature of Definitif Box is database mapping. Models and mappers are automatically generated using extensions for Visual Studio 2010.
-Models are described using C#-like language and .box files:
+Models are described using C#-like language and .box files (see [Syntax](http://opensource.definitif.ru/box/syntax/)):
 
     ["Employees"]
     public model Employee
@@ -31,8 +31,11 @@ Or creating new items:
     };
     employee.Save();
 
-Permanent home of project is available at:
-http://opensource.definitif.ru/box/
+Permanent home of project is available at:    
+http://opensource.definitif.ru/box/    
+Sources available at GitHub:    
+http://opensource.definitif.ru/box/git/    
+http://github.com/ashvetsov/definitif-box/    
 
 ### Requirements:
 1. Visual Studio 2010 and .Net Framework 4;
