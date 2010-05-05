@@ -29,7 +29,8 @@ namespace Definitif.VisualStudio
             string wszInputFilePath, string bstrInputFileContents, string wszDefaultNamespace,
             IntPtr[] rgbOutputFileContents, out uint pcbOutput, IVsGeneratorProgress pGenerateProgress)
         {
-            string code = "// Output of Definitif.VisualStudio.Generator";
+            CodeDom codeDom = CodeDom.Parse(bstrInputFileContents);
+            string code = CodeGenerator.Generate(codeDom, wszDefaultNamespace);
 
             // Passing code output to Visual Studio.
             byte[] result = Encoding.UTF8.GetBytes(code);

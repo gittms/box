@@ -71,37 +71,51 @@
                       Name="Definitif Box Classifier.vsix" Source="$(var.Definitif.VisualStudio.Classifier.TargetDir)$(var.Definitif.VisualStudio.Classifier.TargetName).vsix" />
               </Component>
               <Component Id="ExtensionDefinitifVisualStudioGenerator" Guid="E8350BCC-BF67-4c22-B302-3CDDAA68C220">
-                <File Assembly=".net" KeyPath="yes" Id="DefinitifVisualStudioGenerator" DiskId="1"
+                <File Assembly="no" KeyPath="yes" Id="DefinitifVisualStudioGenerator" DiskId="1"
                       Name="$(var.Definitif.VisualStudio.Generator.TargetFileName)" Source="$(var.Definitif.VisualStudio.Generator.TargetPath)" />
+                <!-- COM class registration -->
+                <Class Id="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" Context="InprocServer32" Description="Definitif.VisualStudio.BoxFileGenerator" ThreadingModel="both" ForeignServer="mscoree.dll">
+                    <ProgId Id="Definitif.VisualStudio.BoxFileGenerator" Description="Definitif.VisualStudio.BoxFileGenerator" />
+                </Class>
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.0.5.0" Name="Class" Value="Definitif.VisualStudio.BoxFileGenerator" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.0.5.0" Name="Assembly" Value="Definitif.VisualStudio.Generator, Version=1.0.5.0, Culture=neutral, PublicKeyToken=b8111f4e244d21ba" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.0.5.0" Name="RuntimeVersion" Value="v4.0.30128" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.0.5.0" Name="CodeBase" Value="file:///[#DefinitifVisualStudioGenerator]" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="Class" Value="Definitif.VisualStudio.BoxFileGenerator" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="Assembly" Value="Definitif.VisualStudio.Generator, Version=1.0.5.0, Culture=neutral, PublicKeyToken=b8111f4e244d21ba" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30128" Type="string" Action="write" />
+                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="CodeBase" Value="file:///[#DefinitifVisualStudioGenerator]" Type="string" Action="write" />
+
                 <!-- x64: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box -->
                 <Registry Id="DefinitifVisualStudioGeneratorReg1x64" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
                           Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg2x64" Action="write"  Root="HKLM"
-                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" Type="string" Value="DefinitifBoxGenerator" />
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" Type="string" Value="BoxFileGenerator" />
                 <!-- x64: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator -->
                 <Registry Id="DefinitifVisualStudioGeneratorReg3x64" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
-                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" />
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg4x64" Action="write" Root="HKLM"
-                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Type="string" Value="Definitif Box Generator" />
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" Type="string" Value="Definitif Box Generator" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg5x64" Action="write" Root="HKLM"
-                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="CLSID" Type="string" Value="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" />
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" Name="CLSID" Type="string" Value="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg6x64" Action="write" Root="HKLM"
-                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="GeneratesDesignTimeSource" Type="integer" Value="1" />
+                          Key="Software\Wow6432Node\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" Name="GeneratesDesignTimeSource" Type="integer" Value="1" />
                 
                 <!-- x86: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box -->
                 <Registry Id="DefinitifVisualStudioGeneratorReg1x86" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
                           Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg2x86" Action="write"  Root="HKLM"
-                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" Type="string" Value="DefinitifBoxGenerator" />
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\.box" Type="string" Value="BoxFileGenerator" />
                 <!-- x86: Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator -->
                 <Registry Id="DefinitifVisualStudioGeneratorReg3x86" Action="createKeyAndRemoveKeyOnUninstall" Root="HKLM"
-                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" />
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg4x86" Action="write" Root="HKLM"
-                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Type="string" Value="Definitif Box Generator" />
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" Type="string" Value="Definitif Box Generator" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg5x86" Action="write" Root="HKLM"
-                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="CLSID" Type="string" Value="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" />
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" Name="CLSID" Type="string" Value="{CAE380BA-42D4-11DF-B540-4B2F56D89593}" />
                 <Registry Id="DefinitifVisualStudioGeneratorReg6x86" Action="write" Root="HKLM"
-                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\DefinitifBoxGenerator" Name="GeneratesDesignTimeSource" Type="integer" Value="1" />
+                          Key="Software\Microsoft\VisualStudio\10.0\Generators\{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}\BoxFileGenerator" Name="GeneratesDesignTimeSource" Type="integer" Value="1" />
               </Component>
             </Directory>
           </Directory>
