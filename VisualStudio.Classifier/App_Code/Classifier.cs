@@ -53,13 +53,13 @@ namespace Definitif.VisualStudio.Classifier
             expressions = new ClassifierRegex[] {
                 // Type definitions and names.
                 new ClassifierRegex(new Regex(
-                    "(model|class)\\s(?<span>[a-z0-9\\_]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "(model|class)\\s(?<span>[a-z0-9_]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
-                    "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9\\_]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9_]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
-                    "(?<span>[a-z0-9\\_]+)\\s[a-z0-9\\_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "(?<span>[a-z0-9_]+)\\s[a-z0-9_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
                     "\\[.+\\s(in|as)\\s(?<span>.+)\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
