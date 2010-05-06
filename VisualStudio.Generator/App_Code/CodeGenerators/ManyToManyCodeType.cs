@@ -40,7 +40,7 @@ namespace Definitif.VisualStudio.Generator
         /// Gets linked {type} objects.
         /// </summary>
         public List<ManyToMany<{linkType}, {type}>> Get{type}s() {{
-            return ManyToMany<{linkType}, {type}>.Mapper.Get(this.id);
+            return ManyToMany<{linkType}, {type}>.Mapper.Read(this.id);
         }}"         .F(new
                     {
                         linkType = model.Name,

@@ -27,8 +27,8 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets TestPerson instance from database by given Id.
         /// </summary>
-        public TestPerson Get(Id id) {
-            return TestPerson.Mapper.Get(id);
+        public static TestPerson Get(Id id) {
+            return TestPerson.Mapper.Read(id);
         }
         /// <summary>
         /// Represents mapped username property.
@@ -93,7 +93,7 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.TestPerson obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
+                    new Update() {
                         VALUES = {
                             table["Version"] == obj.Version + 1,
                             table["UserName"] == obj.UserName,

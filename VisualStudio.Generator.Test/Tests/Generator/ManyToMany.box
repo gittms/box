@@ -12,7 +12,7 @@ public model Achievement
     public string Name;
 }
 
-["UserAchivements"]
+["UserAchievements"]
 public many to many model UserAchievement
 {
     ["UserId"]

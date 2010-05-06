@@ -24,8 +24,8 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets TestModel instance from database by given Id.
         /// </summary>
-        public TestModel Get(Id id) {
-            return TestModel.Mapper.Get(id);
+        public static TestModel Get(Id id) {
+            return TestModel.Mapper.Read(id);
         }
 
         public string Name {
@@ -91,7 +91,7 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.TestModel obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
+                    new Update() {
                         VALUES = {
                             table["Version"] == obj.Version + 1,
                             table["Name"] == obj.Name,

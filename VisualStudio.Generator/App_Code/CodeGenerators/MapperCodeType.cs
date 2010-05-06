@@ -150,7 +150,7 @@ namespace Definitif.VisualStudio.Generator
         protected sealed override List<IDbCommand> UpdateCommands({modelNamespace}.{type} obj) {{
             List<IDbCommand> list = new List<IDbCommand> {{
                 this.database.GetCommand(
-                    new Insert() {{
+                    new Update() {{
                         VALUES = {{
                             table[""Version""] == obj.Version + 1,
                             {values}

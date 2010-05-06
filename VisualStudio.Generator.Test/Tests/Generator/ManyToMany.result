@@ -24,8 +24,8 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets User instance from database by given Id.
         /// </summary>
-        public User Get(Id id) {
-            return User.Mapper.Get(id);
+        public static User Get(Id id) {
+            return User.Mapper.Read(id);
         }
 
         public string Name {
@@ -40,8 +40,8 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets Achievement instance from database by given Id.
         /// </summary>
-        public Achievement Get(Id id) {
-            return Achievement.Mapper.Get(id);
+        public static Achievement Get(Id id) {
+            return Achievement.Mapper.Read(id);
         }
 
         public string Name {
@@ -56,8 +56,8 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets UserAchievement instance from database by given Id.
         /// </summary>
-        public UserAchievement Get(Id id) {
-            return UserAchievement.Mapper.Get(id);
+        public static UserAchievement Get(Id id) {
+            return UserAchievement.Mapper.Read(id);
         }
 
         protected Id UserId {
@@ -81,24 +81,24 @@ namespace Definitif.Test {
         protected User p_user = null;
 
         protected Id AchievementId {
-            get { return id_Achievement; }
-            set { id_Achievement = value; }
+            get { return id_achievement; }
+            set { id_achievement = value; }
         }
-        protected Id id_Achievement = Id.Empty;
+        protected Id id_achievement = Id.Empty;
 
         public Achievement Achievement {
             get {
-                if (p_Achievement == null && id_Achievement != Id.Empty) {
-                    p_Achievement = Achievement.Get(id_Achievement);
+                if (p_achievement == null && id_achievement != Id.Empty) {
+                    p_achievement = Achievement.Get(id_achievement);
                 }
-                return p_Achievement;
+                return p_achievement;
             }
             set {
-                p_Achievement = value;
-                id_Achievement = value.Id;
+                p_achievement = value;
+                id_achievement = value.Id;
             }
         }
-        protected Achievement p_Achievement = null;
+        protected Achievement p_achievement = null;
 
         public DateTime Received {
             get { return p_received; }
@@ -113,7 +113,7 @@ namespace Definitif.Test {
         /// Gets linked Achievement objects.
         /// </summary>
         public List<ManyToMany<UserAchievement, Achievement>> GetAchievements() {
-            return ManyToMany<UserAchievement, Achievement>.Mapper.Get(this.id);
+            return ManyToMany<UserAchievement, Achievement>.Mapper.Read(this.id);
         }
 
     }
@@ -123,7 +123,7 @@ namespace Definitif.Test {
         /// Gets linked User objects.
         /// </summary>
         public List<ManyToMany<UserAchievement, User>> GetUsers() {
-            return ManyToMany<UserAchievement, User>.Mapper.Get(this.id);
+            return ManyToMany<UserAchievement, User>.Mapper.Read(this.id);
         }
 
     }
@@ -174,7 +174,7 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.User obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
+                    new Update() {
                         VALUES = {
                             table["Version"] == obj.Version + 1,
                             table["Name"] == obj.Name,
@@ -250,7 +250,7 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.Achievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
+                    new Update() {
                         VALUES = {
                             table["Version"] == obj.Version + 1,
                             table["Name"] == obj.Name,
@@ -332,7 +332,7 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.UserAchievement obj) {
             List<IDbCommand> list = new List<IDbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
+                    new Update() {
                         VALUES = {
                             table["Version"] == obj.Version + 1,
                             table["UserId"] == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User,

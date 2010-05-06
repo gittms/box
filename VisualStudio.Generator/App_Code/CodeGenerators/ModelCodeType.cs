@@ -24,8 +24,8 @@ namespace Definitif.VisualStudio.Generator
         /// <summary>
         /// Gets {type} instance from database by given Id.
         /// </summary>
-        public {type} Get(Id id) {{
-            return {type}.Mapper.Get(id);
+        public static {type} Get(Id id) {{
+            return {type}.Mapper.Read(id);
         }}".F(new
            {
                type = model.Name
