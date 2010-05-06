@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace Definitif.VisualStudio.Classifier
 {
     [Export(typeof(IClassifierProvider))]
-    [ContentType("text")]
+    [ContentType("box")]
     internal class ClassifierProvider : IClassifierProvider
     {
         [Import]

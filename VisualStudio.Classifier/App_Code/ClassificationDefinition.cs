@@ -15,7 +15,7 @@ namespace Definitif.VisualStudio.Classifier
         /// <summary>
         /// Default extension to register.
         /// </summary>
-        [Export, FileExtension(".box"), ContentType("text")]
+        [Export, FileExtension(".box"), ContentType("box")]
         internal static FileExtensionToContentTypeDefinition boxFileExtensionDefinition = null;
         /// <summary>
         /// Default classification definition.
