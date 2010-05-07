@@ -36,13 +36,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\Data.ObjectSql\Definitif.Data.ObjectSql.csproj">
-      <Name>Definitif.Data.ObjectSql</Name>
-      <Project>{8deec172-d1ae-4422-8302-0c9d611fbf25}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Definitif.Data.csproj">
       <Name>Definitif.Data</Name>
       <Project>{a1ffd453-e4bf-4518-80a1-365fb1ce03b3}</Project>

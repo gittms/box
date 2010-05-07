@@ -46,10 +46,6 @@
                 <File Assembly=".net" KeyPath="yes" Id="DefinitifData" DiskId="1"
                       Name="$(var.Definitif.Data.TargetFileName)" Source="$(var.Definitif.Data.TargetPath)" />
               </Component>
-              <Component Id="LibraryDefinitifDataObjectSql" Guid="84C53FBF-6843-4058-AE92-EAF7C32D0D81">
-                <File Assembly=".net" KeyPath="yes" Id="DefinitifDataObjectSql" DiskId="1"
-                      Name="$(var.Definitif.Data.ObjectSql.TargetFileName)" Source="$(var.Definitif.Data.ObjectSql.TargetPath)" />
-              </Component>
               <!-- Definitif.Security.* -->
               <Component Id="LibraryDefinitifSecurityCryptography" Guid="30262A47-170D-4612-860A-B6BEF2D185A6">
                 <File Assembly=".net" KeyPath="yes" Id="DefinitifSecurityCryptography" DiskId="1"
@@ -130,7 +126,6 @@
                Description="Installs Definitif Box libraries to GAC.">
         <ComponentRef Id="LibraryDefinitifBox" />
         <ComponentRef Id="LibraryDefinitifData" />
-        <ComponentRef Id="LibraryDefinitifDataObjectSql" />
         <ComponentRef Id="LibraryDefinitifSecurityCryptography" />
         <ComponentRef Id="LibraryDefinitifServiceModel" />
         <ComponentRef Id="LibraryWcfContrib" />

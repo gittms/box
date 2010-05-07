@@ -55,9 +55,9 @@
     <Compile Include="Update.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data.ObjectSql\Definitif.Data.ObjectSql.csproj">
-      <Project>{8DEEC172-D1AE-4422-8302-0C9D611FBF25}</Project>
-      <Name>Definitif.Data.ObjectSql</Name>
+    <ProjectReference Include="..\Data\Definitif.Data.csproj">
+      <Project>{A1FFD453-E4BF-4518-80A1-365FB1CE03B3}</Project>
+      <Name>Definitif.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

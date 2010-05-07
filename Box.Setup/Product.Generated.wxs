@@ -5,9 +5,6 @@
       <ComponentGroupRef Id="Definitif.Box.Binaries" />
       <ComponentGroupRef Id="Definitif.Box.Content" />
       <ComponentGroupRef Id="Definitif.Box.Satellites" />
-      <ComponentGroupRef Id="Definitif.Data.ObjectSql.Binaries" />
-      <ComponentGroupRef Id="Definitif.Data.ObjectSql.Content" />
-      <ComponentGroupRef Id="Definitif.Data.ObjectSql.Satellites" />
       <ComponentGroupRef Id="Definitif.Data.Binaries" />
       <ComponentGroupRef Id="Definitif.Data.Content" />
       <ComponentGroupRef Id="Definitif.Data.Satellites" />
