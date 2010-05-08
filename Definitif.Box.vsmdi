@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <TestList name="Data.ObjectSql - Local only" id="1a8877b0-3b53-4e9c-b27c-b17724b9b21c" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+  <TestList name="Data.ObjectSql" id="1a8877b0-3b53-4e9c-b27c-b17724b9b21c" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
     <Description>Tests that do not need existing database connection.</Description>
+    <TestLinks>
+      <TestLink id="960b20a0-45a0-93d1-7896-4de7d7dd2de4" name="DatabaseExecute" storage="data.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="73c100be-6412-6c0e-39be-087ac40b05b1" name="DatabaseTransaction" storage="data.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="df272383-b7bf-802f-e8f4-ad6cd117178d" name="DatabaseExecuteReader" storage="data.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="c950ee7d-0680-eefa-3be4-134e7a93253e" name="DatabaseInit" storage="data.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
+  <TestList name="Local Only" id="592364e1-6b10-46b3-8bc5-8796c67d51f0" parentListId="1a8877b0-3b53-4e9c-b27c-b17724b9b21c">
     <TestLinks>
       <TestLink id="67bc69a6-0126-0f0b-8735-28126a5af084" name="InsertDraw" storage="data.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="7b3d4777-427b-c7ec-6878-6f01caa2b6d2" name="InsertDrawPerformance" storage="data.test\bin\debug\definitif.data.objectsql.test.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

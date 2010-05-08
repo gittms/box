@@ -50,6 +50,31 @@ namespace Definitif.Data.Test
                 new ObjectSql.Query.Delete(table));
         }
 
+        [TestMethod, Priority(10)]
+        [Description("Database transactions test.")]
+        public void DatabaseTransaction()
+        {
+            if (this.database.State != DatabaseState.Initialized) this.DatabaseInit();
+            Table tables = this.database["Tables"];
+
+            // Starting transaction.
+            this.database.TransactionBegin();
+            Assert.IsTrue(this.database.TransactionIsActive, "Transaction activation failed.");
+
+            this.database.Execute(
+                new ObjectSql.Query.Insert(tables["ID"] == 1, tables["Name"] == "My first table"),
+                new ObjectSql.Query.Insert(tables["ID"] == 2, tables["Name"] == "My second table"),
+                new ObjectSql.Query.Insert(tables["ID"] == 3, tables["Name"] == "My third table"));
+
+            // Rolling back transaction.
+            this.database.TransactionRollback();
+            Assert.IsFalse(this.database.TransactionIsActive, "Transaction dispose failed.");
+
+            // Removing existing entries and checking if table already empty.
+            int affected = this.database.Execute(new ObjectSql.Query.Delete(tables));
+            Assert.AreEqual(0, affected, "Transaction rollback failed.");
+        }
+
         [TestMethod, Priority(15)]
         [Description("Database ExecuteReader() test.")]
         public void DatabaseExecuteReader()

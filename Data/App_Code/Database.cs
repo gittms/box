@@ -92,6 +92,10 @@ namespace Definitif.Data
         /// </summary>
         /// <returns>DbCommand object.</returns>
         public abstract DbCommand GetCommand();
+        /// <summary>
+        /// Updates database schema.
+        /// </summary>
+        protected abstract void UpdateSchema();
 
         /// <summary>
         /// Gets DbConnection with transaction enlisted.
@@ -103,6 +107,12 @@ namespace Definitif.Data
 
             if (transaction != null)
             {
+                // Enlisting transaction requires open connection.
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
                 connection.EnlistTransaction(transaction);
             }
 
@@ -112,26 +122,25 @@ namespace Definitif.Data
         /// <summary>
         /// Gets Command object for given Connection with given Command text.
         /// </summary>
-        /// <param name="Connection">Connection object.</param>
+        /// <param name="connection">Connection object.</param>
         /// <param name="CommandText">Command text.</param>
         /// <returns>Command object.</returns>
-        protected DbCommand GetCommand(DbConnection Connection, string CommandText)
+        protected DbCommand GetCommand(DbConnection connection, string commandText)
         {
-            if (Connection.State != ConnectionState.Open) Connection.Open();
+            if (connection.State != ConnectionState.Open) connection.Open();
             DbCommand command = this.GetCommand();
-            command.Connection = Connection;
-            command.CommandText = CommandText;
+            command.Connection = connection;
+            command.CommandText = commandText;
             return command;
         }
         /// <summary>
         /// Gets Command object for given Connection.
         /// </summary>
-        /// <param name="Connection">Connection object.</param>
+        /// <param name="connection">Connection object.</param>
         /// <returns>Command object.</returns>
-        protected DbCommand GetCommand(DbConnection Connection)
+        protected DbCommand GetCommand(DbConnection connection)
         {
-            return this.GetCommand(
-                Connection, "");
+            return this.GetCommand(connection, "");
         }
         /// <summary>
         /// Gets Command object for given Query.
@@ -148,49 +157,42 @@ namespace Definitif.Data
         /// <summary>
         /// Gets Command object with given Command text.
         /// </summary>
-        /// <param name="CommandText">Command text.</param>
+        /// <param name="commandText">Command text.</param>
         /// <returns>Command object.</returns>
-        protected DbCommand GetCommand(string CommandText)
+        protected DbCommand GetCommand(string commandText)
         {
-            return this.GetCommand(
-                this.GetConnection(), CommandText);
+            return this.GetCommand(this.GetConnection(), commandText);
         }
         /// <summary>
         /// Gets DataReader object for given Command.
         /// </summary>
-        /// <param name="Command">Command object.</param>
-        /// <param name="CloseConnection">If True, Connection will be closed after execution.</param>
+        /// <param name="command">Command object.</param>
+        /// <param name="closeConnection">If True, Connection will be closed after execution.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(DbCommand Command, bool CloseConnection)
+        protected Reader GetDataReader(DbCommand command, bool closeConnection)
         {
-            return new Reader(CloseConnection ?
-                Command.ExecuteReader(CommandBehavior.CloseConnection) :
-                Command.ExecuteReader());
+            return new Reader(closeConnection ?
+                command.ExecuteReader(CommandBehavior.CloseConnection) :
+                command.ExecuteReader());
         }
         /// <summary>
         /// Gets DataReader object for given Command with policy to close connection.
         /// </summary>
-        /// <param name="Command">Command object.</param>
+        /// <param name="command">Command object.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(DbCommand Command)
+        protected Reader GetDataReader(DbCommand command)
         {
-            return this.GetDataReader(Command, true);
+            return this.GetDataReader(command, true);
         }
         /// <summary>
         /// Gets DataReader object for new Command with given Command text and policy to close connection.
         /// </summary>
-        /// <param name="CommandText">Command text.</param>
+        /// <param name="commandText">Command text.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(string CommandText)
+        protected Reader GetDataReader(string commandText)
         {
-            return this.GetDataReader(
-                this.GetCommand(CommandText));
+            return this.GetDataReader(this.GetCommand(commandText));
         }
-
-        /// <summary>
-        /// Updates database schema.
-        /// </summary>
-        protected abstract void UpdateSchema();
 
         /// <summary>
         /// Executes non-query command and returns number of rows
