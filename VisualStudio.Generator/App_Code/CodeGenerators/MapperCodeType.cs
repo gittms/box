@@ -130,8 +130,8 @@ namespace Definitif.VisualStudio.Generator
 
             // Mapper INSERT command.
             codeType.Members.Add(new CodeSnippetTypeMember(@"
-        protected sealed override List<IDbCommand> InsertCommands({modelNamespace}.{type} obj) {{
-            List<IDbCommand> list = new List<IDbCommand> {{
+        protected sealed override List<DbCommand> InsertCommands({modelNamespace}.{type} obj) {{
+            List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
                     new Insert() {{
                         VALUES = {{
@@ -142,13 +142,13 @@ namespace Definitif.VisualStudio.Generator
             this.InsertCommandsExtension(obj, list);
             return list;
         }}
-        partial void InsertCommandsExtension({modelNamespace}.{type} obj, List<IDbCommand> list);"
+        partial void InsertCommandsExtension({modelNamespace}.{type} obj, List<DbCommand> list);"
             .F(variables) + Environment.NewLine));
 
             // Mapper UPDATE commands.
             codeType.Members.Add(new CodeSnippetTypeMember(@"
-        protected sealed override List<IDbCommand> UpdateCommands({modelNamespace}.{type} obj) {{
-            List<IDbCommand> list = new List<IDbCommand> {{
+        protected sealed override List<DbCommand> UpdateCommands({modelNamespace}.{type} obj) {{
+            List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
                     new Update() {{
                         VALUES = {{
@@ -164,13 +164,13 @@ namespace Definitif.VisualStudio.Generator
             this.UpdateCommandsExtension(obj, list);
             return list;
         }}
-        partial void UpdateCommandsExtension({modelNamespace}.{type} obj, List<IDbCommand> list);"
+        partial void UpdateCommandsExtension({modelNamespace}.{type} obj, List<DbCommand> list);"
             .F(variables) + Environment.NewLine));
 
             // Mapper DELETE commands.
             codeType.Members.Add(new CodeSnippetTypeMember(@"
-        protected sealed override List<IDbCommand> DeleteCommands({modelNamespace}.{type} obj) {{
-            List<IDbCommand> list = new List<IDbCommand> {{
+        protected sealed override List<DbCommand> DeleteCommands({modelNamespace}.{type} obj) {{
+            List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
                     new Delete(table) {{
                         WHERE = {{
@@ -182,7 +182,7 @@ namespace Definitif.VisualStudio.Generator
             this.DeleteCommandsExtension(obj, list);
             return list;
         }}
-        partial void DeleteCommandsExtension({modelNamespace}.{type} obj, List<IDbCommand> list);"
+        partial void DeleteCommandsExtension({modelNamespace}.{type} obj, List<DbCommand> list);"
             .F(variables) + Environment.NewLine));
 
             return codeType;

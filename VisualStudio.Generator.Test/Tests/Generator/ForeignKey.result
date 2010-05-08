@@ -15,6 +15,7 @@ using Definitif.Data.ObjectSql.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 
 
 namespace Definitif.Test {
@@ -87,8 +88,8 @@ namespace Definitif.Test.Mappers {
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.TestModel obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> InsertCommands(Definitif.Test.TestModel obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
@@ -100,10 +101,10 @@ namespace Definitif.Test.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(Definitif.Test.TestModel obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(Definitif.Test.TestModel obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.TestModel obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.TestModel obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update() {
                         VALUES = {
@@ -120,10 +121,10 @@ namespace Definitif.Test.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(Definitif.Test.TestModel obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(Definitif.Test.TestModel obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.TestModel obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.TestModel obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
                         WHERE = {
@@ -135,7 +136,7 @@ namespace Definitif.Test.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(Definitif.Test.TestModel obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(Definitif.Test.TestModel obj, List<DbCommand> list);
 
     }
 }

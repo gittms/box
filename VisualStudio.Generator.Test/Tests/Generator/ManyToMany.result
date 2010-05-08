@@ -15,6 +15,7 @@ using Definitif.Data.ObjectSql.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 
 
 namespace Definitif.Test {
@@ -157,8 +158,8 @@ namespace Definitif.Test.Mappers {
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.User obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> InsertCommands(Definitif.Test.User obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
@@ -169,10 +170,10 @@ namespace Definitif.Test.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(Definitif.Test.User obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(Definitif.Test.User obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.User obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.User obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update() {
                         VALUES = {
@@ -188,10 +189,10 @@ namespace Definitif.Test.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(Definitif.Test.User obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(Definitif.Test.User obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.User obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.User obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
                         WHERE = {
@@ -203,7 +204,7 @@ namespace Definitif.Test.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(Definitif.Test.User obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(Definitif.Test.User obj, List<DbCommand> list);
 
     }
     public partial class Achievement : Mapper<Definitif.Test.Achievement> {
@@ -233,8 +234,8 @@ namespace Definitif.Test.Mappers {
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.Achievement obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> InsertCommands(Definitif.Test.Achievement obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
@@ -245,10 +246,10 @@ namespace Definitif.Test.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(Definitif.Test.Achievement obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(Definitif.Test.Achievement obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.Achievement obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.Achievement obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update() {
                         VALUES = {
@@ -264,10 +265,10 @@ namespace Definitif.Test.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(Definitif.Test.Achievement obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(Definitif.Test.Achievement obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.Achievement obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.Achievement obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
                         WHERE = {
@@ -279,7 +280,7 @@ namespace Definitif.Test.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(Definitif.Test.Achievement obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(Definitif.Test.Achievement obj, List<DbCommand> list);
 
     }
     public partial class UserAchievement : Mapper<Definitif.Test.UserAchievement>, IManyToManyMapper {
@@ -313,8 +314,8 @@ namespace Definitif.Test.Mappers {
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(Definitif.Test.UserAchievement obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> InsertCommands(Definitif.Test.UserAchievement obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
@@ -327,10 +328,10 @@ namespace Definitif.Test.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(Definitif.Test.UserAchievement obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(Definitif.Test.UserAchievement obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(Definitif.Test.UserAchievement obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.UserAchievement obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update() {
                         VALUES = {
@@ -348,10 +349,10 @@ namespace Definitif.Test.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(Definitif.Test.UserAchievement obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(Definitif.Test.UserAchievement obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(Definitif.Test.UserAchievement obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.UserAchievement obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
                         WHERE = {
@@ -363,7 +364,7 @@ namespace Definitif.Test.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(Definitif.Test.UserAchievement obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(Definitif.Test.UserAchievement obj, List<DbCommand> list);
 
         public string FieldNameJoin(IModel model) {
             if (model is System.CodeDom.CodeNamespace.User) {

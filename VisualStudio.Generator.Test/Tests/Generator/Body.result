@@ -15,6 +15,7 @@ using Definitif.Data.ObjectSql.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 
 
 namespace TestNamespace {
@@ -79,8 +80,8 @@ namespace TestNamespace.Mappers {
             return result;
         }
 
-        protected sealed override List<IDbCommand> InsertCommands(TestNamespace.TestModel obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> InsertCommands(TestNamespace.TestModel obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Insert() {
                         VALUES = {
@@ -92,10 +93,10 @@ namespace TestNamespace.Mappers {
             this.InsertCommandsExtension(obj, list);
             return list;
         }
-        partial void InsertCommandsExtension(TestNamespace.TestModel obj, List<IDbCommand> list);
+        partial void InsertCommandsExtension(TestNamespace.TestModel obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> UpdateCommands(TestNamespace.TestModel obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> UpdateCommands(TestNamespace.TestModel obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update() {
                         VALUES = {
@@ -112,10 +113,10 @@ namespace TestNamespace.Mappers {
             this.UpdateCommandsExtension(obj, list);
             return list;
         }
-        partial void UpdateCommandsExtension(TestNamespace.TestModel obj, List<IDbCommand> list);
+        partial void UpdateCommandsExtension(TestNamespace.TestModel obj, List<DbCommand> list);
 
-        protected sealed override List<IDbCommand> DeleteCommands(TestNamespace.TestModel obj) {
-            List<IDbCommand> list = new List<IDbCommand> {
+        protected sealed override List<DbCommand> DeleteCommands(TestNamespace.TestModel obj) {
+            List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Delete(table) {
                         WHERE = {
@@ -127,7 +128,7 @@ namespace TestNamespace.Mappers {
             this.DeleteCommandsExtension(obj, list);
             return list;
         }
-        partial void DeleteCommandsExtension(TestNamespace.TestModel obj, List<IDbCommand> list);
+        partial void DeleteCommandsExtension(TestNamespace.TestModel obj, List<DbCommand> list);
 
     }
 }
