@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using Definitif.Data;                                                                               
 
@@ -12,12 +13,12 @@ namespace Definitif.Data.ObjectSql.Implementation.MsSql
             return new Drawer();
         }
 
-        public override IDbConnection GetConnection()
+        protected override DbConnection GetDatabaseConnection()
         {
             return new SqlConnection(this.connectionString);
         }
 
-        public override IDbCommand GetCommand()
+        public override DbCommand GetCommand()
         {
             return new SqlCommand();
         }

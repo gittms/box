@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Threading;
 using System.Transactions;
 using Definitif.Data.ObjectSql;
@@ -82,15 +83,32 @@ namespace Definitif.Data
         /// <returns>Drawer object.</returns>
         protected abstract Drawer GetDrawer();
         /// <summary>
-        /// Gets Connection object initialized.
+        /// Gets DbConnection object initialized.
         /// </summary>
-        /// <returns>Connection object.</returns>
-        public abstract IDbConnection GetConnection();
+        /// <returns>DbConnection object.</returns>
+        protected abstract DbConnection GetDatabaseConnection();
         /// <summary>
-        /// Gets Command object without new connection initialized.
+        /// Gets DbCommand object without new connection initialized.
         /// </summary>
-        /// <returns>Command object.</returns>
-        public abstract IDbCommand GetCommand();
+        /// <returns>DbCommand object.</returns>
+        public abstract DbCommand GetCommand();
+
+        /// <summary>
+        /// Gets DbConnection with transaction enlisted.
+        /// </summary>
+        /// <returns>DbConnection object.</returns>
+        public DbConnection GetConnection()
+        {
+            DbConnection connection = this.GetDatabaseConnection();
+
+            if (transaction != null)
+            {
+                connection.EnlistTransaction(transaction);
+            }
+
+            return connection;
+        }
+
         /// <summary>
         /// Gets Command object for given Connection with given Command text.
         /// </summary>

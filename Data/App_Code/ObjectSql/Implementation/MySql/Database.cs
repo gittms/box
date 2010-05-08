@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using Definitif.Data;
 
 namespace Definitif.Data.ObjectSql.Implementation.MySql
@@ -12,12 +12,12 @@ namespace Definitif.Data.ObjectSql.Implementation.MySql
             return new Drawer();
         }
 
-        public override IDbConnection GetConnection()
+        protected override DbConnection GetDatabaseConnection()
         {
             throw new NotImplementedException();
         }
 
-        public override IDbCommand GetCommand()
+        public override DbCommand GetCommand()
         {
             throw new NotImplementedException();
         }
