@@ -113,10 +113,10 @@
     <Compile Include="App_Code\ObjectSql\Expression\Object.cs" />
     <Compile Include="App_Code\ObjectSql\Expression\Text\Contains.cs" />
     <Compile Include="App_Code\ObjectSql\Expression\Text\Like.cs" />
-    <Compile Include="App_Code\ObjectSql\Implementation\MsSql\Database.cs" />
-    <Compile Include="App_Code\ObjectSql\Implementation\MsSql\Drawer.cs" />
-    <Compile Include="App_Code\ObjectSql\Implementation\MySql\Database.cs" />
-    <Compile Include="App_Code\ObjectSql\Implementation\MySql\Drawer.cs" />
+    <Compile Include="App_Code\Implementation\MsSql\Database.cs" />
+    <Compile Include="App_Code\Implementation\MsSql\Drawer.cs" />
+    <Compile Include="App_Code\Implementation\MySql\Database.cs" />
+    <Compile Include="App_Code\Implementation\MySql\Drawer.cs" />
     <Compile Include="App_Code\ObjectSql\Interfaces.cs" />
     <Compile Include="App_Code\ObjectSql\Joins.cs" />
     <Compile Include="App_Code\ObjectSql\Join\InnerJoin.cs" />

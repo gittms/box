@@ -2,14 +2,15 @@
 using System.Data;
 using System.Data.Common;
 using Definitif.Data;
+using Definitif.Data.ObjectSql;
 
-namespace Definitif.Data.ObjectSql.Implementation.MySql
+namespace Definitif.Data.Implementation.MySql
 {
     public sealed class Database : Data.Database
     {
         protected override ObjectSql.Drawer GetDrawer()
         {
-            return new Drawer();
+            return new MySql.Drawer();
         }
 
         protected override DbConnection GetDatabaseConnection()

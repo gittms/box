@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using Definitif.Data.ObjectSql;
 using Definitif.Data.ObjectSql.Query;
 
@@ -23,25 +24,25 @@ namespace Definitif.Data
             get { return this.table; }
         }
 
-        public override IDbConnection GetConnection()
+        public override DbConnection GetConnection()
         {
             return this.database.GetConnection();
         }
 
-        protected override IDbCommand LastIdCommand()
+        protected override DbCommand LastIdCommand()
         {
-            IDbCommand command = this.database.GetCommand();
+            DbCommand command = this.database.GetCommand();
             command.CommandText = this.database.Drawer.IDENTITY;
             return command;
         }
 
-        protected override IDbCommand ReadCommand(Id id)
+        protected override DbCommand ReadCommand(Id id)
         {
             return this.database.GetCommand(
                 new Select(table["*"]).Where(table["Id"] == id.Value));
         }
 
-        protected override IDbCommand ReadAllCommand()
+        protected override DbCommand ReadAllCommand()
         {
             return this.database.GetCommand(
                 new Select(table["*"]));

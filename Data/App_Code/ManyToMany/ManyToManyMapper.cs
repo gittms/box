@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using Definitif.Data;
 using Definitif.Data.ObjectSql;
 using Definitif.Data.ObjectSql.Query;
@@ -77,8 +78,8 @@ namespace Definitif.Data
         /// Returns the query for retrieving ManyToMany objects.
         /// </summary>
         /// <param name="parameters">Parameters used for building the SQL query.</param>
-        /// <returns>IDbCommand instance.</returns>
-        protected virtual IDbCommand ReadCommand(params IExpression[] parameters)
+        /// <returns>DbCommand instance.</returns>
+        protected virtual DbCommand ReadCommand(params IExpression[] parameters)
         {
             Select query = new Select(linkMapper.Table["**"], modelMapper.Table["*"])
             {
@@ -101,17 +102,17 @@ namespace Definitif.Data
             throw new NotImplementedException();
         }
 
-        protected override List<IDbCommand> UpdateCommands(L obj)
+        protected override List<DbCommand> UpdateCommands(L obj)
         {
             throw new NotImplementedException();
         }
 
-        protected override List<IDbCommand> InsertCommands(L obj)
+        protected override List<DbCommand> InsertCommands(L obj)
         {
             throw new NotImplementedException();
         }
 
-        protected override List<IDbCommand> DeleteCommands(L obj)
+        protected override List<DbCommand> DeleteCommands(L obj)
         {
             throw new NotImplementedException();
         }

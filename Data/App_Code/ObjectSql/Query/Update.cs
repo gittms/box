@@ -8,12 +8,9 @@ namespace Definitif.Data.ObjectSql.Query
     /// </summary>
     public class Update : IQuery
     {
-        private List<IExpression> values
-            = new List<IExpression>();
-        private List<IExpression> where
-            = new List<IExpression>();
-        private List<ITable> tables
-            = new List<ITable>();
+        private List<IExpression> values = new List<IExpression>();
+        private List<IExpression> where = new List<IExpression>();
+        private List<ITable> tables = new List<ITable>();
         private Limit limit;
 
         /// <summary>
@@ -155,6 +152,11 @@ namespace Definitif.Data.ObjectSql.Query
             if (this.limit != null) copy.LIMIT = this.limit;
 
             return copy;
+        }
+
+        object ICloneable.Clone()
+        {
+            return this.Copy();
         }
     }
 }

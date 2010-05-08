@@ -250,5 +250,10 @@ namespace Definitif.Data.ObjectSql.Query
 
             return copy;
         }
+
+        object ICloneable.Clone()
+        {
+            return this.Copy();
+        }
     }
 }

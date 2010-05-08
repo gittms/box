@@ -115,10 +115,10 @@ namespace Definitif.Data
         /// <param name="Connection">Connection object.</param>
         /// <param name="CommandText">Command text.</param>
         /// <returns>Command object.</returns>
-        protected IDbCommand GetCommand(IDbConnection Connection, string CommandText)
+        protected DbCommand GetCommand(DbConnection Connection, string CommandText)
         {
             if (Connection.State != ConnectionState.Open) Connection.Open();
-            IDbCommand command = this.GetCommand();
+            DbCommand command = this.GetCommand();
             command.Connection = Connection;
             command.CommandText = CommandText;
             return command;
@@ -128,7 +128,7 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="Connection">Connection object.</param>
         /// <returns>Command object.</returns>
-        protected IDbCommand GetCommand(IDbConnection Connection)
+        protected DbCommand GetCommand(DbConnection Connection)
         {
             return this.GetCommand(
                 Connection, "");
@@ -139,9 +139,9 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="Query">Query object.</param>
         /// <returns>Command object.</returns>
-        public IDbCommand GetCommand(IQuery Query)
+        public DbCommand GetCommand(IQuery Query)
         {
-            IDbCommand command = this.GetCommand();
+            DbCommand command = this.GetCommand();
             command.CommandText = this.drawer.Draw(Query);
             return command;
         }
@@ -150,7 +150,7 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="CommandText">Command text.</param>
         /// <returns>Command object.</returns>
-        protected IDbCommand GetCommand(string CommandText)
+        protected DbCommand GetCommand(string CommandText)
         {
             return this.GetCommand(
                 this.GetConnection(), CommandText);
@@ -161,7 +161,7 @@ namespace Definitif.Data
         /// <param name="Command">Command object.</param>
         /// <param name="CloseConnection">If True, Connection will be closed after execution.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(IDbCommand Command, bool CloseConnection)
+        protected Reader GetDataReader(DbCommand Command, bool CloseConnection)
         {
             return new Reader(CloseConnection ?
                 Command.ExecuteReader(CommandBehavior.CloseConnection) :
@@ -172,7 +172,7 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="Command">Command object.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(IDbCommand Command)
+        protected Reader GetDataReader(DbCommand Command)
         {
             return this.GetDataReader(Command, true);
         }
@@ -212,9 +212,9 @@ namespace Definitif.Data
         /// <returns>Number of rows affected.</returns>
         public virtual int Execute(bool GetIdentity, params IQuery[] Queries)
         {
-            int? result = 0;
-            IDbCommand command;
-            IDbConnection connection = this.GetConnection();
+            int result = 0;
+            DbCommand command;
+            DbConnection connection = this.GetConnection();
 
             foreach (IQuery query in Queries)
             {
@@ -226,12 +226,11 @@ namespace Definitif.Data
             if (GetIdentity)
             {
                 command = this.GetCommand(connection, this.drawer.IDENTITY);
-                result = command.ExecuteScalar() as int?;
-                if (result == null) result = 0;
+                result = (int?)command.ExecuteScalar() ?? 0;
             }
 
             connection.Close();
-            return (int)result;
+            return result;
         }
         /// <summary>
         /// Executes readable command and returns executed

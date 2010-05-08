@@ -1,6 +1,7 @@
 ﻿using System;
+using Definitif.Data.ObjectSql;
 
-namespace Definitif.Data.ObjectSql.Implementation.MySql
+namespace Definitif.Data.Implementation.MySql
 {
     public sealed class Drawer : ObjectSql.Drawer
     {

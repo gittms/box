@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 
 namespace Definitif.Data
 {
@@ -10,10 +11,10 @@ namespace Definitif.Data
     public interface IMapper
     {
         void Write(IModel obj);
-        void Write(IDbConnection con, IDbTransaction trans, IModel obj);
+        void Write(DbConnection con, IModel obj);
         void Delete(IModel obj);
-        void Delete(IDbConnection con, IDbTransaction trans, IModel obj);
+        void Delete(DbConnection con, IModel obj);
 
-        IDbConnection GetConnection();
+        DbConnection GetConnection();
     }
 }

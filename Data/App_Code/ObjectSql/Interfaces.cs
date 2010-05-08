@@ -32,7 +32,7 @@ namespace Definitif.Data.ObjectSql
     /// <summary>
     /// Represents ObjectSql query interface.
     /// </summary>
-    public interface IQuery
+    public interface IQuery : ICloneable
     { }
 
     /// <summary>
