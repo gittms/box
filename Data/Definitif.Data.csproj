@@ -69,10 +69,11 @@
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\ActionType.cs" />
+    <Compile Include="App_Code\DatabaseState.cs" />
     <Compile Include="App_Code\Id.cs" />
     <Compile Include="App_Code\ManyToMany\IManyToManyMapper.cs" />
     <Compile Include="App_Code\ManyToMany\IManyToMany.cs" />
@@ -92,7 +93,7 @@
     <Compile Include="App_Code\ObjectSql\Alias.cs" />
     <Compile Include="App_Code\ObjectSql\Clause.cs" />
     <Compile Include="App_Code\ObjectSql\Column.cs" />
-    <Compile Include="App_Code\ObjectSql\Database.cs" />
+    <Compile Include="App_Code\Database.cs" />
     <Compile Include="App_Code\ObjectSql\Drawer.cs" />
     <Compile Include="App_Code\ObjectSql\Exception.cs" />
     <Compile Include="App_Code\ObjectSql\Expression\Container.cs" />
@@ -132,8 +133,6 @@
     <Compile Include="App_Code\ObjectSql\Reader.cs" />
     <Compile Include="App_Code\ObjectSql\Table.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="App_Code\UnitOfWork.cs" />
-    <Compile Include="App_Code\UoWAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

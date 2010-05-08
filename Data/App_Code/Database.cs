@@ -2,24 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
+using System.Transactions;
+using Definitif.Data.ObjectSql;
 
-namespace Definitif.Data.ObjectSql
+namespace Definitif.Data
 {
-    /// <summary>
-    /// Represents possible database statuses.
-    /// </summary>
-    public enum DatabaseState
-    {
-        /// <summary>
-        /// Database is initialized.
-        /// </summary>
-        Initialized,
-        /// <summary>
-        /// Database is not yet initialized.
-        /// </summary>
-        NotInitialized
-    }
-
     /// <summary>
     /// Represents Database object.
     /// </summary>
@@ -237,6 +225,98 @@ namespace Definitif.Data.ObjectSql
         {
             return this.GetDataReader(this.drawer.Draw(Query));
         }
+
+        #region Transaction management.
+
+        // CommittableTransaction implemented as ThreadStatic to
+        // implement thread-safe transactions.
+        // NOTE:
+        //   Such implementation does not allow to perform transactions
+        //   on more than one database at a time.
+
+        /// <summary>
+        /// Currently active committable transaction.
+        /// </summary>
+        [ThreadStatic]
+        protected static CommittableTransaction transaction;
+
+        /// <summary>
+        /// Starts new transaction using options given.
+        /// </summary>
+        /// <param name="options">Options to use for transaction creation.</param>
+        /// <exception cref="TransactionException" />
+        public void TransactionBegin(TransactionOptions options)
+        {
+            if (transaction != null)
+            {
+                throw new TransactionException("Active transaction already exists.");
+            }
+            transaction = new CommittableTransaction(options);
+        }
+
+        /// <summary>
+        /// Starts new transaction.
+        /// </summary>
+        /// <exception cref="TransactionException" />
+        public void TransactionBegin()
+        {
+            TransactionBegin(new TransactionOptions());
+        }
+
+        /// <summary>
+        /// Starts new transaction using isolation level given.
+        /// </summary>
+        /// <param name="isolationLevel">Isolation level to use.</param>
+        /// <exception cref="TransactionException" />
+        public void TransactionBegin(System.Transactions.IsolationLevel isolationLevel)
+        {
+            TransactionBegin(new TransactionOptions()
+            {
+                IsolationLevel = isolationLevel,
+            });
+        }
+
+        /// <summary>
+        /// Checks if currently active transaction exists.
+        /// </summary>
+        public bool TransactionIsActive
+        {
+            get { return transaction != null; }
+        }
+
+        /// <summary>
+        /// Commits current active transaction
+        /// </summary>
+        /// <exception cref="TransactionException" />
+        public void TransactionCommit()
+        {
+            if (transaction == null)
+            {
+                throw new TransactionException("Active transaction does not exist.");
+            }
+            transaction.Commit();
+
+            transaction.Dispose();
+            transaction = null;
+        }
+
+        /// <summary>
+        /// Rolls back current active transaction.
+        /// </summary>
+        /// <exception cref="TransactionException" />
+        public void TransactionRollback()
+        {
+            if (transaction == null)
+            {
+                throw new TransactionException("Active transaction does not exist.");
+            }
+            transaction.Rollback();
+
+            transaction.Dispose();
+            transaction = null;
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets database table object by name.

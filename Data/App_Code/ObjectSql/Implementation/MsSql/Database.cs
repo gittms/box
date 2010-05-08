@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using Definitif.Data;                                                                               
 
 namespace Definitif.Data.ObjectSql.Implementation.MsSql
 {
-    public sealed class Database : ObjectSql.Database
+    public sealed class Database : Data.Database
     {
         protected override ObjectSql.Drawer GetDrawer()
         {
