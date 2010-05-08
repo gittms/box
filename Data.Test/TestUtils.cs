@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Collections.Generic;
+using Definitif.Data;
 using Definitif.Data.ObjectSql;
 
-namespace Definitif.Data.ObjectSql.Test
+namespace Definitif.Data.Test
 {
-    public class TestDatabase : ObjectSql.Database
+    public class TestDatabase : Data.Database
     {
         public override void Init(string ConnectionString)
         {
             this.drawer = new Implementation.MsSql.Drawer();
         }
 
-        public override IDbConnection GetConnection()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IDbCommand GetCommand()
+        public override DbCommand GetCommand()
         {
             throw new NotImplementedException();
         }
@@ -31,15 +28,20 @@ namespace Definitif.Data.ObjectSql.Test
         {
             throw new NotImplementedException();
         }
+
+        protected override DbConnection GetDatabaseConnection()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public static class TestUtils
     {
-        public static ObjectSql.Database Database
+        public static Data.Database Database
         {
             get
             {
-                ObjectSql.Database db = new TestDatabase(); db.Init("");
+                Data.Database db = new TestDatabase(); db.Init("");
                 db.Add(new Table("Table"));
                 db["Table"].Add(new Column("ID"));
                 db["Table"].Add(new Column("Name"));

@@ -119,8 +119,7 @@ namespace Definitif.Data.ObjectSql
         /// <returns>Table alias object.</returns>
         public static TableAlias Alias(string Name)
         {
-            return new
-                TableAlias(Name);
+            return new TableAlias(Name);
         }
     }
 }

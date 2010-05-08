@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Definitif.Data.ObjectSql.Test")]
+[assembly: AssemblyTitle("Definitif.Data.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Definitif")]
-[assembly: AssemblyProduct("Definitif.Data.ObjectSql")]
+[assembly: AssemblyProduct("Definitif.Data")]
 [assembly: AssemblyCopyright("Copyright © Definitif 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

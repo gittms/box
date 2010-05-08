@@ -2,9 +2,11 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Definitif.Data;
 using Definitif.Data.ObjectSql;
+using Definitif.Data.ObjectSql.Query;
 
-namespace Definitif.Data.ObjectSql.Test
+namespace Definitif.Data.Test
 {
     [TestClass]
     public class Select
@@ -13,12 +15,12 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Select Draw() test.")]
         public void SelectDraw()
         {
-            ObjectSql.Database db = TestUtils.Database;
+            Data.Database db = TestUtils.Database;
 
             Assert.AreEqual(
                 "SELECT Table.[Name] FROM Table",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["Name"])
                         {
                             FROM = { db["Table"] }
@@ -29,7 +31,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.[ID] AS [GUID] FROM Table",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["ID"] == new ColumnAlias("GUID"))
                 ),
                 "Single select with column alias and UpdateFrom() draw failed.");
@@ -37,7 +39,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.[ID], Table.[Name] FROM Table",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["ID"], db["Table"]["Name"])
                 ),
                 "Multiple select with UpdateFrom() draw failed.");
@@ -45,7 +47,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.[Name], Chair.[Name] FROM Chair INNER JOIN Table ON Chair.[TableID] = Table.[ID] ORDER BY Table.[Name]",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["Name"], db["Chair"]["Name"])
                         {
                             FROM = { db["Chair"].INNERJOIN(db["Table"], db["Chair"]["TableID"] == db["Table"]["ID"]) },
@@ -57,7 +59,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.[Name], Chair.[Name] FROM Chair INNER JOIN Table ON Chair.[TableID] = Table.[ID] INNER JOIN Chair ON Chair.[TableID] > 2",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["Name"], db["Chair"]["Name"])
                         {
                             FROM = { db["Chair"].INNERJOIN(db["Table"], db["Chair"]["TableID"] == db["Table"]["ID"])
@@ -69,7 +71,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT MAX( Table.[ID] ) FROM Table WHERE Table.[Name] IN ( 'Long', 'Cycle' )",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         Column.MAX(db["Table"]["ID"]))
                         {
                             FROM = { db["Table"] },
@@ -81,7 +83,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.[ID] FROM Table, Chair WHERE ( Table.[Name] IS NOT NULL AND Table.[ID] >= Chair.[ID] + 2 )",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["ID"])
                         {
                             FROM = { db["Table"], db["Chair"] },
@@ -93,7 +95,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.[ID] AS [Table.ID], Table.[Name] AS [Table.Name] FROM Table WHERE Table.[Name] IS NOT NULL",
                 db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["**"])
                         {
                             WHERE = { db["Table"]["Name"] != db.NULL }
@@ -105,21 +107,21 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT Table.* FROM Table",
                 db.Drawer.Draw(
-                    new Query.Select(db["Table"]["*"])
+                    new ObjectSql.Query.Select(db["Table"]["*"])
                 ),
                 "All from table select draw failed.");
 
             Assert.AreEqual(
                 "SELECT DISTINCT( Table.[ID] ) FROM Table",
                 db.Drawer.Draw(
-                    new Query.Select(Column.DISTINCT(db["Table"]["ID"]))
+                    new ObjectSql.Query.Select(Column.DISTINCT(db["Table"]["ID"]))
                 ),
                 "Distinct ID select draw failed.");
 
             Assert.AreEqual(
                 "SELECT Table.* FROM Table WHERE Table.[ID] > 10 GROUP BY Table.[ID]",
                 db.Drawer.Draw(
-                    new Query.Select()
+                    new ObjectSql.Query.Select()
                         .Values(db["Table"]["*"])
                         .From(db["Table"])
                         .Where(db["Table"]["ID"] > 10)
@@ -131,7 +133,7 @@ namespace Definitif.Data.ObjectSql.Test
                 "WITH _RowCounter AS ( SELECT Table.*, ROW_NUMBER() OVER( ORDER BY ( SELECT 0 ) ) AS [_RowNum] FROM Table ) " +
                 "SELECT * FROM _RowCounter WHERE [_RowNum] >= 10 AND [_RowNum] < 30",
                 db.Drawer.Draw(
-                    new Query.Select(db["Table"]["*"])
+                    new ObjectSql.Query.Select(db["Table"]["*"])
                     {
                         FROM = { db["Table"] },
                         LIMIT = new Limit(10, 20)
@@ -143,7 +145,7 @@ namespace Definitif.Data.ObjectSql.Test
                 "WITH _RowCounter AS ( SELECT Table.[ID], ROW_NUMBER() OVER( ORDER BY Table.[ID] ) AS [_RowNum] FROM Table WHERE Table.[ID] > 10 ) " +
                 "SELECT * FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 200",
                 db.Drawer.Draw(
-                    new Query.Select()
+                    new ObjectSql.Query.Select()
                         .Values(db["Table"]["ID"])
                         .Where(db["Table"]["ID"] > 10)
                         .OrderBy(db["Table"]["ID"])
@@ -154,7 +156,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "SELECT TOP 100 Table.[ID], Table.[Name] FROM Table",
                 db.Drawer.Draw(
-                    new Query.Select()
+                    new ObjectSql.Query.Select()
                         .Values(db["Table"]["ID"], db["Table"]["Name"])
                         .Top(100)
                 ),
@@ -165,14 +167,14 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Select Draw() performance test (limit: 750ms for 100 000 iterations).")]
         public void SelectDrawPerformance()
         {
-            ObjectSql.Database db = TestUtils.Database;
+            Data.Database db = TestUtils.Database;
             DateTime start = DateTime.Now;
             TimeSpan time;
 
             for (int i = 0; i < 100000; i++)
             {
                 string result = db.Drawer.Draw(
-                    new Query.Select(
+                    new ObjectSql.Query.Select(
                         db["Table"]["Name"], db["Chair"]["Name"], db["Table"]["ID"])
                         {
                             FROM =

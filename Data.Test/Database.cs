@@ -2,23 +2,23 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Definitif.Data;
 using Definitif.Data.ObjectSql;
+using Definitif.Data.ObjectSql.Query;
 
-namespace Definitif.Data.ObjectSql.Test
+namespace Definitif.Data.Test
 {
     [TestClass]
     public class Database
     {
-        private ObjectSql.Database database
-            = new Implementation.MsSql.Database();
+        private Data.Database database = new Implementation.MsSql.Database();
 
         [TestMethod, Priority(15)]
         [Description("Database Init() test.")]
         public void DatabaseInit()
         {
             this.database.Init(
-                @"Data Source=.\SQLEXPRESS2005;Initial Catalog=ObjectSql;Persist Security Info=True;" +
-                "User ID=sa;Password=tirvyind;Pooling=True;Min Pool Size=0;Max Pool Size=100");
+                @"Data Source=.\SQLEXPRESS;Initial Catalog=DefinitifDataTest;Trusted_Connection=True;");
 
             Assert.AreEqual(
                 DatabaseState.Initialized,
@@ -44,10 +44,10 @@ namespace Definitif.Data.ObjectSql.Test
 
             Table table = this.database["Tables"];
             this.database.Execute(
-                new Query.Insert(table["ID"] == 1, table["Name"] == "My first chair"));
+                new ObjectSql.Query.Insert(table["ID"] == 1, table["Name"] == "My first chair"));
 
             this.database.Execute(
-                new Query.Delete(table));
+                new ObjectSql.Query.Delete(table));
         }
 
         [TestMethod, Priority(15)]
@@ -61,17 +61,17 @@ namespace Definitif.Data.ObjectSql.Test
 
             this.database.Execute(
                 // Creating tables.
-                new Query.Insert(tables["ID"] == 1, tables["Name"] == "My first table"),
-                new Query.Insert(tables["ID"] == 2, tables["Name"] == "My second table"),
-                new Query.Insert(tables["ID"] == 3, tables["Name"] == "My third table"),
+                new ObjectSql.Query.Insert(tables["ID"] == 1, tables["Name"] == "My first table"),
+                new ObjectSql.Query.Insert(tables["ID"] == 2, tables["Name"] == "My second table"),
+                new ObjectSql.Query.Insert(tables["ID"] == 3, tables["Name"] == "My third table"),
                 // Creating chairs
-                new Query.Insert(chairs["ID"] == 1, chairs["TableID"] == 1, chairs["Name"] == "Chair for first table"),
-                new Query.Insert(chairs["ID"] == 2, chairs["TableID"] == 1, chairs["Name"] == "Chair for first table"),
-                new Query.Insert(chairs["ID"] == 3, chairs["TableID"] == 2, chairs["Name"] == "Chair for second table"),
-                new Query.Insert(chairs["ID"] == 4, chairs["TableID"] == 3, chairs["Name"] == "Chair for third table"));
+                new ObjectSql.Query.Insert(chairs["ID"] == 1, chairs["TableID"] == 1, chairs["Name"] == "Chair for first table"),
+                new ObjectSql.Query.Insert(chairs["ID"] == 2, chairs["TableID"] == 1, chairs["Name"] == "Chair for first table"),
+                new ObjectSql.Query.Insert(chairs["ID"] == 3, chairs["TableID"] == 2, chairs["Name"] == "Chair for second table"),
+                new ObjectSql.Query.Insert(chairs["ID"] == 4, chairs["TableID"] == 3, chairs["Name"] == "Chair for third table"));
 
             Reader reader = this.database.ExecuteReader(
-                new Query.Select(tables["ID"], tables["Name"]) { WHERE = { tables["ID"] > 0 } });
+                new ObjectSql.Query.Select(tables["ID"], tables["Name"]) { WHERE = { tables["ID"] > 0 } });
 
             while (reader.Read())
             {
@@ -84,7 +84,7 @@ namespace Definitif.Data.ObjectSql.Test
             reader.Close();
 
             this.database.Execute(
-                new Query.Delete(tables), new Query.Delete(chairs));
+                new ObjectSql.Query.Delete(tables), new ObjectSql.Query.Delete(chairs));
         }
     }
 }

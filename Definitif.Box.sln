@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Data", "Data\Defi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{72D6EE5E-368E-45CB-99EE-12AFEAD9C271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Data.ObjectSql.Test", "Data.ObjectSql.Test\Definitif.Data.ObjectSql.Test.csproj", "{6855B9F6-BB61-432E-8EEB-6812DF5B53E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Data.Test", "Data.Test\Definitif.Data.Test.csproj", "{6855B9F6-BB61-432E-8EEB-6812DF5B53E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Security.Cryptography", "Security.Cryptography\Definitif.Security.Cryptography.csproj", "{BB5ED749-15BF-4CF6-B3B8-71C14ACC8BFF}"
 EndProject

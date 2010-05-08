@@ -130,7 +130,7 @@
     <Compile Include="App_Code\ObjectSql\Query\Insert.cs" />
     <Compile Include="App_Code\ObjectSql\Query\Select.cs" />
     <Compile Include="App_Code\ObjectSql\Query\Update.cs" />
-    <Compile Include="App_Code\ObjectSql\Reader.cs" />
+    <Compile Include="App_Code\Reader.cs" />
     <Compile Include="App_Code\ObjectSql\Table.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -2,9 +2,10 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Definitif.Data;
 using Definitif.Data.ObjectSql;
 
-namespace Definitif.Data.ObjectSql.Test
+namespace Definitif.Data.Test
 {
     [TestClass]
     public class Insert
@@ -13,12 +14,12 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Insert Draw() test.")]
         public void InsertDraw()
         {
-            ObjectSql.Database db = TestUtils.Database;
+            Data.Database db = TestUtils.Database;
 
             Assert.AreEqual(
                 "INSERT INTO Table ( Table.[Name], Table.[ID] ) VALUES ( 'My Name', 1 )",
                 db.Drawer.Draw(
-                    new Query.Insert(
+                    new ObjectSql.Query.Insert(
                         db["Table"]["Name"] == "My Name",
                         db["Table"]["ID"] == 1)
                         {
@@ -32,7 +33,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "INSERT INTO Chair ( Chair.[ID], Chair.[TableID], Chair.[Name] ) VALUES ( 123321, 3321, 'Billy''s favorite chair' )",
                 db.Drawer.Draw(
-                    new Query.Insert()
+                    new ObjectSql.Query.Insert()
                     {
                         INTO = table,
                         VALUES =
@@ -48,7 +49,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "INSERT INTO Chair ( Chair.[ID], Chair.[TableID], Chair.[Name] ) VALUES ( 12, 1, '12th chair' )",
                 db.Drawer.Draw(
-                    new Query.Insert(table,
+                    new ObjectSql.Query.Insert(table,
                         table["ID"] == 12,
                         table["TableID"] == 1,
                         table["Name"] == "12th chair")
@@ -58,7 +59,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "INSERT INTO Chair ( Chair.[ID], Chair.[TableID], Chair.[Name] ) VALUES ( 11, 1, '42' )",
                 db.Drawer.Draw(
-                    new Query.Insert(
+                    new ObjectSql.Query.Insert(
                         table["ID"] == 11,
                         table["TableID"] == 1,
                         table["Name"] == (42).ToString())
@@ -68,7 +69,7 @@ namespace Definitif.Data.ObjectSql.Test
             Assert.AreEqual(
                 "INSERT INTO Chair ( Chair.[ID], Chair.[TableID], Chair.[Name] ) VALUES ( 13, 3, '2009-01-04 12:30:00' )",
                 db.Drawer.Draw(
-                    new Query.Insert(
+                    new ObjectSql.Query.Insert(
                         table["ID"] == 13,
                         table["TableID"] == 3,
                         table["Name"] == new DateTime(2009, 01,04, 12, 30, 0))
@@ -80,14 +81,14 @@ namespace Definitif.Data.ObjectSql.Test
         [Description("Query.Insert Draw() performance test (limit: 650ms for 100 000 iterations).")]
         public void InsertDrawPerformance()
         {
-            ObjectSql.Database db = TestUtils.Database;
+            Data.Database db = TestUtils.Database;
             DateTime start = DateTime.Now;
             TimeSpan time;
 
             for (int i = 0; i < 100000; i++)
             {
                 string result = db.Drawer.Draw(
-                    new Query.Insert(
+                    new ObjectSql.Query.Insert(
                         db["Chair"]["Name"] == "My Name",
                         db["Chair"]["ID"] == 1,
                         db["Chair"]["TableID"] == 100)

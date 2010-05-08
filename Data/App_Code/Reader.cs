@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Definitif.Data.ObjectSql
+namespace Definitif.Data
 {
     /// <summary>
     /// Represents data reader mapper.
