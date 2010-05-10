@@ -68,7 +68,7 @@ namespace Definitif
                 }
 
                 // Trying to create provider.
-                Database database;
+                Database db;
                 try
                 {
                     object provider = Activator.CreateInstance(Type.GetType(connectionString.ProviderName));
@@ -76,7 +76,7 @@ namespace Definitif
                     {
                         throw new ConfigurationErrorsException(String.Format("Provider '{0}' is not implementation of Definitif.Data.Database."));
                     }
-                    database = provider as Database;
+                    db = provider as Database;
                 }
                 catch
                 {
@@ -84,7 +84,8 @@ namespace Definitif
                 }
 
                 // Initializing database.
-                database.Init(connectionString.ConnectionString);
+                db.Init(connectionString.ConnectionString);
+                database = db;
             }
         }
     }
