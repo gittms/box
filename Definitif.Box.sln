@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Box", "Box\Defini
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.VisualStudio.ProjectTemplate", "VisualStudio.ProjectTemplate\Definitif.VisualStudio.ProjectTemplate.csproj", "{2F18FAE4-FF24-4C15-A7A3-07EECA93E58E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.VisualStudio.ItemTemplate", "VisualStudio.ItemTemplate\Definitif.VisualStudio.ItemTemplate.csproj", "{506FFC0F-04F0-4282-B01B-937D11B5A947}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Definitif.Box.vsmdi
@@ -78,6 +80,10 @@ Global
 		{2F18FAE4-FF24-4C15-A7A3-07EECA93E58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F18FAE4-FF24-4C15-A7A3-07EECA93E58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F18FAE4-FF24-4C15-A7A3-07EECA93E58E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{506FFC0F-04F0-4282-B01B-937D11B5A947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506FFC0F-04F0-4282-B01B-937D11B5A947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506FFC0F-04F0-4282-B01B-937D11B5A947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506FFC0F-04F0-4282-B01B-937D11B5A947}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,7 @@
+﻿namespace $rootnamespace$
+{
+    ["$safeitemrootname$Table"]
+	public model $safeitemrootname$
+	{
+	}
+}
