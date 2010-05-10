@@ -145,6 +145,7 @@
     </InstallExecuteSequence>
     
     <!-- User interface -->
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
     <UIRef Id="WixUI_FeatureTree" />
   </Product>
 </Wix>
