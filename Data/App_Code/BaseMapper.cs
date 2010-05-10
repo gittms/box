@@ -365,10 +365,20 @@ namespace Definitif.Data
         /// <returns>True if connection should stay open, overwise false.</returns>
         protected bool InitConnection(ref DbConnection connection)
         {
-            // Initializing connection if needed.
+            // Initializing connection.
             if (connection == null)
             {
                 connection = this.GetConnection();
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                // If connection has been created using
+                // active transaction - it's currently
+                // open, but needs to be closed too.
+                return false;
             }
 
             // Opening connection if needed.
@@ -377,10 +387,8 @@ namespace Definitif.Data
                 connection.Open();
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>

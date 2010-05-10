@@ -41,8 +41,7 @@ namespace Definitif.Data.ObjectSql.Aggregator
 
         public static ColumnAlias operator !=(Aggregator First, ColumnAlias Second)
         {
-            throw new ArgumentException(
-                "Unable to compare Aggregator to ColumnAlias object.");
+            throw new ArgumentException("Unable to compare Aggregator to ColumnAlias object.");
         }
 
         public override bool Equals(object obj)
