@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+    <TemplateData>
+        <Name>Definitif Box Library</Name>
+        <Description>Project template for Definitif Box Library.</Description>
+        <Icon>BoxLibrary.ico</Icon>
+        <ProjectType>CSharp</ProjectType>
+        <RequiredFrameworkVersion>4.0</RequiredFrameworkVersion>
+        <SortOrder>1000</SortOrder>
+        <TemplateID>888d3201-0f95-4e61-9f83-51e32cfd2a2b</TemplateID>
+        <CreateNewFolder>true</CreateNewFolder>
+        <DefaultName>MyModelsProject</DefaultName>
+        <ProvideDefaultName>true</ProvideDefaultName>
+    </TemplateData>
+    <TemplateContent>
+        <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+            <ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true">Core.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" OpenInEditor="true">Model1.box</ProjectItem>
+            <ProjectItem ReplaceParameters="true">Model1.cs</ProjectItem>
+        </Project>
+        <CustomParameters>
+            <CustomParameter Name="$CustomTool$" Value="DefinitifBoxGenerator" />
+        </CustomParameters>
+    </TemplateContent>
+</VSTemplate>
