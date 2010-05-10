@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -47,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\ConnectionStringKeyAttribute.cs" />
+    <Compile Include="App_Code\Core.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="String.cs" />
     <Compile Include="App_Code\NamedFormat.cs" />
@@ -54,6 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Definitif.Box.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Definitif.Data.csproj">
+      <Project>{A1FFD453-E4BF-4518-80A1-365FB1CE03B3}</Project>
+      <Name>Definitif.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
