@@ -14,7 +14,7 @@ namespace Definitif.Data.Query
         /// <summary>
         /// Specifies expressions to filter query.
         /// </summary>
-        /// <param name="expression">Lambda funtion returning expression.</param>
+        /// <param name="expression">Lambda function returning expression.</param>
         public Select<ModelType> Where(Func<ModelType, Expression> expression)
         {
             where = expression(default(ModelType));

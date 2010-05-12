@@ -90,6 +90,9 @@
     <Compile Include="Implementation\MsSql\Drawer.cs" />
     <Compile Include="Query\Clause\Group.cs" />
     <Compile Include="Query\Clause\Order.cs" />
+    <Compile Include="Query\Delete.cs" />
+    <Compile Include="Query\Update.cs" />
+    <Compile Include="Query\Insert.cs" />
     <Compile Include="Query\Drawer\Drawer.cs" />
     <Compile Include="Query\Clause\Limit.cs" />
     <Compile Include="Query\Expression\Expression.cs" />
@@ -121,9 +124,7 @@
   <ItemGroup>
     <None Include="Definitif.Data.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Query\Field\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
