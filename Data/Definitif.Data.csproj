@@ -73,65 +73,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\DatabaseState.cs" />
-    <Compile Include="App_Code\Id.cs" />
-    <Compile Include="App_Code\ManyToMany\IManyToManyMapper.cs" />
-    <Compile Include="App_Code\ManyToMany\IManyToMany.cs" />
-    <Compile Include="App_Code\IMapper.cs" />
-    <Compile Include="App_Code\IModel.cs" />
-    <Compile Include="App_Code\BaseMapper.cs" />
-    <Compile Include="App_Code\ManyToMany\ManyToManyMapper.cs" />
-    <Compile Include="App_Code\ManyToMany\ManyToMany.cs" />
-    <Compile Include="App_Code\Mapper.cs" />
-    <Compile Include="App_Code\Model.cs" />
-    <Compile Include="App_Code\ObjectSql\Aggregator\Aggregator.cs" />
-    <Compile Include="App_Code\ObjectSql\Aggregator\DataLength.cs" />
-    <Compile Include="App_Code\ObjectSql\Aggregator\Distinct.cs" />
-    <Compile Include="App_Code\ObjectSql\Aggregator\Max.cs" />
-    <Compile Include="App_Code\ObjectSql\Aggregator\Min.cs" />
-    <Compile Include="App_Code\ObjectSql\Aggregator\Sum.cs" />
-    <Compile Include="App_Code\ObjectSql\Alias.cs" />
-    <Compile Include="App_Code\ObjectSql\Clause.cs" />
-    <Compile Include="App_Code\ObjectSql\Column.cs" />
-    <Compile Include="App_Code\Database.cs" />
-    <Compile Include="App_Code\ObjectSql\Drawer.cs" />
-    <Compile Include="App_Code\ObjectSql\Exception.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Container.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Expression.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\And.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\Equals.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\Greater.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\GreaterOrEquals.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\Less.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\LessOrEquals.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\NotEquals.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Logic\Or.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Math\Divide.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Math\Multiply.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Math\Subs.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Math\Sum.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Object.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Text\Contains.cs" />
-    <Compile Include="App_Code\ObjectSql\Expression\Text\Like.cs" />
-    <Compile Include="App_Code\Implementation\MsSql\Database.cs" />
-    <Compile Include="App_Code\Implementation\MsSql\Drawer.cs" />
-    <Compile Include="App_Code\Implementation\MySql\Database.cs" />
-    <Compile Include="App_Code\Implementation\MySql\Drawer.cs" />
-    <Compile Include="App_Code\ObjectSql\Interfaces.cs" />
-    <Compile Include="App_Code\ObjectSql\Joins.cs" />
-    <Compile Include="App_Code\ObjectSql\Join\InnerJoin.cs" />
-    <Compile Include="App_Code\ObjectSql\Join\Join.cs" />
-    <Compile Include="App_Code\ObjectSql\Join\LeftJoin.cs" />
-    <Compile Include="App_Code\ObjectSql\Join\RightJoin.cs" />
-    <Compile Include="App_Code\ObjectSql\Limit.cs" />
-    <Compile Include="App_Code\ObjectSql\Operators.cs" />
-    <Compile Include="App_Code\ObjectSql\Order.cs" />
-    <Compile Include="App_Code\ObjectSql\Query\Delete.cs" />
-    <Compile Include="App_Code\ObjectSql\Query\Insert.cs" />
-    <Compile Include="App_Code\ObjectSql\Query\Select.cs" />
-    <Compile Include="App_Code\ObjectSql\Query\Update.cs" />
-    <Compile Include="App_Code\Reader.cs" />
-    <Compile Include="App_Code\ObjectSql\Table.cs" />
+    <Compile Include="Column.cs" />
+    <Compile Include="DatabaseState.cs" />
+    <Compile Include="Id.cs" />
+    <Compile Include="ManyToMany\IManyToManyMapper.cs" />
+    <Compile Include="ManyToMany\IManyToMany.cs" />
+    <Compile Include="IMapper.cs" />
+    <Compile Include="IModel.cs" />
+    <Compile Include="BaseMapper.cs" />
+    <Compile Include="ManyToMany\ManyToManyMapper.cs" />
+    <Compile Include="ManyToMany\ManyToMany.cs" />
+    <Compile Include="Mapper.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="Implementation\MsSql\Database.cs" />
+    <Compile Include="Implementation\MsSql\Drawer.cs" />
+    <Compile Include="Query\Clause\Group.cs" />
+    <Compile Include="Query\Clause\Order.cs" />
+    <Compile Include="Query\Drawer\Drawer.cs" />
+    <Compile Include="Query\Clause\Limit.cs" />
+    <Compile Include="Query\Expression\Expression.cs" />
+    <Compile Include="Query\Expression\ExpressionType.cs" />
+    <Compile Include="Query\Expression\Operators.cs" />
+    <Compile Include="Table.cs" />
+    <Compile Include="Query\Select.cs" />
+    <Compile Include="Query\Query.cs" />
+    <Compile Include="Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Definitif.Data.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Query\Field\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

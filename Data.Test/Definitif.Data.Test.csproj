@@ -46,13 +46,8 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database.cs" />
-    <Compile Include="Delete.cs" />
-    <Compile Include="Insert.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Select.cs" />
-    <Compile Include="TestUtils.cs" />
-    <Compile Include="Update.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Definitif.Data.csproj">
