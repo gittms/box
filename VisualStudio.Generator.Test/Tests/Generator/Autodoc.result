@@ -10,8 +10,7 @@
 
 using Definitif;
 using Definitif.Data;
-using Definitif.Data.ObjectSql;
-using Definitif.Data.ObjectSql.Query;
+using Definitif.Data.Queries;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -30,6 +29,21 @@ namespace Definitif.Test {
         /// </summary>
         public static TestPerson Get(Id id) {
             return TestPerson.Mapper.Read(id);
+        }
+
+        public class TestPersonTableScheme : ModelTableScheme<Definitif.Test.Mappers.TestPerson> {
+            private Column p_username = table["UserName"];
+            public Column UserName { get { return p_username; } }
+        }
+
+        private static TestPersonTableScheme tableScheme = new TestPersonTableScheme();
+        /// <summary>
+        /// Gets TestPerson model table scheme.
+        /// </summary>
+        public new C {
+            get {
+                return tableScheme;
+            }
         }
         /// <summary>
         /// Represents mapped username property.

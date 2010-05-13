@@ -21,9 +21,13 @@ namespace Definitif.VisualStudio.Generator
             {
                 return member.ToProperty();
             }
-            else
+            else if (member.MemberBody != null)
             {
                 return member.ToCustomMember();
+            }
+            else
+            {
+                return new CodeSnippetTypeMember();
             }
         }
         /// <summary>

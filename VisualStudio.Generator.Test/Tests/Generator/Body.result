@@ -10,8 +10,7 @@
 
 using Definitif;
 using Definitif.Data;
-using Definitif.Data.ObjectSql;
-using Definitif.Data.ObjectSql.Query;
+using Definitif.Data.Queries;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,6 +26,23 @@ namespace TestNamespace {
         /// </summary>
         public static TestModel Get(Id id) {
             return TestModel.Mapper.Read(id);
+        }
+
+        public class TestModelTableScheme : ModelTableScheme<TestNamespace.Mappers.TestModel> {
+            private Column p_name = table["Name"];
+            public Column Name { get { return p_name; } }
+            private Column p_itemscount = table["ItemsCount"];
+            public Column ItemsCount { get { return p_itemscount; } }
+        }
+
+        private static TestModelTableScheme tableScheme = new TestModelTableScheme();
+        /// <summary>
+        /// Gets TestModel model table scheme.
+        /// </summary>
+        public new C {
+            get {
+                return tableScheme;
+            }
         }
 
         private string Name {

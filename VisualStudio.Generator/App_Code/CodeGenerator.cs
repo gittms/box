@@ -45,8 +45,7 @@ namespace Definitif.VisualStudio.Generator
                     new CodeNamespaceImport("System.Data.Common"),
                     new CodeNamespaceImport("Definitif"),
                     new CodeNamespaceImport("Definitif.Data"),
-                    new CodeNamespaceImport("Definitif.Data.ObjectSql"),
-                    new CodeNamespaceImport("Definitif.Data.ObjectSql.Query"),
+                    new CodeNamespaceImport("Definitif.Data.Queries"),
                 },
             });
 
