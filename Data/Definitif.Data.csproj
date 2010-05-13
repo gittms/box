@@ -76,6 +76,8 @@
     <Compile Include="App_Code\Column.cs" />
     <Compile Include="App_Code\DatabaseState.cs" />
     <Compile Include="App_Code\Id.cs" />
+    <Compile Include="App_Code\IModelTableScheme.cs" />
+    <Compile Include="App_Code\ModelTableScheme.cs" />
     <Compile Include="ManyToMany\IManyToManyMapper.cs" />
     <Compile Include="ManyToMany\IManyToMany.cs" />
     <Compile Include="App_Code\IMapper.cs" />

@@ -16,6 +16,7 @@ namespace Definitif.Data
         protected int version = 1;
 
         protected static M mapper;
+        private static IModelTableScheme tableScheme;
         protected List<Id> subscribed = new List<Id>();
 
         /// <summary>
@@ -41,6 +42,21 @@ namespace Definitif.Data
         {
             get { return this.version; }
             set { this.version = value; }
+        }
+
+        /// <summary>
+        /// Gets model table scheme.
+        /// </summary>
+        public IModelTableScheme C
+        {
+            get
+            {
+                if (tableScheme == null)
+                {
+                    tableScheme = new ModelTableScheme<Model<M>, M>();
+                }
+                return tableScheme;
+            }
         }
 
         /// <summary>

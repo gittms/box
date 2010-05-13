@@ -11,6 +11,7 @@ namespace Definitif.Data
         Id Id { get; set; }
         int Version { get; set; }
         IMapper IMapper();
+        IModelTableScheme C { get; }
         void SubscribeId(Id id);
     }
 }
