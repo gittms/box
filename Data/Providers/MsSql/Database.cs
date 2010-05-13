@@ -4,11 +4,11 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Definitif.Data;
 
-namespace Definitif.Data.Implementation.MsSql
+namespace Definitif.Data.Providers.MsSql
 {
     public sealed class Database : Data.Database
     {
-        protected override ObjectSql.Drawer GetDrawer()
+        protected override Query.Drawer GetDrawer()
         {
             return new MsSql.Drawer();
         }

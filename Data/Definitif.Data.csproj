@@ -86,11 +86,12 @@
     <Compile Include="Mapper.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Implementation\MsSql\Database.cs" />
-    <Compile Include="Implementation\MsSql\Drawer.cs" />
+    <Compile Include="Providers\MsSql\Database.cs" />
+    <Compile Include="Providers\MsSql\Drawer.cs" />
     <Compile Include="Query\Clause\Group.cs" />
     <Compile Include="Query\Clause\Order.cs" />
     <Compile Include="Query\Delete.cs" />
+    <Compile Include="Query\IQuery.cs" />
     <Compile Include="Query\Update.cs" />
     <Compile Include="Query\Insert.cs" />
     <Compile Include="Query\Drawer\Drawer.cs" />

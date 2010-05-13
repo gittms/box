@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Threading;
 using System.Transactions;
+using Definitif.Data.Query;
 
 namespace Definitif.Data
 {
@@ -145,12 +146,12 @@ namespace Definitif.Data
         /// Gets Command object for given Query.
         /// Does not assotiates connection.
         /// </summary>
-        /// <param name="Query">Query object.</param>
+        /// <param name="query">Query object.</param>
         /// <returns>Command object.</returns>
-        public DbCommand GetCommand(IQuery Query)
+        public DbCommand GetCommand(IQuery query)
         {
             DbCommand command = this.GetCommand();
-            command.CommandText = this.drawer.Draw(Query);
+            command.CommandText = query.ToString(drawer);
             return command;
         }
         /// <summary>
@@ -208,25 +209,25 @@ namespace Definitif.Data
         /// Executes non-query command and returns number of rows
         /// affected by query or last query identity.
         /// </summary>
-        /// <param name="GetIdentity">If "True", identity will be returned.</param>
-        /// <param name="Queries">Qeries objects to Execute.</param>
+        /// <param name="getIdentity">If "True", identity will be returned.</param>
+        /// <param name="queries">Qeries objects to Execute.</param>
         /// <returns>Number of rows affected.</returns>
-        public virtual int Execute(bool GetIdentity, params IQuery[] Queries)
+        public virtual int Execute(bool getIdentity, params IQuery[] queries)
         {
             int result = 0;
             DbCommand command;
             DbConnection connection = this.GetConnection();
 
-            foreach (IQuery query in Queries)
+            foreach (IQuery query in queries)
             {
-                command = this.GetCommand(connection, this.drawer.Draw(query));
+                command = this.GetCommand(connection, query.ToString(drawer));
                 result += command.ExecuteNonQuery();
             }
 
             // Getting identity for last executed query.
-            if (GetIdentity)
+            if (getIdentity)
             {
-                command = this.GetCommand(connection, this.drawer.IDENTITY);
+                command = this.GetCommand(connection, this.drawer.Identity);
                 result = (int?)command.ExecuteScalar() ?? 0;
             }
 
@@ -237,11 +238,11 @@ namespace Definitif.Data
         /// Executes readable command and returns executed
         /// reader object.
         /// </summary>
-        /// <param name="Query">Query object to execute.</param>
+        /// <param name="query">Query object to execute.</param>
         /// <returns>Executed reader object.</returns>
-        public virtual Reader ExecuteReader(IQuery Query)
+        public virtual Reader ExecuteReader(IQuery query)
         {
-            return this.GetDataReader(this.drawer.Draw(Query));
+            return this.GetDataReader(query.ToString(drawer));
         }
 
         #region Transaction management.
