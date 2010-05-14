@@ -222,11 +222,9 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> InsertCommands(Definitif.Test.User obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
-                        VALUES = {
-                            table["Name"] == obj.Name,
-                        }
-                    })
+                    new Insert<Definitif.Test.User>()
+                        .Values(m =>
+                            m.C.Name == obj.Name))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -236,16 +234,13 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.User obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Update() {
-                        VALUES = {
-                            table["Version"] == obj.Version + 1,
-                            table["Name"] == obj.Name,
-                        },
-                        WHERE = {
-                            table["Id"] == obj.Id.Value,
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Update<Definitif.Test.User>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 &
+                            m.C.Name == obj.Name)
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -255,12 +250,10 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.User obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Delete(table) {
-                        WHERE = {
-                            table["Id"] == obj.Id.Value, 
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Delete<Definitif.Test.User>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.DeleteCommandsExtension(obj, list);
             return list;
@@ -298,11 +291,9 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> InsertCommands(Definitif.Test.Achievement obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
-                        VALUES = {
-                            table["Name"] == obj.Name,
-                        }
-                    })
+                    new Insert<Definitif.Test.Achievement>()
+                        .Values(m =>
+                            m.C.Name == obj.Name))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -312,16 +303,13 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.Achievement obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Update() {
-                        VALUES = {
-                            table["Version"] == obj.Version + 1,
-                            table["Name"] == obj.Name,
-                        },
-                        WHERE = {
-                            table["Id"] == obj.Id.Value,
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Update<Definitif.Test.Achievement>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 &
+                            m.C.Name == obj.Name)
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -331,12 +319,10 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.Achievement obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Delete(table) {
-                        WHERE = {
-                            table["Id"] == obj.Id.Value, 
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Delete<Definitif.Test.Achievement>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.DeleteCommandsExtension(obj, list);
             return list;
@@ -378,13 +364,11 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> InsertCommands(Definitif.Test.UserAchievement obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
-                        VALUES = {
-                            table["UserId"] == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User,
-                            table["AchievementId"] == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement,
-                            table["Received"] == obj.Received,
-                        }
-                    })
+                    new Insert<Definitif.Test.UserAchievement>()
+                        .Values(m =>
+                            m.C.User.Id == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User &
+                            m.C.Achievement.Id == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement &
+                            m.C.Received == obj.Received))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -394,18 +378,15 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.UserAchievement obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Update() {
-                        VALUES = {
-                            table["Version"] == obj.Version + 1,
-                            table["UserId"] == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User,
-                            table["AchievementId"] == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement,
-                            table["Received"] == obj.Received,
-                        },
-                        WHERE = {
-                            table["Id"] == obj.Id.Value,
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Update<Definitif.Test.UserAchievement>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 &
+                            m.C.User.Id == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User &
+                            m.C.Achievement.Id == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement &
+                            m.C.Received == obj.Received)
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -415,12 +396,10 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.UserAchievement obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Delete(table) {
-                        WHERE = {
-                            table["Id"] == obj.Id.Value, 
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Delete<Definitif.Test.UserAchievement>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.DeleteCommandsExtension(obj, list);
             return list;

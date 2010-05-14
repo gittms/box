@@ -103,12 +103,10 @@ namespace TestNamespace.Mappers {
         protected sealed override List<DbCommand> InsertCommands(TestNamespace.TestModel obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
-                        VALUES = {
-                            table["Name"] == obj.Name,
-                            table["ItemsCount"] == obj.ItemsCount,
-                        }
-                    })
+                    new Insert<TestNamespace.TestModel>()
+                        .Values(m =>
+                            m.C.Name == obj.Name &
+                            m.C.ItemsCount == obj.ItemsCount))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -118,17 +116,14 @@ namespace TestNamespace.Mappers {
         protected sealed override List<DbCommand> UpdateCommands(TestNamespace.TestModel obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Update() {
-                        VALUES = {
-                            table["Version"] == obj.Version + 1,
-                            table["Name"] == obj.Name,
-                            table["ItemsCount"] == obj.ItemsCount,
-                        },
-                        WHERE = {
-                            table["Id"] == obj.Id.Value,
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Update<TestNamespace.TestModel>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 &
+                            m.C.Name == obj.Name &
+                            m.C.ItemsCount == obj.ItemsCount)
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -138,12 +133,10 @@ namespace TestNamespace.Mappers {
         protected sealed override List<DbCommand> DeleteCommands(TestNamespace.TestModel obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Delete(table) {
-                        WHERE = {
-                            table["Id"] == obj.Id.Value, 
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Delete<TestNamespace.TestModel>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.DeleteCommandsExtension(obj, list);
             return list;

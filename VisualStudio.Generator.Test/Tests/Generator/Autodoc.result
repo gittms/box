@@ -98,11 +98,9 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> InsertCommands(Definitif.Test.TestPerson obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
-                        VALUES = {
-                            table["UserName"] == obj.UserName,
-                        }
-                    })
+                    new Insert<Definitif.Test.TestPerson>()
+                        .Values(m =>
+                            m.C.UserName == obj.UserName))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -112,16 +110,13 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.TestPerson obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Update() {
-                        VALUES = {
-                            table["Version"] == obj.Version + 1,
-                            table["UserName"] == obj.UserName,
-                        },
-                        WHERE = {
-                            table["Id"] == obj.Id.Value,
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Update<Definitif.Test.TestPerson>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 &
+                            m.C.UserName == obj.UserName)
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -131,12 +126,10 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.TestPerson obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Delete(table) {
-                        WHERE = {
-                            table["Id"] == obj.Id.Value, 
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Delete<Definitif.Test.TestPerson>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.DeleteCommandsExtension(obj, list);
             return list;

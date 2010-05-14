@@ -111,12 +111,10 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> InsertCommands(Definitif.Test.TestModel obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Insert() {
-                        VALUES = {
-                            table["Name"] == obj.Name,
-                            table["ForeignId"] == (obj.ForeignId == Id.Empty) ? DBNull.Value : obj.Foreign,
-                        }
-                    })
+                    new Insert<Definitif.Test.TestModel>()
+                        .Values(m =>
+                            m.C.Name == obj.Name &
+                            m.C.Foreign.Id == (obj.ForeignId == Id.Empty) ? DBNull.Value : obj.Foreign))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -126,17 +124,14 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> UpdateCommands(Definitif.Test.TestModel obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Update() {
-                        VALUES = {
-                            table["Version"] == obj.Version + 1,
-                            table["Name"] == obj.Name,
-                            table["ForeignId"] == (obj.ForeignId == Id.Empty) ? DBNull.Value : obj.Foreign,
-                        },
-                        WHERE = {
-                            table["Id"] == obj.Id.Value,
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Update<Definitif.Test.TestModel>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 &
+                            m.C.Name == obj.Name &
+                            m.C.Foreign.Id == (obj.ForeignId == Id.Empty) ? DBNull.Value : obj.Foreign)
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -146,12 +141,10 @@ namespace Definitif.Test.Mappers {
         protected sealed override List<DbCommand> DeleteCommands(Definitif.Test.TestModel obj) {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
-                    new Delete(table) {
-                        WHERE = {
-                            table["Id"] == obj.Id.Value, 
-                            table["Version"] == obj.Version,
-                        }
-                    })
+                    new Delete<Definitif.Test.TestModel>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             };
             this.DeleteCommandsExtension(obj, list);
             return list;

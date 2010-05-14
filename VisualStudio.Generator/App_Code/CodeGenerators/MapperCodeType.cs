@@ -38,62 +38,66 @@ namespace Definitif.VisualStudio.Generator
 
                 // When member type is Id:
                 //   INSERT:
-                //     table["column"] == (obj.Name == Id.Empty) ? DBNull.Value : obj.Name
+                //     m.C.Name == (obj.Name == Id.Empty) ? DBNull.Value : obj.Name
                 //   SELECT:
                 //     Name = (reader["column"] == DBNull.Value) ? Id.Empty : new Id(reader["column"])
                 //     Name = (reader[fieldPrefix + "column"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "column"])
                 if (member.Type == "Id")
                 {
-                    values.Add(@"table[""{column}""] == (obj.{name} == Id.Empty) ? DBNull.Value : obj.{name},".F(replacement));
+                    values.Add(@"m.C.{name} == (obj.{name} == Id.Empty) ? DBNull.Value : obj.{name},".F(replacement));
                     reads.Add(@"{name} = (reader[""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[""{column}""]),".F(replacement));
                     readsWithPrefix.Add(@"{name} = (reader[fieldPrefix + ""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + ""{column}""]),".F(replacement));
                 }
                 // When member is foreign key, so it is represented
                 // by Id and typed properties:
                 //   INSERT:
-                //     table["column"] == (obj.NameId == Id.Empty) ? DBNull.Value : obj.Name
+                //     m.C.Name.Id == (obj.NameId == Id.Empty) ? DBNull.Value : obj.Name
                 //   SELECT:
                 //     NameId = (reader["column"] == DBNull.Value) ? Id.Empty : new Id(reader["column"])
                 //     NameId = (reader[fieldPrefix + "column"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "column"])
                 else if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
-                    values.Add(@"table[""{column}""] == (obj.{name}Id == Id.Empty) ? DBNull.Value : obj.{name},".F(replacement));
+                    values.Add(@"m.C.{name}.Id == (obj.{name}Id == Id.Empty) ? DBNull.Value : obj.{name}".F(replacement));
                     reads.Add(@"{name}Id = (reader[""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[""{column}""]),".F(replacement));
                     readsWithPrefix.Add(@"{name}Id = (reader[fieldPrefix + ""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + ""{column}""]),".F(replacement));
                 }
                 // When member have custom casting type specified:
                 //   INSERT:
-                //     table["column"] == (cast)obj.Name
+                //     m.C.Name == (cast)obj.Name
                 //   SELECT:
                 //     Name = (type)((cast)reader["column"])
                 //     Name = (type)((cast)reader[fieldPrefix + "column"])
                 else if (!String.IsNullOrWhiteSpace(member.ColumnCastingType))
                 {
-                    values.Add(@"table[""{column}""] == ({cast})obj.{name},".F(replacement));
+                    values.Add(@"m.C.{name} == ({cast})obj.{name}".F(replacement));
                     reads.Add(@"{name} = ({type})(({cast})reader[""{column}""]),".F(replacement));
                     readsWithPrefix.Add(@"{name} = ({type})(({cast})reader[fieldPrefix + ""{column}""]),".F(replacement));
                 }
                 // When member is just a mapped member:
                 //   INSERT:
-                //     table["column"] == obj.Name
+                //     m.C.Name == obj.Name
                 //   SELECT:
                 //     Name = (type)reader["column"]
                 //     Name = (type)reader[fieldPrefix + "column"]
                 else
                 {
-                    values.Add(@"table[""{column}""] == obj.{name},".F(replacement));
+                    values.Add(@"m.C.{name} == obj.{name}".F(replacement));
                     reads.Add(@"{name} = ({type})reader[""{column}""],".F(replacement));
                     readsWithPrefix.Add(@"{name} = ({type})reader[fieldPrefix + ""{column}""],".F(replacement));
                 }
             }
 
+            string valuesStr = String.Join(" &" + Environment.NewLine, values.ToArray()).Indent(7 * 4).Trim(),
+                valuesAndStr = (valuesStr != "") ? "&" + Environment.NewLine + "".PadLeft(7 * 4, ' ') + valuesStr : "";
+            if (valuesStr == "") valuesStr = "null";
             var variables = new
             {
                 modelNamespace = modelsNamespace.Name,
                 type = model.Name,
                 database = String.IsNullOrWhiteSpace(model.DatabaseRef) ? Constants.DefaultDatabase : model.DatabaseRef,
                 table = model.TableName,
-                values = String.Join(Environment.NewLine, values.ToArray()).Indent(7 * 4).Trim(),
+                values = valuesStr,
+                valuesAnd = valuesAndStr,
                 reads = String.Join(Environment.NewLine, reads.ToArray()).Indent(4 * 4).Trim(),
                 readsWithPrefix = String.Join(Environment.NewLine, readsWithPrefix.ToArray()).Indent(4 * 4).Trim(),
             };
@@ -133,11 +137,9 @@ namespace Definitif.VisualStudio.Generator
         protected sealed override List<DbCommand> InsertCommands({modelNamespace}.{type} obj) {{
             List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
-                    new Insert() {{
-                        VALUES = {{
-                            {values}
-                        }}
-                    }})
+                    new Insert<{modelNamespace}.{type}>()
+                        .Values(m =>
+                            {values}))
             }};
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -150,16 +152,12 @@ namespace Definitif.VisualStudio.Generator
         protected sealed override List<DbCommand> UpdateCommands({modelNamespace}.{type} obj) {{
             List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
-                    new Update() {{
-                        VALUES = {{
-                            table[""Version""] == obj.Version + 1,
-                            {values}
-                        }},
-                        WHERE = {{
-                            table[""Id""] == obj.Id.Value,
-                            table[""Version""] == obj.Version,
-                        }}
-                    }})
+                    new Update<{modelNamespace}.{type}>()
+                        .Values(m =>
+                            m.C.Version == obj.Version + 1 {valuesAnd})
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             }};
             this.UpdateCommandsExtension(obj, list);
             return list;
@@ -172,12 +170,10 @@ namespace Definitif.VisualStudio.Generator
         protected sealed override List<DbCommand> DeleteCommands({modelNamespace}.{type} obj) {{
             List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
-                    new Delete(table) {{
-                        WHERE = {{
-                            table[""Id""] == obj.Id.Value, 
-                            table[""Version""] == obj.Version,
-                        }}
-                    }})
+                    new Delete<{modelNamespace}.{type}>()
+                        .Where(m =>
+                            m.C.Id == obj.Id.Value &
+                            m.C.Version == obj.Version))
             }};
             this.DeleteCommandsExtension(obj, list);
             return list;
