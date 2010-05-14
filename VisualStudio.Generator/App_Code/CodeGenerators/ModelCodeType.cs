@@ -21,7 +21,8 @@ namespace Definitif.VisualStudio.Generator
             codeType.BaseTypes.Add(String.Format("Model<{0}.{1}>", mappersNamespace.Name, model.Name));
 
             // Generating list of columns for table scheme.
-            List<string> columns = new List<string>();
+            List<string> columns = new List<string>(),
+                schemeConstructor = new List<string>();
             foreach (Member member in model.Members)
             {
                 var replacement = new {
@@ -35,6 +36,8 @@ namespace Definitif.VisualStudio.Generator
                 {
                     columns.Add(@"private {type}TableScheme {protectedName} = new {type}().C;".F(replacement));
                     columns.Add(@"public {type}TableScheme {name} {{ get {{ return {protectedName}; }} }}".F(replacement));
+                    schemeConstructor.Add((@"if (!{protectedName}.Id.ForeignKeys.ContainsKey(table[""{column}""])) " +
+                        @"{protectedName}.Id.ForeignKeys.Add(table[""{column}""]);").F(replacement));
                 }
                 else if (member.IsMapped)
                 {
@@ -53,6 +56,10 @@ namespace Definitif.VisualStudio.Generator
         }}
 
         public class {type}TableScheme : ModelTableScheme<{mappersNamespace}.{type}> {{
+            public {type}TableScheme() {{
+                {schemeConstructor}
+            }}
+
             {columns}
         }}
 
@@ -69,6 +76,7 @@ namespace Definitif.VisualStudio.Generator
                type = model.Name,
                mappersNamespace = mappersNamespace.Name,
                columns = String.Join(Environment.NewLine, columns.ToArray()).Indent(3 * 4).Trim(),
+               schemeConstructor = String.Join(Environment.NewLine, schemeConstructor.ToArray()).Indent(4 * 4).Trim(),
            }) + Environment.NewLine));
 
             foreach (Member member in model.Members)

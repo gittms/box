@@ -29,6 +29,10 @@ namespace Definitif.Test {
         }
 
         public class UserTableScheme : ModelTableScheme<Definitif.Test.Mappers.User> {
+            public UserTableScheme() {
+                
+            }
+
             private Column p_name = table["Name"];
             public Column Name { get { return p_name; } }
         }
@@ -60,6 +64,10 @@ namespace Definitif.Test {
         }
 
         public class AchievementTableScheme : ModelTableScheme<Definitif.Test.Mappers.Achievement> {
+            public AchievementTableScheme() {
+                
+            }
+
             private Column p_name = table["Name"];
             public Column Name { get { return p_name; } }
         }
@@ -91,6 +99,11 @@ namespace Definitif.Test {
         }
 
         public class UserAchievementTableScheme : ModelTableScheme<Definitif.Test.Mappers.UserAchievement> {
+            public UserAchievementTableScheme() {
+                if (!p_user.Id.ForeignKeys.ContainsKey(table["UserId"])) p_user.Id.ForeignKeys.Add(table["UserId"]);
+                if (!p_achievement.Id.ForeignKeys.ContainsKey(table["AchievementId"])) p_achievement.Id.ForeignKeys.Add(table["AchievementId"]);
+            }
+
             private UserTableScheme p_user = new User().C;
             public UserTableScheme User { get { return p_user; } }
             private AchievementTableScheme p_achievement = new Achievement().C;

@@ -32,6 +32,10 @@ namespace Definitif.Test {
         }
 
         public class TestPersonTableScheme : ModelTableScheme<Definitif.Test.Mappers.TestPerson> {
+            public TestPersonTableScheme() {
+                
+            }
+
             private Column p_username = table["UserName"];
             public Column UserName { get { return p_username; } }
         }
