@@ -16,5 +16,7 @@ namespace Definitif.Data
         void Delete(DbConnection con, IModel obj);
 
         DbConnection GetConnection();
+
+        Table Table { get; }
     }
 }

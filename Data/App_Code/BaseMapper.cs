@@ -12,6 +12,16 @@ namespace Definitif.Data
     public abstract class BaseMapper<ModelType> : IMapper
         where ModelType : class, IModel, new()
     {
+        protected Table table;
+
+        /// <summary>
+        /// Gets common mapping table.
+        /// </summary>
+        public Table Table
+        {
+            get { return this.table; }
+        }
+
         /// <summary>
         /// Reads an object with specified Id from database.
         /// </summary>

@@ -1,24 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Definitif.Data
 {
     /// <summary>
     /// Represents base class for model table scheme object.
     /// </summary>
-    public class ModelTableScheme<ModelType, MapperType> : IModelTableScheme
-        where ModelType : IModel
-        where MapperType : Mapper<ModelType>, new()
+    public class ModelTableScheme<MapperType> : IModelTableScheme
+        where MapperType : IMapper, new()
     {
         protected static Table table = new MapperType().Table;
 
-        public Column Id
-        {
-            get { return table["Id"]; }
-        }
+        private Column p_Id = table["Id"];
+        public Column Id { get { return p_Id; } }
 
-        public Column Version
-        {
-            get { return table["Version"]; }
-        }
+        private Column p_Version = table["Version"];
+        public Column Version { get { return p_Version; } }
     }
 }

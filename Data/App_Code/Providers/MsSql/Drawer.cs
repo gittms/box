@@ -2,7 +2,7 @@
 
 namespace Definitif.Data.Providers.MsSql
 {
-    public sealed class Drawer : Query.Drawer
+    public sealed class Drawer : Queries.Drawer
     {
         public override string Identity
         {

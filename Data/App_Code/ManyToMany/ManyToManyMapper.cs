@@ -30,6 +30,8 @@ namespace Definitif.Data
             this.whereField = (this.linkMapper as IManyToManyMapper).FieldNameWhere(m);
         }
 
+        /*
+         * 
         /// <summary>
         /// Gets list of many-to-many relation objects for specified model.
         /// </summary>
@@ -94,6 +96,7 @@ namespace Definitif.Data
             }
             return this.database.GetCommand(query);
         }
+         */
 
         public override L ReadObject(IDataReader reader)
         {

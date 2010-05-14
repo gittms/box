@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Definitif.Data.Query
+namespace Definitif.Data.Queries
 {
     /// <summary>
     /// Represents insert query.
@@ -19,6 +19,11 @@ namespace Definitif.Data.Query
         {
             values = expression(default(ModelType));
             return this;
+        }
+
+        protected override string Draw(Drawer drawer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

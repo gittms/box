@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using Definitif.Data.Query;
+using Definitif.Data.Queries;
 
 namespace Definitif.Data
 {
@@ -13,15 +13,6 @@ namespace Definitif.Data
         where ModelType : class, IModel, new()
     {
         protected Database database;
-        protected Table table;
-
-        /// <summary>
-        /// Gets common mapping table.
-        /// </summary>
-        public Table Table
-        {
-            get { return this.table; }
-        }
 
         public override DbConnection GetConnection()
         {

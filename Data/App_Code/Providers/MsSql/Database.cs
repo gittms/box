@@ -8,14 +8,14 @@ namespace Definitif.Data.Providers.MsSql
 {
     public sealed class Database : Data.Database
     {
-        protected override Query.Drawer GetDrawer()
+        protected override Queries.Drawer GetDrawer()
         {
             return new MsSql.Drawer();
         }
 
         protected override DbConnection GetDatabaseConnection()
         {
-            return new SqlConnection(this.connectionString);
+            return new SqlConnection(this.ConnectionString);
         }
 
         public override DbCommand GetCommand()
@@ -31,6 +31,8 @@ namespace Definitif.Data.Providers.MsSql
             DataTable columns = connection.GetSchema("Columns");
             foreach (DataRow column in columns.Rows)
             {
+                /*
+                 * 
                 if (!this.tables.ContainsKey(column["TABLE_NAME"] as string))
                 {
                     this.Add(new Table(column["TABLE_NAME"] as string));
@@ -38,6 +40,7 @@ namespace Definitif.Data.Providers.MsSql
                 this[column["TABLE_NAME"] as string].Add(
                     new Column(column["COLUMN_NAME"] as string,
                                column["DATA_TYPE"] as string));
+                 */
             }
 
             connection.Close();

@@ -78,32 +78,36 @@
     <Compile Include="App_Code\Id.cs" />
     <Compile Include="App_Code\IModelTableScheme.cs" />
     <Compile Include="App_Code\ModelTableScheme.cs" />
-    <Compile Include="ManyToMany\IManyToManyMapper.cs" />
-    <Compile Include="ManyToMany\IManyToMany.cs" />
+    <Compile Include="App_Code\ManyToMany\IManyToManyMapper.cs" />
+    <Compile Include="App_Code\ManyToMany\IManyToMany.cs" />
     <Compile Include="App_Code\IMapper.cs" />
     <Compile Include="App_Code\IModel.cs" />
     <Compile Include="App_Code\BaseMapper.cs" />
-    <Compile Include="ManyToMany\ManyToManyMapper.cs" />
-    <Compile Include="ManyToMany\ManyToMany.cs" />
+    <Compile Include="App_Code\ManyToMany\ManyToManyMapper.cs" />
+    <Compile Include="App_Code\ManyToMany\ManyToMany.cs" />
     <Compile Include="App_Code\Mapper.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="App_Code\Database.cs" />
-    <Compile Include="Providers\MsSql\Database.cs" />
-    <Compile Include="Providers\MsSql\Drawer.cs" />
     <Compile Include="App_Code\Query\Clause\Group.cs" />
     <Compile Include="App_Code\Query\Clause\Order.cs" />
-    <Compile Include="App_Code\Query\Delete.cs" />
-    <Compile Include="App_Code\Query\IQuery.cs" />
-    <Compile Include="App_Code\Query\Update.cs" />
-    <Compile Include="App_Code\Query\Insert.cs" />
+    <Compile Include="App_Code\Query\Generic\Delete.cs" />
+    <Compile Include="App_Code\Query\Generic\Update.cs" />
+    <Compile Include="App_Code\Query\Generic\Insert.cs" />
     <Compile Include="App_Code\Query\Drawer\Drawer.cs" />
     <Compile Include="App_Code\Query\Clause\Limit.cs" />
     <Compile Include="App_Code\Query\Expression\Expression.cs" />
     <Compile Include="App_Code\Query\Expression\ExpressionType.cs" />
     <Compile Include="App_Code\Query\Expression\Operators.cs" />
-    <Compile Include="Table.cs" />
-    <Compile Include="App_Code\Query\Select.cs" />
+    <Compile Include="App_Code\Providers\MsSql\Database.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Code\Providers\MsSql\Drawer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="App_Code\Query\Query.cs" />
+    <Compile Include="App_Code\Table.cs" />
+    <Compile Include="App_Code\Query\Generic\Select.cs" />
+    <Compile Include="App_Code\Query\Generic\Query.cs" />
     <Compile Include="App_Code\Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Definitif.Data.Query
+namespace Definitif.Data.Queries
 {
     /// <summary>
     /// Represents expression.

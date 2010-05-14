@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Threading;
 using System.Transactions;
-using Definitif.Data.Query;
+using Definitif.Data.Queries;
 
 namespace Definitif.Data
 {
@@ -15,10 +15,6 @@ namespace Definitif.Data
     public abstract class Database : IEnumerable
     {
         protected Dictionary<string, Table> tables = new Dictionary<string, Table>();
-        protected DatabaseState state = DatabaseState.NotInitialized;
-        protected string name;
-        protected string connectionString;
-        protected Drawer drawer;
 
         /// <summary>
         /// Gets database tables dictionary.
@@ -30,10 +26,8 @@ namespace Definitif.Data
         /// <summary>
         /// Gets database name.
         /// </summary>
-        public string Name
-        {
-            get { return this.name; }
-        }
+        public string Name { get; internal set; }
+
         /// <summary>
         /// Gets database state.
         /// </summary>
@@ -41,13 +35,17 @@ namespace Definitif.Data
         {
             get { return this.state; }
         }
+        protected DatabaseState state = DatabaseState.NotInitialized;
+
         /// <summary>
         /// Gets connection string.
         /// </summary>
-        public string ConnectionString
-        {
-            get { return this.connectionString; }
-        }
+        public string ConnectionString { get; internal set; }
+
+        /// <summary>
+        /// Gets Drawer object for Database.
+        /// </summary>
+        public Drawer Drawer { get; internal set; }
 
         /// <summary>
         /// Gets database NULL representation.
@@ -60,21 +58,13 @@ namespace Definitif.Data
         /// <summary>
         /// Initializes database instance by Connection String.
         /// </summary>
-        /// <param name="ConnectionString">Connection String to use for initialization.</param>
-        public virtual void Init(string ConnectionString)
+        /// <param name="connectionString">Connection String to use for initialization.</param>
+        public virtual void Init(string connectionString)
         {
-            this.connectionString = ConnectionString;
-            this.drawer = this.GetDrawer();
+            this.ConnectionString = connectionString;
+            this.Drawer = this.GetDrawer();
             this.UpdateSchema();
             this.state = DatabaseState.Initialized;
-        }
-
-        /// <summary>
-        /// Gets Drawer object for Database.
-        /// </summary>
-        public Drawer Drawer
-        {
-            get { return this.drawer; }
         }
 
         /// <summary>
@@ -148,10 +138,10 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="query">Query object.</param>
         /// <returns>Command object.</returns>
-        public DbCommand GetCommand(IQuery query)
+        public DbCommand GetCommand(Query query)
         {
             DbCommand command = this.GetCommand();
-            command.CommandText = query.ToString(drawer);
+            command.CommandText = query.ToString(this.Drawer);
             return command;
         }
         /// <summary>
@@ -200,11 +190,10 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="Queries">Qeries objects to Execute.</param>
         /// <returns>Number of rows affected.</returns>
-        public virtual int Execute(params IQuery[] Queries)
+        public virtual int Execute(params Query[] Queries)
         {
             return this.Execute(false, Queries);
         }
-
         /// <summary>
         /// Executes non-query command and returns number of rows
         /// affected by query or last query identity.
@@ -212,37 +201,38 @@ namespace Definitif.Data
         /// <param name="getIdentity">If "True", identity will be returned.</param>
         /// <param name="queries">Qeries objects to Execute.</param>
         /// <returns>Number of rows affected.</returns>
-        public virtual int Execute(bool getIdentity, params IQuery[] queries)
+        public virtual int Execute(bool getIdentity, params Query[] queries)
         {
             int result = 0;
             DbCommand command;
             DbConnection connection = this.GetConnection();
 
-            foreach (IQuery query in queries)
+            foreach (Query query in queries)
             {
-                command = this.GetCommand(connection, query.ToString(drawer));
+                command = this.GetCommand(connection, query.ToString(this.Drawer));
                 result += command.ExecuteNonQuery();
             }
 
             // Getting identity for last executed query.
             if (getIdentity)
             {
-                command = this.GetCommand(connection, this.drawer.Identity);
+                command = this.GetCommand(connection, this.Drawer.Identity);
                 result = (int?)command.ExecuteScalar() ?? 0;
             }
 
             connection.Close();
             return result;
         }
+
         /// <summary>
         /// Executes readable command and returns executed
         /// reader object.
         /// </summary>
         /// <param name="query">Query object to execute.</param>
         /// <returns>Executed reader object.</returns>
-        public virtual Reader ExecuteReader(IQuery query)
+        public virtual Reader ExecuteReader(Query query)
         {
-            return this.GetDataReader(query.ToString(drawer));
+            return this.GetDataReader(query.ToString(this.Drawer));
         }
 
         #region Transaction management.
@@ -340,23 +330,22 @@ namespace Definitif.Data
         /// <summary>
         /// Gets database table object by name.
         /// </summary>
-        /// <param name="Table">Name of table to get.</param>
+        /// <param name="name">Name of table to get.</param>
         /// <returns>Requested table object.</returns>
-        public Table this[string Table]
+        public Table this[string name]
         {
             get
             {
-                if (this.tables.ContainsKey(Table))
+                Table table;
+                if (this.tables.TryGetValue(name, out table))
                 {
-                    return this.tables[Table];
+                    return table;
                 }
                 else
                 {
-                    throw new ObjectSqlException(
-                        String.Format(
-                            "Database '{0}' does not contain definition for table '{1}'.",
-                            this.name, Table
-                        ));
+                    throw new IndexOutOfRangeException(String.Format(
+                        "Database '{0}' does not contain definition for table '{1}'.",
+                        this.Name, name));
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Definitif.Data.Query
+namespace Definitif.Data.Queries
 {
     /// <summary>
     /// Represents select query.
@@ -77,5 +77,10 @@ namespace Definitif.Data.Query
             return this;
         } 
         #endregion
+
+        protected override string Draw(Drawer drawer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

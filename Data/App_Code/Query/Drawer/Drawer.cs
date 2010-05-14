@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Definitif.Data.Query
+namespace Definitif.Data.Queries
 {
     /// <summary>
     /// Represents abstract query drawer.
     /// </summary>
     public abstract class Drawer
     {
-        public virtual string Identity { get; }
+        public abstract string Identity { get; }
     }
 }

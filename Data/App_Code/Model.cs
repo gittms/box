@@ -53,7 +53,7 @@ namespace Definitif.Data
             {
                 if (tableScheme == null)
                 {
-                    tableScheme = new ModelTableScheme<Model<M>, M>();
+                    tableScheme = new ModelTableScheme<M>();
                 }
                 return tableScheme;
             }

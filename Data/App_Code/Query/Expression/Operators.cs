@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Definitif.Data.Query
+namespace Definitif.Data.Queries
 {
     public abstract class Operators
     {

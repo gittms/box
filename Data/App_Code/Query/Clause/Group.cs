@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Definitif.Data.Query
+namespace Definitif.Data.Queries
 {
     /// <summary>
     /// Represents group clause.
