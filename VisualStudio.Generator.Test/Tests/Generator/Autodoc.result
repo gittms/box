@@ -44,7 +44,7 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets TestPerson model table scheme.
         /// </summary>
-        public new C {
+        public new TestPersonTableScheme C {
             get {
                 return tableScheme;
             }

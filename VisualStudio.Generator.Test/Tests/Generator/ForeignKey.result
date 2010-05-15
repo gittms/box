@@ -43,7 +43,7 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets TestModel model table scheme.
         /// </summary>
-        public new C {
+        public new TestModelTableScheme C {
             get {
                 return tableScheme;
             }

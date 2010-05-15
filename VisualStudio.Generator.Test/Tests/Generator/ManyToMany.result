@@ -41,7 +41,7 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets User model table scheme.
         /// </summary>
-        public new C {
+        public new UserTableScheme C {
             get {
                 return tableScheme;
             }
@@ -76,7 +76,7 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets Achievement model table scheme.
         /// </summary>
-        public new C {
+        public new AchievementTableScheme C {
             get {
                 return tableScheme;
             }
@@ -116,7 +116,7 @@ namespace Definitif.Test {
         /// <summary>
         /// Gets UserAchievement model table scheme.
         /// </summary>
-        public new C {
+        public new UserAchievementTableScheme C {
             get {
                 return tableScheme;
             }

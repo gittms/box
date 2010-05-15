@@ -67,7 +67,7 @@ namespace Definitif.VisualStudio.Generator
         /// <summary>
         /// Gets {type} model table scheme.
         /// </summary>
-        public new C {{
+        public new {type}TableScheme C {{
             get {{
                 return tableScheme;
             }}
