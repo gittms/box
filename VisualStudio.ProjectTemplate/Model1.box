@@ -1,6 +1,5 @@
-﻿// Congratulations!
-// You've just created Definitif Box Library project. You can learn more
-// about .box files and Core class at: http://opensource.definitif.ru/box/.
+﻿// You've just created Definitif Box Library project. You can learn more
+// about .box files syntax at: http://opensource.definitif.ru/box/syntax/.
 
 namespace $safeprojectname$
 {
