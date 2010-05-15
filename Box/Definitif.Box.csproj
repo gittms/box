@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\ConnectionStringKeyAttribute.cs" />
-    <Compile Include="App_Code\Core.cs" />
-    <Compile Include="Json.cs" />
-    <Compile Include="String.cs" />
-    <Compile Include="App_Code\NamedFormat.cs" />
+    <Compile Include="App_Code\Core\ConnectionStringKeyAttribute.cs" />
+    <Compile Include="App_Code\Core\Core.cs" />
+    <Compile Include="App_Code\Json.cs" />
+    <Compile Include="App_Code\String.cs" />
+    <Compile Include="App_Code\Text\NamedFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

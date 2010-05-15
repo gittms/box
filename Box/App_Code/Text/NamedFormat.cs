@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 
-namespace Definitif.Box
+namespace Definitif.Box.Text
 {
     /// <summary>
     /// Named format allows to format strings from dynamic object using

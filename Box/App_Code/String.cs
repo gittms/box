@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Definitif.Box;
+using Definitif.Box.Text;
 
 namespace Definitif
 {
