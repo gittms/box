@@ -20,6 +20,15 @@ namespace Definitif.Data
         public string Name { get; internal set; }
 
         /// <summary>
+        /// Creates an instance of database table.
+        /// </summary>
+        /// <param name="name">Name of table.</param>
+        public Table(string name)
+        {
+            this.Name = name;
+        }
+
+        /// <summary>
         /// Gets column by name.
         /// </summary>
         /// <param name="name">Name to get column.</param>
@@ -40,6 +49,16 @@ namespace Definitif.Data
                         this.Name, name));
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds column instance to table.
+        /// </summary>
+        /// <param name="column">Column instance to add.</param>
+        public void Add(Column column)
+        {
+            column.Table = this;
+            this.columns.Add(column.Name, column);
         }
     }
 }
