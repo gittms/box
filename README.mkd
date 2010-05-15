@@ -1,6 +1,6 @@
 ### What is Definitif Box?
 Definitif Box is a .net library for enterprise database-driven applications development.    
-Box is available under MIT license.
+Box and all external components are available under MIT license.
 
 ### Database Mapping
 Main feature of Definitif Box is database mapping. Models and mappers are automatically generated using extensions for Visual Studio 2010.
@@ -40,3 +40,6 @@ http://github.com/ashvetsov/definitif-box/
 ### Requirements:
 1. Visual Studio 2010 and .Net Framework 4;
 2. **Build only** Windows Installer XML tools (http://wix.sourceforge.net/);
+
+### External components:
+1. **Binary** WCF REST Contrib (http://wcfrestcontrib.codeplex.com/);
