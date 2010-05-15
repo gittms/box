@@ -32,9 +32,16 @@ namespace Definitif.VisualStudio.Classifier
                 if (!match.Success) break;
 
                 Group span = match.Groups["span"];
-                result.Add(new ClassificationSpan(
-                    new SnapshotSpan(line.Snapshot, line.Start + span.Index, span.Length),
-                    this.type));
+
+                // Keywords should be highlighted in blue, so
+                // skipping other highlightings if keyword found.
+                if (!(Classifier.Keywords.Contains(span.Value) &&
+                      this.type.Classification != "box.blue"))
+                {
+                    result.Add(new ClassificationSpan(
+                        new SnapshotSpan(line.Snapshot, line.Start + span.Index, span.Length),
+                        this.type));
+                }
                 lastIndex = span.Index + span.Length;
             }
         }
@@ -45,10 +52,23 @@ namespace Definitif.VisualStudio.Classifier
         private IClassificationTypeRegistryService registry;
 
         private static ClassifierRegex[] expressions;
+        public static string[] Keywords;
 
         internal Classifier(IClassificationTypeRegistryService registry)
         {
             this.registry = registry;
+
+            Keywords = new string[] {
+                "namespace",
+                "public", "private", "protected", "internal",
+                "static",
+                "new", "return", "get", "set", "in", "as",
+                "this", "if", "then", "break",
+                "for", "foreach", "while",
+                "true", "false", "string", "int", "bool",
+                "model", "many\\ to\\ many",
+                "foreign\\ key", "primary\\ key"
+            };
 
             expressions = new ClassifierRegex[] {
                 // Type definitions and names.
@@ -59,24 +79,17 @@ namespace Definitif.VisualStudio.Classifier
                     "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9_]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
+                    "\\[.+\\s(in|as)\\s(?<span>.+)\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
+                new ClassifierRegex(new Regex(
                     "(?<span>[a-z0-9_]+)\\s[a-z0-9_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
-                    "\\[.+\\s(in|as)\\s(?<span>.+)\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "\\s(?<span>[a-z0-9_]+)\\s([a-z0-9_]+);", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 // Keywords classifier.
                 new ClassifierRegex(new Regex(
-                    "(\\s|^)(?<span>" +
-                        "namespace|" +
-                        "public|private|protected|internal|" +
-                        "static|" +
-                        "new|return|get|set|in|as|" +
-                        "this|if|then|break|" +
-                        "for|foreach|while|" +
-                        "true|false|string|int|" +
-                        "model|many\\ to\\ many|" +
-                        "foreign\\ key|primary\\ key)" +
-                    "(\\s|$|;|\\])", RegexOptions.Compiled), 
+                    "(\\s|^)(?<span>" + String.Join("|", Keywords) + ")(\\s|$|;|\\])", RegexOptions.Compiled),
                     this.registry.GetClassificationType("box.blue")),
                 // Strings.
                 new ClassifierRegex(new Regex(
