@@ -38,26 +38,26 @@ namespace Definitif.VisualStudio.Generator
 
                 // When member type is Id:
                 //   INSERT:
-                //     m.C.Name == (obj.Name == Id.Empty) ? DBNull.Value : obj.Name
+                //     m.C.Name == ((obj.Name == Id.Empty) ? DBNull.Value : obj.Name)
                 //   SELECT:
                 //     Name = (reader["column"] == DBNull.Value) ? Id.Empty : new Id(reader["column"])
                 //     Name = (reader[fieldPrefix + "column"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "column"])
                 if (member.Type == "Id")
                 {
-                    values.Add(@"m.C.{name} == (obj.{name} == Id.Empty) ? DBNull.Value : obj.{name},".F(replacement));
+                    values.Add(@"m.C.{name} == ((obj.{name} == Id.Empty) ? DBNull.Value : obj.{name}.Value)".F(replacement));
                     reads.Add(@"{name} = (reader[""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[""{column}""]),".F(replacement));
                     readsWithPrefix.Add(@"{name} = (reader[fieldPrefix + ""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + ""{column}""]),".F(replacement));
                 }
                 // When member is foreign key, so it is represented
                 // by Id and typed properties:
                 //   INSERT:
-                //     m.C.Name.Id == (obj.NameId == Id.Empty) ? DBNull.Value : obj.Name
+                //     m.C.Name.Id == ((obj.NameId == Id.Empty) ? DBNull.Value : obj.Name)
                 //   SELECT:
                 //     NameId = (reader["column"] == DBNull.Value) ? Id.Empty : new Id(reader["column"])
                 //     NameId = (reader[fieldPrefix + "column"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "column"])
                 else if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
-                    values.Add(@"m.C.{name}.Id == (obj.{name}Id == Id.Empty) ? DBNull.Value : obj.{name}".F(replacement));
+                    values.Add(@"m.C.{name}.Id == ((obj.{name}Id == Id.Empty) ? DBNull.Value : obj.{name}Id.Value)".F(replacement));
                     reads.Add(@"{name}Id = (reader[""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[""{column}""]),".F(replacement));
                     readsWithPrefix.Add(@"{name}Id = (reader[fieldPrefix + ""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + ""{column}""]),".F(replacement));
                 }

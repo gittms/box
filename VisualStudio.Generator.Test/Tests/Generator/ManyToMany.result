@@ -366,8 +366,8 @@ namespace Definitif.Test.Mappers {
                 this.database.GetCommand(
                     new Insert<Definitif.Test.UserAchievement>()
                         .Values(m =>
-                            m.C.User.Id == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User &
-                            m.C.Achievement.Id == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement &
+                            m.C.User.Id == ((obj.UserId == Id.Empty) ? DBNull.Value : obj.UserId.Value) &
+                            m.C.Achievement.Id == ((obj.AchievementId == Id.Empty) ? DBNull.Value : obj.AchievementId.Value) &
                             m.C.Received == obj.Received))
             };
             this.InsertCommandsExtension(obj, list);
@@ -381,8 +381,8 @@ namespace Definitif.Test.Mappers {
                     new Update<Definitif.Test.UserAchievement>()
                         .Values(m =>
                             m.C.Version == obj.Version + 1 &
-                            m.C.User.Id == (obj.UserId == Id.Empty) ? DBNull.Value : obj.User &
-                            m.C.Achievement.Id == (obj.AchievementId == Id.Empty) ? DBNull.Value : obj.Achievement &
+                            m.C.User.Id == ((obj.UserId == Id.Empty) ? DBNull.Value : obj.UserId.Value) &
+                            m.C.Achievement.Id == ((obj.AchievementId == Id.Empty) ? DBNull.Value : obj.AchievementId.Value) &
                             m.C.Received == obj.Received)
                         .Where(m =>
                             m.C.Id == obj.Id.Value &
