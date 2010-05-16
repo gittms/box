@@ -82,7 +82,7 @@ namespace Definitif.VisualStudio.Generator
         public static CodeTypeMember ToForeignKeyMember(this Member member)
         {
             CodeSnippetTypeMember foreignKey = new CodeSnippetTypeMember(@"
-        protected Id {name}Id {{
+        internal Id {name}Id {{
             get {{ return {idName}; }}
             set {{ {idName} = value; }}
         }}

@@ -55,7 +55,7 @@ namespace Definitif.Test {
         }
         protected string p_name;
 
-        protected Id ForeignId {
+        internal Id ForeignId {
             get { return id_foreign; }
             set { id_foreign = value; }
         }

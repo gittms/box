@@ -122,7 +122,7 @@ namespace Definitif.Test {
             }
         }
 
-        protected Id UserId {
+        internal Id UserId {
             get { return id_user; }
             set { id_user = value; }
         }
@@ -142,7 +142,7 @@ namespace Definitif.Test {
         }
         protected User p_user = null;
 
-        protected Id AchievementId {
+        internal Id AchievementId {
             get { return id_achievement; }
             set { id_achievement = value; }
         }
