@@ -27,6 +27,7 @@ namespace Definitif.VisualStudio.Generator
             {
                 var replacement = new {
                     type = member.Type,
+                    typeSafe = member.Type.Replace('.', '_'),
                     name = member.Name,
                     column = member.ColumnName,
                     protectedName = member.NameProtected,
@@ -34,9 +35,9 @@ namespace Definitif.VisualStudio.Generator
 
                 if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
-                    columns.Add(@"private {type}TableScheme {protectedName} = new {type}().C;".F(replacement));
-                    columns.Add(@"public {type}TableScheme {name} {{ get {{ return {protectedName}; }} }}".F(replacement));
-                    schemeConstructor.Add((@"if (!{protectedName}.Id.ForeignKeys.ContainsKey(table[""{column}""])) " +
+                    columns.Add(@"private {type}.{typeSafe}TableScheme {protectedName} = new {type}().C;".F(replacement));
+                    columns.Add(@"public {type}.{typeSafe}TableScheme {name} {{ get {{ return {protectedName}; }} }}".F(replacement));
+                    schemeConstructor.Add((@"if (!{protectedName}.Id.ForeignKeys.Contains(table[""{column}""])) " +
                         @"{protectedName}.Id.ForeignKeys.Add(table[""{column}""]);").F(replacement));
                 }
                 else if (member.IsMapped)

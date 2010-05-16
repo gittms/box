@@ -100,14 +100,14 @@ namespace Definitif.Test {
 
         public class UserAchievementTableScheme : ModelTableScheme<Definitif.Test.Mappers.UserAchievement> {
             public UserAchievementTableScheme() {
-                if (!p_user.Id.ForeignKeys.ContainsKey(table["UserId"])) p_user.Id.ForeignKeys.Add(table["UserId"]);
-                if (!p_achievement.Id.ForeignKeys.ContainsKey(table["AchievementId"])) p_achievement.Id.ForeignKeys.Add(table["AchievementId"]);
+                if (!p_user.Id.ForeignKeys.Contains(table["UserId"])) p_user.Id.ForeignKeys.Add(table["UserId"]);
+                if (!p_achievement.Id.ForeignKeys.Contains(table["AchievementId"])) p_achievement.Id.ForeignKeys.Add(table["AchievementId"]);
             }
 
-            private UserTableScheme p_user = new User().C;
-            public UserTableScheme User { get { return p_user; } }
-            private AchievementTableScheme p_achievement = new Achievement().C;
-            public AchievementTableScheme Achievement { get { return p_achievement; } }
+            private User.UserTableScheme p_user = new User().C;
+            public User.UserTableScheme User { get { return p_user; } }
+            private Achievement.AchievementTableScheme p_achievement = new Achievement().C;
+            public Achievement.AchievementTableScheme Achievement { get { return p_achievement; } }
             private Column p_received = table["Received"];
             public Column Received { get { return p_received; } }
         }

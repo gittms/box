@@ -30,13 +30,13 @@ namespace Definitif.Test {
 
         public class TestModelTableScheme : ModelTableScheme<Definitif.Test.Mappers.TestModel> {
             public TestModelTableScheme() {
-                if (!p_foreign.Id.ForeignKeys.ContainsKey(table["ForeignId"])) p_foreign.Id.ForeignKeys.Add(table["ForeignId"]);
+                if (!p_foreign.Id.ForeignKeys.Contains(table["ForeignId"])) p_foreign.Id.ForeignKeys.Add(table["ForeignId"]);
             }
 
             private Column p_name = table["Name"];
             public Column Name { get { return p_name; } }
-            private ForeignModelTableScheme p_foreign = new ForeignModel().C;
-            public ForeignModelTableScheme Foreign { get { return p_foreign; } }
+            private ForeignModel.ForeignModelTableScheme p_foreign = new ForeignModel().C;
+            public ForeignModel.ForeignModelTableScheme Foreign { get { return p_foreign; } }
         }
 
         private static TestModelTableScheme tableScheme = new TestModelTableScheme();
