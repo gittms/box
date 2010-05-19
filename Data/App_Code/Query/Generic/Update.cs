@@ -10,9 +10,6 @@ namespace Definitif.Data.Queries
     public class Update<ModelType> : Query<ModelType>
         where ModelType : class, IModel, new()
     {
-        protected Expression values = null;
-        protected Expression where = null;
-
         /// <summary>
         /// Specifies values to update.
         /// </summary>

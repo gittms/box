@@ -11,6 +11,7 @@ namespace Definitif.Data.Queries
         internal IList<Column> fields = null;
         internal IList<Join> joins = null;
         internal Expression where = null;
+        internal Expression values = null;
         internal IList<Order> orderBy = null;
         internal IList<Column> groupBy = null;
         internal Limit limit = new Limit();
@@ -46,6 +47,7 @@ namespace Definitif.Data.Queries
             result.fields = fields;
             result.joins = joins;
             result.where = where;
+            result.values = values;
             result.orderBy = orderBy;
             result.groupBy = groupBy;
             result.limit = limit;
