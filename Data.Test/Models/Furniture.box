@@ -1,0 +1,19 @@
+﻿namespace Definitif.Data.Test.Models
+{
+    ["Tables"]
+	public model Table
+	{
+        ["Name"]
+        public string Name;
+	}
+
+    ["Chairs"]
+    public model Chair
+    {
+        ["TableId"]
+        public foreign key Table Table;
+
+        ["Name"]
+        public string Name;
+    }
+}

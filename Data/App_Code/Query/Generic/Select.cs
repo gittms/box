@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Definitif.Data.Queries
 {
@@ -9,7 +10,20 @@ namespace Definitif.Data.Queries
     public class Select<ModelType> : Query<ModelType>
         where ModelType : class, IModel, new()
     {
-        protected Expression where = null;
+        /// <summary>
+        /// Specifies expression to get fields list.
+        /// </summary>
+        /// <param name="columns">Lambda function returning fields.</param>
+        public Select<ModelType> Fields(Func<ModelType, IList<Column>> columns)
+        {
+            fields = columns(Singleton<ModelType>.Default);
+            return this;
+        }
+        public Select<ModelType> Fields(Func<ModelType, Column> column)
+        {
+            fields = new Column[] { column(Singleton<ModelType>.Default) };
+            return this;
+        }
 
         /// <summary>
         /// Specifies expressions to filter query.
@@ -17,17 +31,22 @@ namespace Definitif.Data.Queries
         /// <param name="expression">Lambda function returning expression.</param>
         public Select<ModelType> Where(Func<ModelType, Expression> expression)
         {
-            where = expression(default(ModelType));
+            where = expression(Singleton<ModelType>.Default);
             return this;
         }
 
         /// <summary>
-        /// Specifies columns to order by.
+        /// Specifies clauses to order by.
         /// </summary>
         /// <param name="order">Lambda function returning order clause.</param>
+        public Select<ModelType> OrderBy(Func<ModelType, IList<Order>> order)
+        {
+            orderBy = order(Singleton<ModelType>.Default);
+            return this;
+        }
         public Select<ModelType> OrderBy(Func<ModelType, Order> order)
         {
-            orderBy = order(default(ModelType));
+            orderBy = new Order[] { order(Singleton<ModelType>.Default) };
             return this;
         }
 
@@ -35,9 +54,14 @@ namespace Definitif.Data.Queries
         /// Specifies columns to group by.
         /// </summary>
         /// <param name="group">Lambda function returning group by.</param>
-        public Select<ModelType> GroupBy(Func<ModelType, Group> group)
+        public Select<ModelType> GroupBy(Func<ModelType, IList<Column>> group)
         {
-            groupBy = group(default(ModelType));
+            groupBy = group(Singleton<ModelType>.Default);
+            return this;
+        }
+        public Select<ModelType> GroupBy(Func<ModelType, Column> group)
+        {
+            groupBy = new Column[] { group(Singleton<ModelType>.Default) };
             return this;
         }
 
@@ -78,9 +102,51 @@ namespace Definitif.Data.Queries
         } 
         #endregion
 
-        protected override string Draw(Drawer drawer)
+        #region Joins.
+        private SingleJoinedSelect<ModelType, JoinModelType> Join<JoinModelType>(Func<ModelType, JoinModelType, Expression> expression, JoinType type)
+            where JoinModelType : class, IModel, new()
         {
-            throw new NotImplementedException();
+            joins = new List<Join>() { new Join()
+            {
+                Clause = expression(Singleton<ModelType>.Default, Singleton<JoinModelType>.Default),
+                Table = Singleton<JoinModelType>.Default.IMapper().Table,
+                Type = type,
+            } };
+            return this.Clone<SingleJoinedSelect<ModelType, JoinModelType>>();
         }
+
+        /// <summary>
+        /// Performs inner join on given model type.
+        /// </summary>
+        /// <typeparam name="JoinModelType">Model type to join.</typeparam>
+        /// <param name="expression">Lambda function returning clause.</param>
+        public SingleJoinedSelect<ModelType, JoinModelType> InnerJoin<JoinModelType>(Func<ModelType, JoinModelType, Expression> expression)
+            where JoinModelType : class, IModel, new()
+        {
+            return this.Join<JoinModelType>(expression, JoinType.Inner);
+        }
+
+        /// <summary>
+        /// Performs right join on given model type.
+        /// </summary>
+        /// <typeparam name="JoinModelType">Model type to join.</typeparam>
+        /// <param name="expression">Lambda function returning clause.</param>
+        public SingleJoinedSelect<ModelType, JoinModelType> RightJoin<JoinModelType>(Func<ModelType, JoinModelType, Expression> expression)
+            where JoinModelType : class, IModel, new()
+        {
+            return this.Join<JoinModelType>(expression, JoinType.Right);
+        }
+
+        /// <summary>
+        /// Performs left join on given model type.
+        /// </summary>
+        /// <typeparam name="JoinModelType">Model type to join.</typeparam>
+        /// <param name="expression">Lambda function returning clause.</param>
+        public SingleJoinedSelect<ModelType, JoinModelType> LeftJoin<JoinModelType>(Func<ModelType, JoinModelType, Expression> expression)
+            where JoinModelType : class, IModel, new()
+        {
+            return this.Join<JoinModelType>(expression, JoinType.Left);
+        }
+        #endregion
     }
 }

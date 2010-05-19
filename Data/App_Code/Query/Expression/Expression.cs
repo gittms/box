@@ -6,7 +6,7 @@ namespace Definitif.Data.Queries
     /// <summary>
     /// Represents expression.
     /// </summary>
-    public partial class Expression
+    public class Expression
     {
         /// <summary>
         /// Gets or sets expression type.

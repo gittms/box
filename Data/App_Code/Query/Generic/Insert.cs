@@ -17,13 +17,8 @@ namespace Definitif.Data.Queries
         /// <param name="expression">Lambda function returning expression.</param>
         public Insert<ModelType> Values(Func<ModelType, Expression> expression)
         {
-            values = expression(default(ModelType));
+            values = expression(Singleton<ModelType>.Default);
             return this;
-        }
-
-        protected override string Draw(Drawer drawer)
-        {
-            throw new NotImplementedException();
         }
     }
 }

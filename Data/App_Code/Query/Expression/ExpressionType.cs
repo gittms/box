@@ -9,10 +9,8 @@ namespace Definitif.Data.Queries
     {
         Unspecified     = 0,
 
-        #region Logic
         And             = 1,
         Or              = 2,
-        #endregion
 
         Equals          = 11,
         NotEquals       = 12,
@@ -25,5 +23,9 @@ namespace Definitif.Data.Queries
         Subs            = 22,
         Multiply        = 23,
         Divide          = 24,
+
+        StartsWith      = 31,
+        EndsWith        = 32,
+        Contains        = 33,
     }
 }

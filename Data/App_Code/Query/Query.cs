@@ -8,15 +8,21 @@ namespace Definitif.Data.Queries
     /// </summary>
     public abstract class Query
     {
-        protected Order orderBy = null;
-        protected Group groupBy = null;
-        protected Limit limit = new Limit();
+        internal IList<Column> fields = null;
+        internal IList<Join> joins = null;
+        internal Expression where = null;
+        internal IList<Order> orderBy = null;
+        internal IList<Column> groupBy = null;
+        internal Limit limit = new Limit();
 
         /// <summary>
         /// Draws query to string using drawer specified.
         /// </summary>
         /// <returns>String representation of query.</returns>
-        protected abstract string Draw(Drawer drawer);
+        protected virtual string Draw(Drawer drawer)
+        {
+            return drawer.Draw(this);
+        }
 
         /// <summary>
         /// Draws query to string using drawer specified.
@@ -26,6 +32,25 @@ namespace Definitif.Data.Queries
         public string ToString(Drawer drawer)
         {
             return this.Draw(drawer);
+        }
+
+        /// <summary>
+        /// Clones query by creating query of given type.
+        /// </summary>
+        /// <typeparam name="T">Type of query to o.</typeparam>
+        internal T Clone<T>()
+            where T : Query, new()
+        {
+            T result = new T();
+
+            result.fields = fields;
+            result.joins = joins;
+            result.where = where;
+            result.orderBy = orderBy;
+            result.groupBy = groupBy;
+            result.limit = limit;
+
+            return result;
         }
     }
 }

@@ -8,5 +8,10 @@ namespace Definitif.Data.Queries
     public abstract class Drawer
     {
         public abstract string Identity { get; }
+
+        public virtual string Draw(Query query)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

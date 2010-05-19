@@ -88,10 +88,16 @@
     <Compile Include="App_Code\Mapper.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="App_Code\Database.cs" />
-    <Compile Include="App_Code\Query\Clause\Group.cs" />
+    <Compile Include="App_Code\Query\Aggregator\Aggregator.cs" />
+    <Compile Include="App_Code\Query\Aggregator\AggregatorType.cs" />
+    <Compile Include="App_Code\Query\Aggregator\Alias.cs" />
     <Compile Include="App_Code\Query\Clause\Order.cs" />
-    <Compile Include="App_Code\Query\Generic\Delete.cs" />
+    <Compile Include="App_Code\Query\Clause\OrderType.cs" />
+    <Compile Include="App_Code\Query\Generic\Joins\TripleJoinedSelect.cs" />
+    <Compile Include="App_Code\Query\Generic\Joins\DoubleJoinedSelect.cs" />
+    <Compile Include="App_Code\Query\Generic\Joins\SingleJoinedSelect.cs" />
     <Compile Include="App_Code\Query\Generic\Update.cs" />
+    <Compile Include="App_Code\Query\Generic\Delete.cs" />
     <Compile Include="App_Code\Query\Generic\Insert.cs" />
     <Compile Include="App_Code\Query\Drawer\Drawer.cs" />
     <Compile Include="App_Code\Query\Clause\Limit.cs" />
@@ -104,7 +110,10 @@
     <Compile Include="App_Code\Providers\MsSql\Drawer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="App_Code\Query\Join\Join.cs" />
+    <Compile Include="App_Code\Query\Join\JoinType.cs" />
     <Compile Include="App_Code\Query\Query.cs" />
+    <Compile Include="App_Code\Singleton.cs" />
     <Compile Include="App_Code\Table.cs" />
     <Compile Include="App_Code\Query\Generic\Select.cs" />
     <Compile Include="App_Code\Query\Generic\Query.cs" />
@@ -131,10 +140,10 @@
   <ItemGroup>
     <None Include="Definitif.Data.snk" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

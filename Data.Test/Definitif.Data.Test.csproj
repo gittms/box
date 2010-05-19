@@ -47,14 +47,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Select.cs" />
+    <None Include="App.config" />
+    <Compile Include="Core.cs" />
+    <Compile Include="Models\Furniture.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Furniture.box</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Models\Furniture.box">
+      <Generator>DefinitifBoxGenerator</Generator>
+      <LastGenOutput>Furniture.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Box\Definitif.Box.csproj">
+      <Project>{97C4D0E5-0140-4E7C-979D-16EB25BED208}</Project>
+      <Name>Definitif.Box</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Definitif.Data.csproj">
       <Project>{A1FFD453-E4BF-4518-80A1-365FB1CE03B3}</Project>
       <Name>Definitif.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
