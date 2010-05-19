@@ -9,6 +9,12 @@ namespace Definitif.Data.Queries
     public class Insert<ModelType> : Query<ModelType>
         where ModelType : class, IModel, new()
     {
+        public Insert()
+        {
+            modelTable = Singleton<ModelType>.Default.IMapper().Table;
+            type = QueryType.Insert;
+        }
+
         /// <summary>
         /// Specifies values to insert.
         /// </summary>

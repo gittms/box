@@ -8,6 +8,9 @@ namespace Definitif.Data.Queries
     /// </summary>
     public abstract class Query
     {
+        internal Table modelTable = null;
+        protected QueryType type = QueryType.Select;
+
         internal IList<Column> fields = null;
         internal IList<Join> joins = null;
         internal Expression where = null;
@@ -15,6 +18,11 @@ namespace Definitif.Data.Queries
         internal IList<Order> orderBy = null;
         internal IList<Column> groupBy = null;
         internal Limit limit = new Limit();
+
+        /// <summary>
+        /// Gets query type enumerator value.
+        /// </summary>
+        public QueryType Type { get { return type; } internal set { type = value; } }
 
         /// <summary>
         /// Draws query to string using drawer specified.
@@ -43,6 +51,8 @@ namespace Definitif.Data.Queries
             where T : Query, new()
         {
             T result = new T();
+            result.modelTable = modelTable;
+            result.Type = type;
 
             result.fields = fields;
             result.joins = joins;

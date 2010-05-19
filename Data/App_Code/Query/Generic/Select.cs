@@ -10,6 +10,11 @@ namespace Definitif.Data.Queries
     public class Select<ModelType> : Query<ModelType>
         where ModelType : class, IModel, new()
     {
+        public Select()
+        {
+            modelTable = Singleton<ModelType>.Default.IMapper().Table;
+        }
+
         /// <summary>
         /// Specifies expression to get fields list.
         /// </summary>

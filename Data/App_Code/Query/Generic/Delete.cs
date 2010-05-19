@@ -10,6 +10,12 @@ namespace Definitif.Data.Queries
     public class Delete<ModelType> : Query<ModelType>
         where ModelType : class, IModel, new()
     {
+        public Delete()
+        {
+            modelTable = Singleton<ModelType>.Default.IMapper().Table;
+            type = QueryType.Delete;
+        }
+
         /// <summary>
         /// Specifies expressions to filter query.
         /// </summary>

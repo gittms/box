@@ -10,6 +10,12 @@ namespace Definitif.Data.Queries
     public class Update<ModelType> : Query<ModelType>
         where ModelType : class, IModel, new()
     {
+        public Update()
+        {
+            modelTable = Singleton<ModelType>.Default.IMapper().Table;
+            type = QueryType.Update;
+        }
+
         /// <summary>
         /// Specifies values to update.
         /// </summary>

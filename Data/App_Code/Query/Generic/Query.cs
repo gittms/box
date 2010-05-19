@@ -17,7 +17,7 @@ namespace Definitif.Data.Queries
         public override string ToString()
         {
             // Getting drawer model was initialized with.
-            Drawer drawer = (Singleton<ModelType>.Default.IMapper() as Mapper<ModelType>).Table.Database.Drawer;
+            Drawer drawer = modelTable.Database.Drawer;
 
             return this.Draw(drawer);
         }
