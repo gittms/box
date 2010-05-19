@@ -12,8 +12,8 @@ namespace Definitif.Data
         where L : class, IManyToMany, new()
         where M : class, IModel, new()
     {
-        protected L link = new L();
-        protected M model = new M();
+        protected L link = Singleton<L>.Default;
+        protected M model = Singleton<M>.Default;
 
         /// <summary>
         /// Gets or sets the link object.

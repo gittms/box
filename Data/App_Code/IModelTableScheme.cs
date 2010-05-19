@@ -9,5 +9,7 @@ namespace Definitif.Data
     {
         Column Id { get; }
         Column Version { get; }
+
+        Column this[string name] { get; }
     }
 }

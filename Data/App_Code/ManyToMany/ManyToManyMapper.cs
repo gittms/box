@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using Definitif.Data;
+using Definitif.Data.Queries;
 
 namespace Definitif.Data
 {
@@ -22,16 +23,14 @@ namespace Definitif.Data
 
         public ManyToManyMapper()
         {
-            L l = new L();
-            M m = new M();
+            L l = Singleton<L>.Default;
+            M m = Singleton<M>.Default;
             this.linkMapper = l.IMapper() as Mapper<L>;
             this.modelMapper = m.IMapper() as Mapper<M>;
             this.joinField = (this.linkMapper as IManyToManyMapper).FieldNameJoin(m);
             this.whereField = (this.linkMapper as IManyToManyMapper).FieldNameWhere(m);
         }
 
-        /*
-         * 
         /// <summary>
         /// Gets list of many-to-many relation objects for specified model.
         /// </summary>
@@ -39,29 +38,18 @@ namespace Definitif.Data
         /// <returns>List of ManyToMany objects.</returns>
         public List<ManyToMany<L, M>> Get(Id id)
         {
-            return Get(this.linkMapper.Table[this.whereField] == id.Value);
+            return Get(Singleton<M>.Default.C.Id == id.Value);
         }
 
         /// <summary>
         /// Gets list of many-to-many relation objects.
         /// </summary>
-        /// <param name="field">Field to filter by.</param>
-        /// <param name="value">Field value.</param>
+        /// <param name="expression">Expression for building the SQL query.</param>
         /// <returns>List of ManyToMany objects.</returns>
-        public List<ManyToMany<L, M>> Get(string field, object value)
-        {
-            return this.Get(this.linkMapper.Table[field] == value);
-        }
-
-        /// <summary>
-        /// Gets list of many-to-many relation objects.
-        /// </summary>
-        /// <param name="parameters">Parameters used for building the SQL query.</param>
-        /// <returns>List of ManyToMany objects.</returns>
-        public List<ManyToMany<L, M>> Get(params IExpression[] parameters)
+        public List<ManyToMany<L, M>> Get(Expression expression)
         {
             List<ManyToMany<L, M>> result = new List<ManyToMany<L, M>>();
-            IDataReader reader = ExecuteReader(ReadCommand(parameters));
+            IDataReader reader = ExecuteReader(ReadCommand(expression));
             string prefix = this.linkMapper.Table.Name + ".";
             while (reader.Read())
             {
@@ -77,26 +65,16 @@ namespace Definitif.Data
         /// <summary>
         /// Returns the query for retrieving ManyToMany objects.
         /// </summary>
-        /// <param name="parameters">Parameters used for building the SQL query.</param>
+        /// <param name="expression">Expression for building the SQL query.</param>
         /// <returns>DbCommand instance.</returns>
-        protected virtual DbCommand ReadCommand(params IExpression[] parameters)
+        protected virtual DbCommand ReadCommand(Expression expression)
         {
-            Select query = new Select(linkMapper.Table["**"], modelMapper.Table["*"])
-            {
-                FROM =
-                {
-                    modelMapper.Table.INNERJOIN(
-                        linkMapper.Table,
-                        modelMapper.Table["Id"] == linkMapper.Table[this.joinField])
-                }
-            };
-            foreach (IExpression expression in parameters)
-            {
-                query.WHERE.Add(expression);
-            }
+            Query query = new Select<M>()
+                .InnerJoin<L>((m, l) => m.C.Id == l.C[joinField])
+                .Fields((m, l) => l.C["*"] & m.C["**"])
+                .Where(expression);
             return this.database.GetCommand(query);
         }
-         */
 
         public override L ReadObject(IDataReader reader)
         {

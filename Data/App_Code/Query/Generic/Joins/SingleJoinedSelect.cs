@@ -35,6 +35,12 @@ namespace Definitif.Data.Queries
             where = expression(Singleton<ModelType>.Default, Singleton<JoinModelType>.Default);
             return this;
         }
+        /// <param name="expression">Expression to use.</param>
+        public SingleJoinedSelect<ModelType, JoinModelType> Where(Expression expression)
+        {
+            where = expression;
+            return this;
+        }
 
         /// <summary>
         /// Specifies clauses to order by.
