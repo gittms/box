@@ -8,7 +8,7 @@ using Definitif.Data.Queries;
 namespace Definitif.Data.Test
 {
     [TestClass]
-    public class SelectTest
+    public class DrawTest
     {
         private Query query;
 
