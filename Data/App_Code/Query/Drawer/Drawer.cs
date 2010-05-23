@@ -26,8 +26,8 @@ namespace Definitif.Data.Queries
                     return paged ? 
                         this.DrawQuerySelectPaged(query) :
                         this.DrawQuerySelect(query);
-                //case QueryType.Insert:
-                //    return this.DrawQueryInsert(query);
+                case QueryType.Insert:
+                    return this.DrawQueryInsert(query);
                 //case QueryType.Update:
                 //    return paged ?
                 //        this.DrawQueryUpdatePaged(query) :
@@ -71,6 +71,32 @@ namespace Definitif.Data.Queries
             return this.DrawQuerySelect(query, "", "", "");
         }
         protected abstract string DrawQuerySelectPaged(Query query);
+
+        protected virtual string DrawQueryInsert(Query query)
+        {
+            Expression valuesExpression = new Expression();
+            if (query.values.Type == ExpressionType.And) valuesExpression.Container = query.values.Container;
+            else valuesExpression.Container.Add(query.values);
+
+            string[] columns = new string[valuesExpression.Container.Count],
+                values = new string[columns.Length];
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                Expression expression = valuesExpression.Container[i] as Expression;
+                columns[i] = this.DrawColumnStandAlone(expression.Container[0] as Column);
+                values[i] = this.Draw(expression.Container[1]);
+            }
+
+            return
+                "INSERT INTO " +
+                    query.modelTable.Name +
+               " (" +
+                    String.Join(", ", columns) +
+                ") VALUES (" +
+                    String.Join(", ", values) +
+                ")";
+        }
 
         /// <summary>
         /// Draws given object to string representation.
