@@ -88,11 +88,15 @@
     <Compile Include="App_Code\Mapper.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="App_Code\Database.cs" />
+    <Compile Include="App_Code\Providers\MySql\Database.cs" />
+    <Compile Include="App_Code\Providers\MySql\Drawer.cs" />
     <Compile Include="App_Code\Query\Aggregator\Aggregator.cs" />
     <Compile Include="App_Code\Query\Aggregator\AggregatorType.cs" />
     <Compile Include="App_Code\Query\Aggregator\Alias.cs" />
     <Compile Include="App_Code\Query\Clause\Order.cs" />
     <Compile Include="App_Code\Query\Clause\OrderType.cs" />
+    <Compile Include="App_Code\Query\Expression\ExpressionEnumerator.cs" />
+    <Compile Include="App_Code\Query\QueryType.cs" />
     <Compile Include="App_Code\Query\Generic\Joins\TripleJoinedSelect.cs" />
     <Compile Include="App_Code\Query\Generic\Joins\DoubleJoinedSelect.cs" />
     <Compile Include="App_Code\Query\Generic\Joins\SingleJoinedSelect.cs" />

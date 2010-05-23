@@ -26,6 +26,10 @@ namespace Definitif.Data
         public Table(string name)
         {
             this.Name = name;
+
+            // Creating meta columns for table.
+            this.Add(new Column("*", ""));
+            this.Add(new Column("**", ""));
         }
 
         /// <summary>
@@ -51,6 +55,16 @@ namespace Definitif.Data
             }
         }
 
+        private Column primaryKey;
+
+        /// <summary>
+        /// Gets table's primary key column.
+        /// </summary>
+        public Column PrimaryKey
+        {
+            get { return primaryKey; }
+        }
+
         /// <summary>
         /// Adds column instance to table.
         /// </summary>
@@ -59,6 +73,7 @@ namespace Definitif.Data
         {
             column.Table = this;
             this.columns.Add(column.Name, column);
+            if (column.IsPrimaryKey) this.primaryKey = column;
         }
     }
 }

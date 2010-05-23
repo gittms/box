@@ -4,7 +4,8 @@
 /// Provides a global point of access to a single instance of a given class.
 /// </summary>
 /// <typeparam name="T">The type to provide a singleton instance for.</typeparam>
-public static class Singleton<T> where T : new()
+public static class Singleton<T>
+    where T : new()
 {
     /// <summary>
     /// Gets the singleton default.
@@ -24,10 +25,8 @@ public static class Singleton<T> where T : new()
     {
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit.
-        static SingletonInternal()
-        {
-        }
+        static SingletonInternal() { }
 
-        internal static readonly T instance = new T();
+        internal static T instance = new T();
     }
 }

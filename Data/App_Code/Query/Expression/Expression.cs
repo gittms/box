@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Definitif.Data.Queries
 {
     /// <summary>
     /// Represents expression.
     /// </summary>
-    public class Expression
+    public class Expression : IEnumerable
     {
         /// <summary>
         /// Gets or sets expression type.
@@ -64,5 +65,41 @@ namespace Definitif.Data.Queries
 				};
 			}
 		}
+
+        internal List<Expression> GetMembers()
+        {
+            List<Expression> result = new List<Expression>();
+
+            if (this.Type == ExpressionType.And ||
+                this.Type == ExpressionType.Or)
+            {
+                foreach (Expression obj in this.Container)
+                {
+                    result.AddRange(obj.GetMembers());
+                }
+            }
+            else
+            {
+                result.Add(this);
+
+                // Second part of expression can also be an
+                // expression, so iterating through container
+                // and calling GetMembers().
+                for (int i = 1; i < this.Container.Count; i++)
+                {
+                    if (this.Container[i] is Expression)
+                    {
+                        result.AddRange((this.Container[i] as Expression).GetMembers());
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)(new ExpressionEnumerator(this));
+        }
 	}
 }

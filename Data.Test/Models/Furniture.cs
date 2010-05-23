@@ -118,7 +118,7 @@ namespace Definitif.Data.Test.Models.Mappers {
 
         public Table()
         {
-            this.database = Core.Database;
+            this.database = global::Core.Database;
             this.table = this.database["Tables"];
         }
 
@@ -187,7 +187,7 @@ namespace Definitif.Data.Test.Models.Mappers {
 
         public Chair()
         {
-            this.database = Core.Database;
+            this.database = global::Core.Database;
             this.table = this.database["Chairs"];
         }
 

@@ -25,7 +25,10 @@ namespace Definitif.Data
         /// </summary>
         internal Table Table { get; set; }
 
-        protected Column() { }
+        protected Column()
+        {
+            this.IsPrimaryKey = false;
+        }
 
         /// <summary>
         /// Creates new column instance.
@@ -36,6 +39,7 @@ namespace Definitif.Data
         {
             this.Name = name;
             this.DataType = dataType;
+            this.IsPrimaryKey = (name == "Id");
         }
 
         /// <summary>
@@ -44,6 +48,25 @@ namespace Definitif.Data
         public List<Column> ForeignKeys
         {
             get { return foreignKeys; }
+        }
+
+        /// <summary>
+        /// Returns true if column is primary key (Id) of table.
+        /// </summary>
+        public bool IsPrimaryKey { get; internal set; }
+
+        /// <summary>
+        /// Gets column of given table that links current column.
+        /// </summary>
+        /// <param name="table">Table to get link with.</param>
+        /// <returns>Column linked with current column.</returns>
+        public Column GetForeignKeyFor(Table table)
+        {
+            foreach (Column fk in this.foreignKeys)
+            {
+                if (fk.Table == table) return fk;
+            }
+            return null;
         }
 
         // Operator & joins multiple Order objects into array.
