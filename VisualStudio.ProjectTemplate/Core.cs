@@ -7,7 +7,7 @@ using Definitif.Data;
 /// Represents Definitif Box Library core.
 /// </summary>
 [ConnectionStringKey("Core")]
-public class Core : Definitif.Core
+public class Core
 {
     /// <summary>
     /// Statically initializes core singleton.
@@ -15,5 +15,17 @@ public class Core : Definitif.Core
     static Core()
     {
         core = new Definitif.Core(typeof(Core));
+    }
+
+    protected static Definitif.Core core;
+    /// <summary>
+    /// Gets core database object.
+    /// </summary>
+    public static Database Database
+    {
+        get
+        {
+            return core.Database;
+        }
     }
 }

@@ -196,7 +196,7 @@ namespace Definitif.Test.Mappers {
 
         public User()
         {
-            this.database = Core.Database;
+            this.database = global::Core.Database;
             this.table = this.database["Users"];
         }
 
@@ -265,7 +265,7 @@ namespace Definitif.Test.Mappers {
 
         public Achievement()
         {
-            this.database = Core.Database;
+            this.database = global::Core.Database;
             this.table = this.database["Achievements"];
         }
 
@@ -334,7 +334,7 @@ namespace Definitif.Test.Mappers {
 
         public UserAchievement()
         {
-            this.database = Core.Database;
+            this.database = global::Core.Database;
             this.table = this.database["UserAchievements"];
         }
 

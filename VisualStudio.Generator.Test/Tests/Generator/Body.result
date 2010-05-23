@@ -75,7 +75,7 @@ namespace TestNamespace.Mappers {
 
         public TestModel()
         {
-            this.database = App.Database;
+            this.database = global::App.Database;
             this.table = this.database["Models"];
         }
 

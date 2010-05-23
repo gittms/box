@@ -107,7 +107,7 @@ namespace Definitif.VisualStudio.Generator
             codeType.Members.Add(new CodeSnippetTypeMember(@"
         public {type}()
         {{
-            this.database = {database};
+            this.database = global::{database};
             this.table = this.database[""{table}""];
         }}".F(variables) + Environment.NewLine));
 

@@ -72,7 +72,7 @@ namespace Definitif.Test.Mappers {
 
         public TestPerson()
         {
-            this.database = Core.Database;
+            this.database = global::Core.Database;
             this.table = this.database["Persons"];
         }
 

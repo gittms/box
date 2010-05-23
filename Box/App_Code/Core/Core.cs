@@ -10,23 +10,10 @@ namespace Definitif
     /// </summary>
     public class Core
     {
-        protected static Core core;
-
-        /// <summary>
-        /// Gets core database object.
-        /// </summary>
-        public static Database Database
-        {
-            get
-            {
-                return core.database;
-            }
-        }
-
         /// <summary>
         /// Gets database object.
         /// </summary>
-        protected Database database { get; set; }
+        public Database Database { get; set; }
 
         /// <summary>
         /// Creates an instance of core.
@@ -85,7 +72,7 @@ namespace Definitif
 
                 // Initializing database.
                 db.Init(connectionString.ConnectionString);
-                database = db;
+                Database = db;
             }
         }
     }
