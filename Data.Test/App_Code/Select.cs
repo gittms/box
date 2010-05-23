@@ -20,6 +20,9 @@ namespace Definitif.Data.Test
             query = new Select<Models.Table>().Where(m => m.C.Id == 1);
             Assert.AreEqual("SELECT Tables.* FROM Tables WHERE Tables.[Id] = 1", query.ToString());
 
+            query = new Select<Models.Chair>().Where(m => m.C.Table.Id == null);
+            Assert.AreEqual("SELECT Chairs.* FROM Chairs WHERE Chairs.[TableId] IS NULL", query.ToString());
+
             // Value functions.
             query = new Select<Models.Table>().Where(m => m.C.Name.Length >= 10);
             Assert.AreEqual("SELECT Tables.* FROM Tables WHERE DATALENGTH(Tables.[Name]) >= 10", query.ToString());

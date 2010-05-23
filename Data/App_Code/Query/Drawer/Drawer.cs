@@ -219,9 +219,13 @@ namespace Definitif.Data.Queries
 
         protected virtual string DrawExpressionEquals(Expression expression)
         {
-            if (expression.Container[1] is IList)
+            if (expression.Container[1] == null)
             {
-                return this.Draw(expression.Container[0]) + " IN (" + 
+                return this.Draw(expression.Container[0]) + " IS NULL";
+            }
+            else if (expression.Container[1] is IList)
+            {
+                return this.Draw(expression.Container[0]) + " IN (" +
                     String.Join(", ", this.DrawList(expression.Container[1] as IList)) + ")";
             }
             else if (expression.Container[1] is Query)
@@ -237,7 +241,11 @@ namespace Definitif.Data.Queries
         }
         protected virtual string DrawExpressionNotEquals(Expression expression)
         {
-            if (expression.Container[1] is IList)
+            if (expression.Container[1] == null)
+            {
+                return this.Draw(expression.Container[0]) + " IS NOT NULL";
+            }
+            else if (expression.Container[1] is IList)
             {
                 return this.Draw(expression.Container[0]) + " NOT IN (" +
                     String.Join(", ", this.DrawList(expression.Container[1] as IList)) + ")";
