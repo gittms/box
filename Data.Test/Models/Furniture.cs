@@ -217,7 +217,7 @@ namespace Definitif.Data.Test.Models.Mappers {
                 this.database.GetCommand(
                     new Insert<Definitif.Data.Test.Models.Chair>()
                         .Values(m =>
-                            m.C.Table.Id == ((obj.TableId == Id.Empty) ? DBNull.Value : obj.TableId.Value) &
+                            m.C.Table.Id == ((obj.TableId == Id.Empty) ? null : obj.TableId.Value) &
                             m.C.Name == obj.Name))
             };
             this.InsertCommandsExtension(obj, list);
@@ -231,7 +231,7 @@ namespace Definitif.Data.Test.Models.Mappers {
                     new Update<Definitif.Data.Test.Models.Chair>()
                         .Values(m =>
                             m.C.Version == obj.Version + 1 &
-                            m.C.Table.Id == ((obj.TableId == Id.Empty) ? DBNull.Value : obj.TableId.Value) &
+                            m.C.Table.Id == ((obj.TableId == Id.Empty) ? null : obj.TableId.Value) &
                             m.C.Name == obj.Name)
                         .Where(m =>
                             m.C.Id == obj.Id.Value &
