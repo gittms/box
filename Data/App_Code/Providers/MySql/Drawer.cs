@@ -24,6 +24,16 @@ namespace Definitif.Data.Providers.MySql
             return this.DrawQuerySelect(query, "", "", this.Draw(query.limit));
         }
 
+        protected override string DrawQueryUpdatePaged(Query query)
+        {
+            return this.DrawQueryUpdate(query, "", "", this.Draw(query.limit));
+        }
+
+        protected override string DrawQueryDeletePaged(Query query)
+        {
+            return this.DrawQueryDelete(query, "", "", this.Draw(query.limit));
+        }
+
         protected override string DrawColumnWithTable(Column column)
         {
             return column.Table.Name + ".`" + column.Name + "`";

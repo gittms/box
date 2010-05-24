@@ -28,14 +28,14 @@ namespace Definitif.Data.Queries
                         this.DrawQuerySelect(query);
                 case QueryType.Insert:
                     return this.DrawQueryInsert(query);
-                //case QueryType.Update:
-                //    return paged ?
-                //        this.DrawQueryUpdatePaged(query) :
-                //        this.DrawQueryUpdate(query);
-                //case QueryType.Delete:
-                //    return paged ?
-                //        this.DrawQueryDeletePaged(query) :
-                //        this.DrawQueryDelete(query);
+                case QueryType.Update:
+                    return paged ?
+                        this.DrawQueryUpdatePaged(query) :
+                        this.DrawQueryUpdate(query);
+                case QueryType.Delete:
+                    return paged ?
+                        this.DrawQueryDeletePaged(query) :
+                        this.DrawQueryDelete(query);
                 default:
                     throw new ArgumentException(String.Format(
                         "Drawer does not support queries of type '{0}'.", query.Type.ToString()));
@@ -97,6 +97,64 @@ namespace Definitif.Data.Queries
                     String.Join(", ", values) +
                 ")";
         }
+
+        /// <param name="query">Query to draw.</param>
+        /// <param name="prefix">Query prefix.</param>
+        /// <param name="updateTermPrefix">Update term prefix, i.e. UPDATE [updateTermPrefix] * ...</param>
+        /// <param name="suffix">Query suffix.</param>
+        protected virtual string DrawQueryUpdate(Query query,
+            string prefix, string updateTermPrefix, string suffix)
+        {
+            Expression valuesExpression = new Expression();
+            if (query.values.Type == ExpressionType.And) valuesExpression.Container = query.values.Container;
+            else valuesExpression.Container.Add(query.values);
+
+            return
+                prefix +
+                "UPDATE " +
+                    updateTermPrefix +
+                    query.modelTable.Name +
+                    (query.joins == null ? "" : " " + String.Join(" ", this.DrawList<Join>(query.joins))) +
+               " SET " + String.Join(", ", this.DrawList(valuesExpression.Container)) +
+                (query.where != null ?
+               " WHERE " + this.Draw(query.where) : "") +
+                (query.orderBy != null ?
+               " ORDER BY " + String.Join(", ", this.DrawList<Order>(query.orderBy)) : "") +
+                suffix;
+        }
+
+        protected virtual string DrawQueryUpdate(Query query)
+        {
+            return this.DrawQueryUpdate(query, "", "", "");
+        }
+        protected abstract string DrawQueryUpdatePaged(Query query);
+
+        /// <param name="query">Query to draw.</param>
+        /// <param name="prefix">Query prefix.</param>
+        /// <param name="deleteTermPrefix">Delete term prefix, i.e. DELETE [deleteTermPrefix] * ...</param>
+        /// <param name="suffix">Query suffix.</param>
+        protected virtual string DrawQueryDelete(Query query,
+            string prefix, string deleteTermPrefix, string suffix)
+        {
+            return
+                prefix +
+                "DELETE " +
+                    deleteTermPrefix +
+                "FROM " +
+                    query.modelTable.Name +
+                    (query.joins == null ? "" : " " + String.Join(" ", this.DrawList<Join>(query.joins))) +
+                (query.where != null ?
+               " WHERE " + this.Draw(query.where) : "") +
+                (query.orderBy != null ?
+               " ORDER BY " + String.Join(", ", this.DrawList<Order>(query.orderBy)) : "") +
+                suffix;
+        }
+
+        protected virtual string DrawQueryDelete(Query query)
+        {
+            return this.DrawQueryDelete(query, "", "", "");
+        }
+        protected abstract string DrawQueryDeletePaged(Query query);
 
         /// <summary>
         /// Draws given object to string representation.
@@ -173,6 +231,11 @@ namespace Definitif.Data.Queries
             return result;
         }
 
+        /// <summary>
+        /// Draws given join to string representation.
+        /// </summary>
+        /// <param name="join">Join to draw.</param>
+        /// <returns>String representation of join.</returns>
         protected virtual string Draw(Join join)
         {
             string type;

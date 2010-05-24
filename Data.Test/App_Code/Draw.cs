@@ -81,14 +81,36 @@ namespace Definitif.Data.Test
         {
             query = new Update<Models.Chair>().Values(m => m.C.Name == "Small Chair").Where(m => m.C.Id < 10);
             Assert.AreEqual("UPDATE Chairs SET Chairs.[Name] = 'Small Chair' WHERE Chairs.[Id] < 10", query.ToString());
+
+            // Sub select.
+            Query select = new Select<Models.Table>().Fields(m => m.C.Id).Where(m => m.C.Name.Contains("small"));
+            query = new Update<Models.Chair>().Values(m => m.C.Name == "Big table").Where(m => m.C.Table.Id == select);
+            Assert.AreEqual("UPDATE Chairs SET Chairs.[Name] = 'Big table' WHERE Chairs.[TableId] IN " +
+                "(SELECT Tables.[Id] FROM Tables WHERE Tables.[Name] LIKE '%small%')", query.ToString());
+
+            // Paged updates.
+            query = new Update<Models.Table>().Values(m => m.C.Name == "Big table").Where(m => m.C.Id > 10).Top(10).OrderBy(m => m.C.Id.Asc);
+            Assert.AreEqual("UPDATE TOP 10 Tables SET Tables.[Name] = 'Big table' WHERE Tables.[Id] > 10 ORDER BY Tables.[Id] ASC", query.ToString());
+
+            query = new Update<Models.Table>().Values(m => m.C.Name == "Table").OrderBy(m => m.C.Name.Asc).Limit(100, 200);
+            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ORDER BY Tables.[Name] ASC ) " +
+                "UPDATE _RowCounter SET [Name] = 'Table' WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
         }
 
         [TestMethod, Priority(5)]
         [Description("Delete query drawing.")]
         public void DeleteDraw()
         {
-            query = new Update<Models.Table>().Where(m => m.C.Id > 100);
+            query = new Delete<Models.Table>().Where(m => m.C.Id > 100);
             Assert.AreEqual("DELETE FROM Tables WHERE Tables.[Id] > 100", query.ToString());
+
+            // Paged deletes.
+            query = new Delete<Models.Chair>().Where(m => m.C.Table.Id != null).Top(10).OrderBy(m => m.C.Id.Asc);
+            Assert.AreEqual("DELETE TOP 10 FROM Chairs WHERE Chairs.[TableId] IS NOT NULL ORDER BY Chairs.[Id] ASC", query.ToString());
+
+            query = new Delete<Models.Table>().OrderBy(m => m.C.Name.Asc).Limit(100, 200);
+            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ORDER BY Tables.[Name] ASC ) " +
+                "DELETE FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
         }
     }
 }
