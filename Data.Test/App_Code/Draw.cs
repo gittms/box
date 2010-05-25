@@ -36,7 +36,7 @@ namespace Definitif.Data.Test
                 "SELECT * FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 200", query.ToString());
 
             query = new Select<Models.Table>().OrderBy(m => m.C.Name.Asc).Limit(100, 200);
-            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ORDER BY Tables.[Name] ASC ) " +
+            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
                 "SELECT * FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
 
             // Logic functions.
@@ -93,7 +93,7 @@ namespace Definitif.Data.Test
             Assert.AreEqual("UPDATE TOP 10 Tables SET Tables.[Name] = 'Big table' WHERE Tables.[Id] > 10 ORDER BY Tables.[Id] ASC", query.ToString());
 
             query = new Update<Models.Table>().Values(m => m.C.Name == "Table").OrderBy(m => m.C.Name.Asc).Limit(100, 200);
-            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ORDER BY Tables.[Name] ASC ) " +
+            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
                 "UPDATE _RowCounter SET [Name] = 'Table' WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
         }
 
@@ -106,10 +106,10 @@ namespace Definitif.Data.Test
 
             // Paged deletes.
             query = new Delete<Models.Chair>().Where(m => m.C.Table.Id != null).Top(10).OrderBy(m => m.C.Id.Asc);
-            Assert.AreEqual("DELETE TOP 10 FROM Chairs WHERE Chairs.[TableId] IS NOT NULL ORDER BY Chairs.[Id] ASC", query.ToString());
+            Assert.AreEqual("DELETE TOP (10) FROM Chairs WHERE Chairs.[TableId] IS NOT NULL ORDER BY Chairs.[Id] ASC", query.ToString());
 
             query = new Delete<Models.Table>().OrderBy(m => m.C.Name.Asc).Limit(100, 200);
-            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ORDER BY Tables.[Name] ASC ) " +
+            Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
                 "DELETE FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
         }
     }

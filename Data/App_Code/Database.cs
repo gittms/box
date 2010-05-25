@@ -145,6 +145,23 @@ namespace Definitif.Data
             return command;
         }
         /// <summary>
+        /// Gets Command object for given Query.
+        /// </summary>
+        /// <param name="query">Query object.</param>
+        /// <returns>Command object.</returns>
+        public DbCommand GetCommand(Query query, bool initConnection)
+        {
+            if (initConnection)
+            {
+                DbCommand command = this.GetCommand(this.GetConnection(), query.ToString(this.Drawer));
+                return command;
+            }
+            else
+            {
+                return this.GetCommand(query);
+            }
+        }
+        /// <summary>
         /// Gets Command object with given Command text.
         /// </summary>
         /// <param name="commandText">Command text.</param>
@@ -159,18 +176,18 @@ namespace Definitif.Data
         /// <param name="command">Command object.</param>
         /// <param name="closeConnection">If True, Connection will be closed after execution.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(DbCommand command, bool closeConnection)
+        protected IDataReader GetDataReader(DbCommand command, bool closeConnection)
         {
-            return new Reader(closeConnection ?
+            return closeConnection ?
                 command.ExecuteReader(CommandBehavior.CloseConnection) :
-                command.ExecuteReader());
+                command.ExecuteReader();
         }
         /// <summary>
         /// Gets DataReader object for given Command with policy to close connection.
         /// </summary>
         /// <param name="command">Command object.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(DbCommand command)
+        protected IDataReader GetDataReader(DbCommand command)
         {
             return this.GetDataReader(command, true);
         }
@@ -179,7 +196,7 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="commandText">Command text.</param>
         /// <returns>DataReader object.</returns>
-        protected Reader GetDataReader(string commandText)
+        protected IDataReader GetDataReader(string commandText)
         {
             return this.GetDataReader(this.GetCommand(commandText));
         }
@@ -230,7 +247,7 @@ namespace Definitif.Data
         /// </summary>
         /// <param name="query">Query object to execute.</param>
         /// <returns>Executed reader object.</returns>
-        public virtual Reader ExecuteReader(Query query)
+        public virtual IDataReader ExecuteReader(Query query)
         {
             return this.GetDataReader(query.ToString(this.Drawer));
         }

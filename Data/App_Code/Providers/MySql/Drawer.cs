@@ -21,7 +21,7 @@ namespace Definitif.Data.Providers.MySql
 
         protected override string DrawQuerySelectPaged(Query query)
         {
-            return this.DrawQuerySelect(query, "", "", this.Draw(query.limit));
+            return this.DrawQuerySelect(query, "", "", this.Draw(query.limit), true);
         }
 
         protected override string DrawQueryUpdatePaged(Query query)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Definitif.Data.Queries
 {
@@ -157,6 +158,17 @@ namespace Definitif.Data.Queries
             where JoinModelType : class, IModel, new()
         {
             return this.Join<JoinModelType>(expression, JoinType.Left);
+        }
+        #endregion
+
+        #region Queries.
+        /// <summary>
+        /// Reads query result into models array.
+        /// </summary>
+        /// <returns>Array of models.</returns>
+        public ModelType[] Read()
+        {
+            return base.ReadModels();
         }
         #endregion
     }

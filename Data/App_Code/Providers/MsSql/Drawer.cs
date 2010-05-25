@@ -15,7 +15,7 @@ namespace Definitif.Data.Providers.MsSql
             // If select query has an empty offset, using TOP.
             if (query.limit.Offset == 0)
             {
-                return this.DrawQuerySelect(query, "", "TOP " + query.limit.RowCount.ToString() + " ", "");
+                return this.DrawQuerySelect(query, "", "TOP " + query.limit.RowCount.ToString() + " ", "", true);
             }
 
             string order = query.orderBy != null ? String.Join(", ", this.DrawList<Order>(query.orderBy)) : "(SELECT 0)",
@@ -24,7 +24,7 @@ namespace Definitif.Data.Providers.MsSql
                    suffix = " ) SELECT * FROM _RowCounter WHERE [_RowNum] >= " + query.limit.Offset.ToString() +
                        " AND [_RowNum] < " + (query.limit.Offset + query.limit.RowCount).ToString();
 
-            return this.DrawQuerySelect(query, prefix, selectSuffix, suffix);
+            return this.DrawQuerySelect(query, prefix, selectSuffix, suffix, false);
         }
 
         protected override string DrawQueryUpdatePaged(Query query)
@@ -54,7 +54,7 @@ namespace Definitif.Data.Providers.MsSql
                    suffix = " ) UPDATE _RowCounter SET " + String.Join(", ", values) + " WHERE [_RowNum] >= " + query.limit.Offset.ToString() +
                        " AND [_RowNum] < " + (query.limit.Offset + query.limit.RowCount).ToString();
 
-            return this.DrawQuerySelect(query, prefix, selectSuffix, suffix);
+            return this.DrawQuerySelect(query, prefix, selectSuffix, suffix, false);
         }
 
         protected override string DrawQueryDeletePaged(Query query)
@@ -62,7 +62,7 @@ namespace Definitif.Data.Providers.MsSql
             // If update query has an empty offset, using TOP.
             if (query.limit.Offset == 0)
             {
-                return this.DrawQueryDelete(query, "", "TOP " + query.limit.RowCount.ToString() + " ", "");
+                return this.DrawQueryDelete(query, "", "TOP (" + query.limit.RowCount.ToString() + ") ", "");
             }
 
             string order = query.orderBy != null ? String.Join(", ", this.DrawList<Order>(query.orderBy)) : "(SELECT 0)",
@@ -71,7 +71,7 @@ namespace Definitif.Data.Providers.MsSql
                    suffix = " ) DELETE FROM _RowCounter WHERE [_RowNum] >= " + query.limit.Offset.ToString() +
                        " AND [_RowNum] < " + (query.limit.Offset + query.limit.RowCount).ToString();
 
-            return this.DrawQuerySelect(query, prefix, selectSuffix, suffix);
+            return this.DrawQuerySelect(query, prefix, selectSuffix, suffix, false);
         }
 
         protected override string DrawColumnWithTable(Column column)

@@ -156,5 +156,16 @@ namespace Definitif.Data.Queries
             return this.Join<Join3ModelType>(expression, JoinType.Left);
         }
         #endregion
+
+        #region Queries.
+        /// <summary>
+        /// Reads query result into models array.
+        /// </summary>
+        /// <returns>Array of models.</returns>
+        public ModelType[] Read()
+        {
+            return base.ReadModels();
+        }
+        #endregion
     }
 }

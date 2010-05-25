@@ -121,7 +121,6 @@
     <Compile Include="App_Code\Table.cs" />
     <Compile Include="App_Code\Query\Generic\Select.cs" />
     <Compile Include="App_Code\Query\Generic\Query.cs" />
-    <Compile Include="App_Code\Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

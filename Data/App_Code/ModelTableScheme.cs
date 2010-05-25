@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Definitif.Data.Queries;
 
 namespace Definitif.Data
 {
@@ -18,5 +19,31 @@ namespace Definitif.Data
 
         private Column p_Version = table["Version"];
         public Column Version { get { return p_Version; } }
+
+        public static Expression operator ==(ModelTableScheme<MapperType> modelTableScheme, object value)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.Equals,
+                Container = { modelTableScheme.Id, value },
+            };
+        }
+        public static Expression operator !=(ModelTableScheme<MapperType> modelTableScheme, object value)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.NotEquals,
+                Container = { modelTableScheme.Id, value },
+            };
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

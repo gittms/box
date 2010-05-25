@@ -46,8 +46,15 @@ namespace Definitif.Data.Queries
         /// <param name="prefix">Query prefix.</param>
         /// <param name="selectTermPrefix">Select term prefix, i.e. SELECT [selectTermPrefix] * ...</param>
         /// <param name="suffix">Query suffix.</param>
+        /// <param name="drawOrderBy">
+        ///     If true, both ORDER BY and GROUP BY clauses will be drawn.
+        ///     <remarks>
+        ///     Implemented for compatibility with MsSql paging.
+        ///     </remarks>
+        /// </param>
         protected virtual string DrawQuerySelect(Query query, 
-            string prefix, string selectTermPrefix, string suffix)
+            string prefix, string selectTermPrefix, string suffix,
+            bool drawOrderByAndGroupBy)
         {
             return
                 prefix +
@@ -59,8 +66,9 @@ namespace Definitif.Data.Queries
                     (query.joins == null ? "" : " " + String.Join(" ", this.DrawList<Join>(query.joins))) +
                 (query.where != null ?
                " WHERE " + this.Draw(query.where) : "") +
+                (!drawOrderByAndGroupBy ? "" :
                 (query.orderBy != null ?
-               " ORDER BY " + String.Join(", ", this.DrawList<Order>(query.orderBy)) : "") +
+               " ORDER BY " + String.Join(", ", this.DrawList<Order>(query.orderBy)) : "")) +
                 (query.groupBy != null ?
                " GROUP BY " + String.Join(", ", this.DrawList<Column>(query.groupBy)) : "") +
                 suffix;
@@ -68,7 +76,7 @@ namespace Definitif.Data.Queries
 
         protected virtual string DrawQuerySelect(Query query)
         {
-            return this.DrawQuerySelect(query, "", "", "");
+            return this.DrawQuerySelect(query, "", "", "", true);
         }
         protected abstract string DrawQuerySelectPaged(Query query);
 
@@ -170,6 +178,8 @@ namespace Definitif.Data.Queries
             else if (obj is Column) return this.Draw(obj as Column);
             else if (obj is Join) return this.Draw(obj as Join);
             else if (obj is Order) return this.Draw(obj as Order);
+            else if (obj is IModel) return (obj as IModel).Id.ToString();
+            else if (obj is Id) return (obj as Id).ToString();
 
             // Replacing ' char to double '', i.e. 'String''s container'.
             else if (obj is string) return "'" + (obj as string).Replace("'", "''") + "'";

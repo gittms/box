@@ -110,5 +110,16 @@ namespace Definitif.Data.Queries
             return this;
         } 
         #endregion
+
+        #region Queries.
+        /// <summary>
+        /// Reads query result into models array.
+        /// </summary>
+        /// <returns>Array of models.</returns>
+        public ModelType[] Read()
+        {
+            return base.ReadModels();
+        }
+        #endregion
     }
 }
