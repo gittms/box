@@ -40,6 +40,8 @@ namespace Definitif.Data
             this.Name = name;
             this.DataType = dataType;
             this.IsPrimaryKey = (name == "Id");
+            this.IsWildcard = (name == "*");
+            this.IsDualWildcard = (name == "**");
         }
 
         /// <summary>
@@ -54,6 +56,14 @@ namespace Definitif.Data
         /// Returns true if column is primary key (Id) of table.
         /// </summary>
         public bool IsPrimaryKey { get; internal set; }
+        /// <summary>
+        /// Returns true if column is a wildcard.
+        /// </summary>
+        public bool IsWildcard { get; internal set; }
+        /// <summary>
+        /// Returns true if column is a dual wildcard.
+        /// </summary>
+        public bool IsDualWildcard { get; internal set; }
 
         /// <summary>
         /// Gets column of given table that links current column.

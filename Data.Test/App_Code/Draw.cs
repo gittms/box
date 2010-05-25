@@ -27,6 +27,10 @@ namespace Definitif.Data.Test
             query = new Select<Models.Table>().Where(m => m.C.Name.Length >= 10);
             Assert.AreEqual("SELECT Tables.* FROM Tables WHERE DATALENGTH(Tables.[Name]) >= 10", query.ToString());
 
+            // Wildcard select.
+            query = new Select<Models.Table>().Fields(m => m.C["**"]);
+            Assert.AreEqual("SELECT Tables.[Id] AS [Tables.Id], Tables.[Name] AS [Tables.Name], Tables.[Version] AS [Tables.Version] FROM Tables", query.ToString());
+
             // Limiting functions.
             query = new Select<Models.Table>().Where(m => m.C.Id > 10).Top(100);
             Assert.AreEqual("SELECT TOP 100 Tables.* FROM Tables WHERE Tables.[Id] > 10", query.ToString());

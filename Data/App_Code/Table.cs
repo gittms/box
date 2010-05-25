@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Definitif.Data
@@ -6,7 +7,7 @@ namespace Definitif.Data
     /// <summary>
     /// Represents database table.
     /// </summary>
-    public class Table
+    public class Table : IEnumerable
     {
         protected Dictionary<string, Column> columns = new Dictionary<string, Column>();
 
@@ -74,6 +75,15 @@ namespace Definitif.Data
             column.Table = this;
             this.columns.Add(column.Name, column);
             if (column.IsPrimaryKey) this.primaryKey = column;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return this.columns.Values.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.columns.Values.GetEnumerator();
         }
     }
 }

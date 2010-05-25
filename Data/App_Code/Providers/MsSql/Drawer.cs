@@ -82,5 +82,10 @@ namespace Definitif.Data.Providers.MsSql
         {
             return "[" + column.Name + "]";
         }
+        protected override string DrawColumnAsAlias(Column column)
+        {
+            return column.Table.Name + ".[" + column.Name + "] AS [" +
+                column.Table.Name + "." + column.Name + "]";
+        }
     }
 }

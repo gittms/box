@@ -42,6 +42,11 @@ namespace Definitif.Data.Providers.MySql
         {
             return "`" + column.Name + "`";
         }
+        protected override string DrawColumnAsAlias(Column column)
+        {
+            return column.Table.Name + ".`" + column.Name + "` AS `" +
+                column.Table.Name + "." + column.Name + "`";
+        }
         protected override string DrawAggregatorLength(Aggregator aggregator)
         {
             return "LEN(" + this.Draw(aggregator.Column) + ")";

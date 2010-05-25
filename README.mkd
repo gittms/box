@@ -31,15 +31,26 @@ Or creating new items:
     };
     employee.Save();
 
+And even easy-to-use cross-database queries (with even subqueries):
+
+    Employee[] employees = new Select<Employee>()
+       .Where(m => m.C.UserName.Contains("alex"))
+       .OrderBy(m => m.C.UserName.Desc);
+
+    new Update<Employee>()
+       .Values(m => m.C.UserName == m.C.UserName + "_old")
+       .Where(m => m.C.Registered > new DateTime(2010-01-01))
+       .Execute();
+
 Permanent home of project is available at:    
-http://opensource.definitif.ru/box/    
+[http://opensource.definitif.ru/box/](http://opensource.definitif.ru/box/)    
 Sources available at GitHub:    
-http://opensource.definitif.ru/box/git/    
-http://github.com/ashvetsov/definitif-box/    
+[http://opensource.definitif.ru/box/git/](http://opensource.definitif.ru/box/git/)    
+[http://github.com/ashvetsov/definitif-box/](http://github.com/ashvetsov/definitif-box/)    
 
 ### Requirements:
 1. Visual Studio 2010 and .Net Framework 4;
-2. **Build only** Windows Installer XML tools (http://wix.sourceforge.net/);
+2. **Build only** [Windows Installer XML tools](http://wix.sourceforge.net/);
 
 ### External components:
-1. **Binary** WCF REST Contrib (http://wcfrestcontrib.codeplex.com/);
+1. **Binary** [WCF REST Contrib](http://wcfrestcontrib.codeplex.com/);

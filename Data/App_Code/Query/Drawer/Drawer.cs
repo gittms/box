@@ -480,11 +480,17 @@ namespace Definitif.Data.Queries
         /// <returns>String representation of column.</returns>
         public string Draw(Column column)
         {
-            if (column.Table != null) return this.DrawColumnWithTable(column);
+            if (column.IsWildcard && column.Table != null) return this.DrawColumnWildcard(column);
+            else if (column.Table != null) return this.DrawColumnWithTable(column);
             else return this.DrawColumnStandAlone(column);
+        }
+        protected virtual string DrawColumnWildcard(Column column)
+        {
+            return column.Table.Name + ".*";
         }
         protected abstract string DrawColumnWithTable(Column column);
         protected abstract string DrawColumnStandAlone(Column column);
+        protected abstract string DrawColumnAsAlias(Column column);
 
         /// <summary>
         /// Draws given list to string representation as column list.
@@ -493,19 +499,27 @@ namespace Definitif.Data.Queries
         /// <returns>String representation of list.</returns>
         protected string[] DrawColumnList(IList<Column> list)
         {
-            string[] result = new string[list.Count];
-            for (int ind = 0; ind < result.Length; ind++)
+            List<string> result = new List<string>();
+            foreach (Column column in list)
             {
-                if (list[ind] is Alias)
+                if (column is Alias)
                 {
-                    result[ind] = this.Draw(list[ind] as Alias);
+                    result.Add(this.Draw(column as Alias));
+                }
+                else if (column.IsDualWildcard && column.Table != null)
+                {
+                    foreach (Column col in column.Table)
+                    {
+                        if (col.IsWildcard || col.IsDualWildcard) continue;
+                        result.Add(this.DrawColumnAsAlias(col));
+                    }
                 }
                 else
                 {
-                    result[ind] = this.Draw(list[ind] as Column);
+                    result.Add(this.Draw(column as Column));
                 }
             }
-            return result;
+            return result.ToArray();
         }
     }
 }
