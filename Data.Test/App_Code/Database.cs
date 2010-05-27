@@ -51,7 +51,7 @@ namespace Definitif.Data.Test
             Assert.AreEqual(chairs[1].Id, someChair.Id);
 
             // Updating some data.
-            new Update<Models.Chair>().Values(m => m.C.Name == m.C.Name + " Updated").Where(m => m.C.Table == table).Execute();
+            new Update<Models.Chair>().Set(m => m.C.Name == m.C.Name + " Updated").Where(m => m.C.Table == table).Execute();
             chairs = new Select<Models.Chair>().Where(m => m.C.Name.EndsWith("Updated")).Read();
             Assert.AreEqual(10, chairs.Length);
 

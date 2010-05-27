@@ -35,10 +35,11 @@ And even easy-to-use cross-database queries (with even subqueries):
 
     Employee[] employees = new Select<Employee>()
        .Where(m => m.C.UserName.Contains("alex"))
-       .OrderBy(m => m.C.UserName.Desc);
+       .OrderBy(m => m.C.UserName.Desc)
+       .Read();
 
     new Update<Employee>()
-       .Values(m => m.C.UserName == m.C.UserName + "_old")
+       .Set(m => m.C.UserName == m.C.UserName + "_old")
        .Where(m => m.C.Registered > new DateTime(2010-01-01))
        .Execute();
 

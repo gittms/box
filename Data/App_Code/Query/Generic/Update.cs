@@ -19,9 +19,8 @@ namespace Definitif.Data.Queries
         /// <summary>
         /// Specifies values to update.
         /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        public Update<ModelType> Values(Func<ModelType, Expression> expression)
+        /// <param name="expression">Lambda function returning expression.</param>
+        public Update<ModelType> Set(Func<ModelType, Expression> expression)
         {
             values = expression(Singleton<ModelType>.Default);
             return this;

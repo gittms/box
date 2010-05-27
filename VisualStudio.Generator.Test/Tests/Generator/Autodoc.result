@@ -111,7 +111,7 @@ namespace Definitif.Test.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<Definitif.Test.TestPerson>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.UserName == obj.UserName)
                         .Where(m =>

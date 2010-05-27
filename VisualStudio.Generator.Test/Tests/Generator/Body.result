@@ -117,7 +117,7 @@ namespace TestNamespace.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<TestNamespace.TestModel>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.Name == obj.Name &
                             m.C.ItemsCount == obj.ItemsCount)

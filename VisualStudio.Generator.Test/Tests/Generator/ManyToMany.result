@@ -235,7 +235,7 @@ namespace Definitif.Test.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<Definitif.Test.User>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.Name == obj.Name)
                         .Where(m =>
@@ -304,7 +304,7 @@ namespace Definitif.Test.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<Definitif.Test.Achievement>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.Name == obj.Name)
                         .Where(m =>
@@ -379,7 +379,7 @@ namespace Definitif.Test.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<Definitif.Test.UserAchievement>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.User.Id == ((obj.UserId == Id.Empty) ? null : obj.UserId.Value) &
                             m.C.Achievement.Id == ((obj.AchievementId == Id.Empty) ? null : obj.AchievementId.Value) &

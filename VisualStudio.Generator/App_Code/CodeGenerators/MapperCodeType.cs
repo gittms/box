@@ -153,7 +153,7 @@ namespace Definitif.VisualStudio.Generator
             List<DbCommand> list = new List<DbCommand> {{
                 this.database.GetCommand(
                     new Update<{modelNamespace}.{type}>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 {valuesAnd})
                         .Where(m =>
                             m.C.Id == obj.Id.Value &

@@ -157,7 +157,7 @@ namespace Definitif.Data.Test.Models.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<Definitif.Data.Test.Models.Table>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.Name == obj.Name)
                         .Where(m =>
@@ -229,7 +229,7 @@ namespace Definitif.Data.Test.Models.Mappers {
             List<DbCommand> list = new List<DbCommand> {
                 this.database.GetCommand(
                     new Update<Definitif.Data.Test.Models.Chair>()
-                        .Values(m =>
+                        .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.Table.Id == ((obj.TableId == Id.Empty) ? null : obj.TableId.Value) &
                             m.C.Name == obj.Name)
