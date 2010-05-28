@@ -18,7 +18,7 @@ namespace Definitif.VisualStudio
         /// </summary>
         int IVsSingleFileGenerator.DefaultExtension(out string pbstrDefaultExtension)
         {
-            pbstrDefaultExtension = ".cs";
+            pbstrDefaultExtension = ".box.cs";
             return VSConstants.S_OK;
         }
 

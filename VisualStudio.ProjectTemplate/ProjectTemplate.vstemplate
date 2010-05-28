@@ -17,7 +17,7 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
             <ProjectItem ReplaceParameters="true">Core.cs</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="Models\Model1.box" OpenInEditor="true">Model1.box</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="Models\Model1.cs">Model1.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="Models\Model1.box.cs">Model1.box.cs</ProjectItem>
         </Project>
         <CustomParameters>
             <CustomParameter Name="$CustomTool$" Value="DefinitifBoxGenerator" />

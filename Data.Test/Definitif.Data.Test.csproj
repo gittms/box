@@ -50,7 +50,7 @@
     <Compile Include="App_Code\Draw.cs" />
     <None Include="App.config" />
     <Compile Include="Core.cs" />
-    <Compile Include="Models\Furniture.cs">
+    <Compile Include="Models\Furniture.box.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Furniture.box</DependentUpon>
@@ -58,7 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Models\Furniture.box">
       <Generator>DefinitifBoxGenerator</Generator>
-      <LastGenOutput>Furniture.cs</LastGenOutput>
+      <LastGenOutput>Furniture.box.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

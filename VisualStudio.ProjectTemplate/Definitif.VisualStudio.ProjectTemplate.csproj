@@ -55,7 +55,7 @@
     <None Include="App.config" />
     <None Include="AssemblyInfo.cs" />
     <None Include="Core.cs" />
-    <None Include="Model1.cs" />
+    <None Include="Model1.box.cs" />
     <None Include="Model1.box" />
     <None Include="ProjectTemplate.csproj" />
     <None Include="BoxLibrary.ico" />
