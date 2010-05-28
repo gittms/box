@@ -14,7 +14,7 @@ namespace Definitif.VisualStudio.Generator
         Public       = 4,
         Internal     = 8,
         Static       = 16,
-        Private_key  = 32,
+        Primary_key  = 32,
         Foreign_key  = 64,
         Many_to_many = 128,
     }
@@ -36,7 +36,7 @@ namespace Definitif.VisualStudio.Generator
 
                 if (globalOnly &&
                     (modifier == Modifier.Foreign_key ||
-                     modifier == Modifier.Private_key ||
+                     modifier == Modifier.Primary_key ||
                      modifier == Modifier.Many_to_many)) continue;
 
                 if ((modifiers & modifier) != 0) variants.Add(modifier.ToString().Replace('_', ' ').ToLower());

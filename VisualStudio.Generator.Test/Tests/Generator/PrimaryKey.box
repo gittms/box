@@ -1,0 +1,9 @@
+﻿["TestModels"]
+public model TestModel
+{
+    ["Name"]
+    public primary key string Name;
+
+    ["Count"]
+    public string Count;
+}

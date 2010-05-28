@@ -91,6 +91,24 @@ namespace Definitif.VisualStudio.Generator
                 {
                     codeType.Members.Add(member.ToCodeTypeMember());
                 }
+
+                // Primary key member.
+                if ((member.Modifiers & Modifier.Primary_key) != 0)
+                {
+                    codeType.Members.Add(new CodeSnippetTypeMember(@"
+        /// <summary>
+        /// Gets {model} instance from database by given {member}.
+        /// </summary>
+        public static {model} GetBy{member}({memberType} {param}) {{
+            return new Select<{model}>().Where(m => m.C.{member} == {param}).ReadFirst();
+        }}".F(new
+           {
+               model = model.Name,
+               member = member.Name,
+               memberType = member.Type,
+               param = member.Name.ToLower(),
+           }) + Environment.NewLine));
+                }
             }
 
             return codeType;

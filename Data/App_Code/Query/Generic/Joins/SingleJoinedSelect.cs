@@ -165,6 +165,14 @@ namespace Definitif.Data.Queries
         {
             return base.ReadModels();
         }
+        /// <summary>
+        /// Reads first query result into model.
+        /// </summary>
+        /// <returns>First model of result.</returns>
+        public ModelType ReadFirst()
+        {
+            return base.ReadFirstModel();
+        }
         #endregion
     }
 }

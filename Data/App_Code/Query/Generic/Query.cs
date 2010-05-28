@@ -62,5 +62,21 @@ namespace Definitif.Data.Queries
             reader.Close();
             return result.ToArray();
         }
+        /// <summary>
+        /// Reads first query result into model.
+        /// </summary>
+        /// <returns>First model of result.</returns>
+        protected ModelType ReadFirstModel()
+        {
+            ModelType[] result = this.ReadModels();
+            if (result.Length == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return result[0];
+            }
+        }
     }
 }
