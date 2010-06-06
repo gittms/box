@@ -30,6 +30,24 @@
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder">
                 <Directory Id="MANUFACTURERDIR" Name="Definitif">
+                    <!-- Installing to GAC -->
+                    <Component Id="LibraryDefinitifBox" Guid="D8962C74-7A20-43c5-89B2-C5E6DCDD3832">
+                        <File Assembly=".net" KeyPath="yes" Id="DefinitifBox" DiskId="1" Name="$(var.Definitif.Box.TargetName).DLL" Source="$(var.Definitif.Box.TargetPath)" />
+                    </Component>
+                    <Component Id="LibraryDefinitifData" Guid="F0F4D4F8-209A-44af-A797-52760DB0BC5C">
+                        <File Assembly=".net" KeyPath="yes" Id="DefinitifData" DiskId="1" Name="$(var.Definitif.Data.TargetName).DLL" Source="$(var.Definitif.Data.TargetPath)" />
+                    </Component>
+                    <Component Id="LibraryDefinitifSecurityCryptography" Guid="30262A47-170D-4612-860A-B6BEF2D185A6">
+                        <File Assembly=".net" KeyPath="yes" Id="DefinitifSecurityCryptography" DiskId="1" Name="$(var.Definitif.Security.Cryptography.TargetName).DLL" Source="$(var.Definitif.Security.Cryptography.TargetPath)" />
+                    </Component>
+                    <Component Id="LibraryDefinitifServiceModel" Guid="A6CF1643-76C3-46f8-8224-FB7D69148FE7">
+                        <File Assembly=".net" KeyPath="yes" Id="DefinitifServiceModel" DiskId="1" Name="$(var.Definitif.ServiceModel.TargetName).DLL" Source="$(var.Definitif.ServiceModel.TargetPath)" />
+                    </Component>
+                    <Component Id="LibraryWcfContrib" Guid="3ECE0358-052B-4f60-81BF-2AE807D8DDCF">
+                        <File Assembly=".net" KeyPath="yes" Id="WcfContrib" DiskId="1" Name="WcfRestContrib.DLL" Source="$(var.Definitif.ServiceModel.ProjectDir)Bin\WcfRestContrib.dll" />
+                    </Component>
+
+                    <!-- Installing to File System -->
                     <Directory Id="INSTALLLOCATION" Name="Definitif Box">
                         <!-- Common directories manipulation -->
                         <Component Id="Common" Guid="338F1D99-7E73-4ac8-B84A-8912E9C6BD2C">
@@ -37,50 +55,34 @@
                         </Component>
                         <Directory Id="LIBRARIESLOCATION" Name="Bin">
                             <!-- Definitif.* -->
-                            <Component Id="LibraryDefinitifBox" Guid="D8962C74-7A20-43c5-89B2-C5E6DCDD3832">
-                                <File Assembly=".net" KeyPath="yes" Id="DefinitifBox" DiskId="1"
-                                      Name="$(var.Definitif.Box.TargetFileName)" Source="$(var.Definitif.Box.TargetPath)" />
-                                <CopyFile Id="DefinitifBoxBinary" FileId="DefinitifBox" DestinationDirectory="LIBRARIESLOCATION" />
-                                <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.Box.TargetName)" Type="string" Value="file:///[#DefinitifBox]" Action="write" />
-                                <RegistryValue Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.Box.TargetName)" Type="string" Value="file:///[#DefinitifBox]" Action="write" />
+                            <Component Id="LibraryDefinitifBoxBinary" Guid="4F300DB0-E753-4ee3-9071-929F95453E1D">
+                                <File KeyPath="yes" Id="DefinitifBoxBinary" DiskId="1" Name="$(var.Definitif.Box.TargetFileName)" Source="$(var.Definitif.Box.TargetPath)" />
                             </Component>
                             <!-- Definitif.Data.* -->
-                            <Component Id="LibraryDefinitifData" Guid="F0F4D4F8-209A-44af-A797-52760DB0BC5C">
-                                <File Assembly=".net" KeyPath="yes" Id="DefinitifData" DiskId="1"
-                                      Name="$(var.Definitif.Data.TargetFileName)" Source="$(var.Definitif.Data.TargetPath)" />
-                                <CopyFile Id="DefinitifDataBinary" FileId="DefinitifData" DestinationDirectory="LIBRARIESLOCATION" />
-                                <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.Data.TargetName)" Type="string" Value="file:///[#DefinitifData]" Action="write" />
-                                <RegistryValue Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.Data.TargetName)" Type="string" Value="file:///[#DefinitifData]" Action="write" />
+                            <Component Id="LibraryDefinitifDataBinary" Guid="A604F6DF-B967-4d47-B227-5B59F0CBD0F6">
+                                <File KeyPath="yes" Id="DefinitifDataBinary" DiskId="1" Name="$(var.Definitif.Data.TargetFileName)" Source="$(var.Definitif.Data.TargetPath)" />
                             </Component>
                             <!-- Definitif.Security.* -->
-                            <Component Id="LibraryDefinitifSecurityCryptography" Guid="30262A47-170D-4612-860A-B6BEF2D185A6">
-                                <File Assembly=".net" KeyPath="yes" Id="DefinitifSecurityCryptography" DiskId="1"
-                                      Name="$(var.Definitif.Security.Cryptography.TargetFileName)" Source="$(var.Definitif.Security.Cryptography.TargetPath)" />
-                                <CopyFile Id="DefinitifSecurityCryptographyBinary" FileId="DefinitifSecurityCryptography" DestinationDirectory="LIBRARIESLOCATION" />
-                                <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.Security.Cryptography.TargetName)" Type="string" Value="file:///[#DefinitifSecurityCryptography]" Action="write" />
-                                <RegistryValue Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.Security.Cryptography.TargetName)" Type="string" Value="file:///[#DefinitifSecurityCryptography]" Action="write" />
+                            <Component Id="LibraryDefinitifSecurityCryptographyBinary" Guid="024FD6F2-DAEA-409e-B16C-B6F9F4C61352">
+                                <File KeyPath="yes" Id="DefinitifSecurityCryptographyBinary" DiskId="1" Name="$(var.Definitif.Security.Cryptography.TargetFileName)" Source="$(var.Definitif.Security.Cryptography.TargetPath)" />
                             </Component>
                             <!-- Definitif.ServiceModel.* -->
-                            <Component Id="LibraryDefinitifServiceModel" Guid="A6CF1643-76C3-46f8-8224-FB7D69148FE7">
-                                <File Assembly=".net" KeyPath="yes" Id="DefinitifServiceModel" DiskId="1"
-                                      Name="$(var.Definitif.ServiceModel.TargetFileName)" Source="$(var.Definitif.ServiceModel.TargetPath)" />
-                                <CopyFile Id="DefinitifServiceModelBinary" FileId="DefinitifServiceModel" DestinationDirectory="LIBRARIESLOCATION" />
-                                <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.ServiceModel.TargetName)" Type="string" Value="file:///[#DefinitifServiceModel]" Action="write" />
-                                <RegistryValue Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\$(var.Definitif.ServiceModel.TargetName)" Type="string" Value="file:///[#DefinitifServiceModel]" Action="write" />
+                            <Component Id="LibraryDefinitifServiceModelBinary" Guid="13167650-DDBD-4eca-A0DC-B07032A99880">
+                                <File KeyPath="yes" Id="DefinitifServiceModelBinary" DiskId="1" Name="$(var.Definitif.ServiceModel.TargetFileName)" Source="$(var.Definitif.ServiceModel.TargetPath)" />
                             </Component>
                             <!-- External libraries -->
-                            <Component Id="LibraryWcfContrib" Guid="3ECE0358-052B-4f60-81BF-2AE807D8DDCF">
-                                <File Assembly=".net" KeyPath="yes" Id="WcfContrib" DiskId="1"
-                                      Name="WcfRestContrib.dll" Source="$(var.Definitif.ServiceModel.ProjectDir)Bin\WcfRestContrib.dll" />
-                                <CopyFile Id="WcfContribBinary" FileId="WcfContrib" DestinationDirectory="LIBRARIESLOCATION" />
-                                <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Microsoft\.NETFramework\AssemblyFolders\WcfRestContrib" Type="string" Value="file:///[#WcfContrib]" Action="write" />
-                                <RegistryValue Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\WcfRestContrib" Type="string" Value="file:///[#WcfContrib]" Action="write" />
+                            <Component Id="LibraryWcfContribBinary" Guid="6D49687B-C715-40ab-A298-0EE256F27E1F">
+                                <File KeyPath="yes" Id="WcfContribBinary" DiskId="1" Name="WcfRestContrib.dll" Source="$(var.Definitif.ServiceModel.ProjectDir)Bin\WcfRestContrib.dll" />
                             </Component>
                         </Directory>
                         <Directory Id="EXTENSIONSLOCATION" Name="Extensions">
                             <Component Id="ExtensionDefinitifVisualStudioClassifier" Guid="DAC27856-3ABA-4d67-8C1B-472846EED3F8">
                                 <File Assembly="no" Id="DefinitifVisualStudioClassifier" DiskId="1"
                                       Name="Definitif Box Classifier.vsix" Source="$(var.Definitif.VisualStudio.Classifier.TargetDir)$(var.Definitif.VisualStudio.Classifier.TargetName).vsix" />
+                            </Component>
+                            <Component Id="ExtensionDefinitifReferences" Guid="3593EF51-DEE8-46d8-82DE-3ADBB2115385">
+                                <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Microsoft\.NETFramework\AssemblyFolders\Definitif Reference Assemblies" Type="string" Value="[LIBRARIESLOCATION]" Action="write" />
+                                <RegistryValue Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\Definitif Reference Assemblies" Type="string" Value="[LIBRARIESLOCATION]" Action="write" />
                             </Component>
                             <Component Id="ExtensionDefinitifVisualStudioGenerator" Guid="E8350BCC-BF67-4c22-B302-3CDDAA68C220">
                                 <File Assembly="no" KeyPath="yes" Id="DefinitifVisualStudioGenerator" DiskId="1"
@@ -126,16 +128,22 @@
             <Feature Id="Libraries" Title="Libraries" Level="1"
                      Description="Installs Definitif Box libraries to GAC.">
                 <ComponentRef Id="LibraryDefinitifBox" />
+                <ComponentRef Id="LibraryDefinitifBoxBinary" />
                 <ComponentRef Id="LibraryDefinitifData" />
+                <ComponentRef Id="LibraryDefinitifDataBinary" />
                 <ComponentRef Id="LibraryDefinitifSecurityCryptography" />
+                <ComponentRef Id="LibraryDefinitifSecurityCryptographyBinary" />
                 <ComponentRef Id="LibraryDefinitifServiceModel" />
+                <ComponentRef Id="LibraryDefinitifServiceModelBinary" />
                 <ComponentRef Id="LibraryWcfContrib" />
+                <ComponentRef Id="LibraryWcfContribBinary" />
             </Feature>
             <!-- Visual Studio 2010 extensions -->
             <Feature Id="Extensions" Title="VS 2010 Extensions" Level="1"
                      Description="Installs Visual Studio 2010 Extensions.">
                 <Condition Level="5">VSINSTALLDIR=""</Condition>
                 <ComponentRef Id="ExtensionDefinitifVisualStudioClassifier" />
+                <ComponentRef Id="ExtensionDefinitifReferences" />
                 <ComponentRef Id="ExtensionDefinitifVisualStudioGenerator" />
             </Feature>
         </Feature>
