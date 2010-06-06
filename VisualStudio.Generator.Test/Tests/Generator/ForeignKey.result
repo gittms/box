@@ -132,7 +132,7 @@ namespace Definitif.Test.Mappers {
                     new Insert<Definitif.Test.TestModel>()
                         .Values(m =>
                             m.C.Name == obj.Name &
-                            m.C.Foreign.Id == ((obj.ForeignId == Id.Empty) ? null : obj.ForeignId.Value)))
+                            m.C["ForeignId"] == ((obj.ForeignId == Id.Empty) ? null : obj.ForeignId.Value)))
             };
             this.InsertCommandsExtension(obj, list);
             return list;
@@ -146,7 +146,7 @@ namespace Definitif.Test.Mappers {
                         .Set(m =>
                             m.C.Version == obj.Version + 1 &
                             m.C.Name == obj.Name &
-                            m.C.Foreign.Id == ((obj.ForeignId == Id.Empty) ? null : obj.ForeignId.Value))
+                            m.C["ForeignId"] == ((obj.ForeignId == Id.Empty) ? null : obj.ForeignId.Value))
                         .Where(m =>
                             m.C.Id == obj.Id.Value &
                             m.C.Version == obj.Version))

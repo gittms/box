@@ -29,6 +29,7 @@ namespace Definitif.Data
             this.modelMapper = m.IMapper() as Mapper<M>;
             this.joinField = (this.linkMapper as IManyToManyMapper).FieldNameJoin(m);
             this.whereField = (this.linkMapper as IManyToManyMapper).FieldNameWhere(m);
+            this.database = this.linkMapper.Database;
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Definitif.Data
         {
             Query query = new Select<M>()
                 .InnerJoin<L>((m, l) => m.C.Id == l.C[joinField])
-                .Fields((m, l) => l.C["*"] & m.C["**"])
+                .Fields((m, l) => l.C["**"] & m.C["*"])
                 .Where(expression);
             return this.database.GetCommand(query);
         }

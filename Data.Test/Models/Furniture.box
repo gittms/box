@@ -16,4 +16,17 @@
         ["Name"]
         public string Name;
     }
+
+    ["Chair2Chair"]
+    public many to many model ChairToChair
+    {
+        ["FirstId"]
+        public foreign key Chair First;
+
+        ["SecondId"]
+        public foreign key Chair Second;
+
+        ["Owner"]
+        public string Owner;
+    }
 }

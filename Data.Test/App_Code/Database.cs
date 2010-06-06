@@ -17,6 +17,7 @@ namespace Definitif.Data.Test
             // Cleaning up result.
             new Delete<Models.Table>().Execute();
             new Delete<Models.Chair>().Execute();
+            new Delete<Models.ChairToChair>().Execute();
 
             // Creating table instance.
             Models.Table table = new Models.Table()
@@ -59,6 +60,18 @@ namespace Definitif.Data.Test
             new Delete<Models.Chair>().Top(5).Execute();
             chairs = new Select<Models.Chair>().Read();
             Assert.AreEqual(5, chairs.Length);
+
+            // Testing many to many relation.
+            Models.ChairToChair link = new Models.ChairToChair()
+            {
+                First = chairs[0],
+                Second = chairs[1],
+                Owner = "ialubimii",
+            };
+            link.Save();
+
+            Assert.AreEqual(1, chairs[0].GetChairs().Count);
+            Assert.AreEqual(0, chairs[2].GetChairs().Count);
         }
     }
 }

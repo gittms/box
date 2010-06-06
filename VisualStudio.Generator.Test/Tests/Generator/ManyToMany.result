@@ -191,7 +191,7 @@ namespace Definitif.Test {
         /// Gets linked Achievement objects.
         /// </summary>
         public List<ManyToMany<UserAchievement, Achievement>> GetAchievements() {
-            return ManyToMany<UserAchievement, Achievement>.Mapper.Read(this.id);
+            return ManyToMany<UserAchievement, Achievement>.Mapper.Get(this.id);
         }
 
     }
@@ -201,7 +201,7 @@ namespace Definitif.Test {
         /// Gets linked User objects.
         /// </summary>
         public List<ManyToMany<UserAchievement, User>> GetUsers() {
-            return ManyToMany<UserAchievement, User>.Mapper.Read(this.id);
+            return ManyToMany<UserAchievement, User>.Mapper.Get(this.id);
         }
 
     }
@@ -382,8 +382,8 @@ namespace Definitif.Test.Mappers {
                 this.database.GetCommand(
                     new Insert<Definitif.Test.UserAchievement>()
                         .Values(m =>
-                            m.C.User.Id == ((obj.UserId == Id.Empty) ? null : obj.UserId.Value) &
-                            m.C.Achievement.Id == ((obj.AchievementId == Id.Empty) ? null : obj.AchievementId.Value) &
+                            m.C["UserId"] == ((obj.UserId == Id.Empty) ? null : obj.UserId.Value) &
+                            m.C["AchievementId"] == ((obj.AchievementId == Id.Empty) ? null : obj.AchievementId.Value) &
                             m.C.Received == obj.Received))
             };
             this.InsertCommandsExtension(obj, list);
@@ -397,8 +397,8 @@ namespace Definitif.Test.Mappers {
                     new Update<Definitif.Test.UserAchievement>()
                         .Set(m =>
                             m.C.Version == obj.Version + 1 &
-                            m.C.User.Id == ((obj.UserId == Id.Empty) ? null : obj.UserId.Value) &
-                            m.C.Achievement.Id == ((obj.AchievementId == Id.Empty) ? null : obj.AchievementId.Value) &
+                            m.C["UserId"] == ((obj.UserId == Id.Empty) ? null : obj.UserId.Value) &
+                            m.C["AchievementId"] == ((obj.AchievementId == Id.Empty) ? null : obj.AchievementId.Value) &
                             m.C.Received == obj.Received)
                         .Where(m =>
                             m.C.Id == obj.Id.Value &

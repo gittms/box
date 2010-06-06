@@ -13,6 +13,13 @@ namespace Definitif.Data
         where ModelType : class, IModel, new()
     {
         protected Database database;
+        /// <summary>
+        /// Gets mapper database reference.
+        /// </summary>
+        public Database Database
+        {
+            get { return this.database; }
+        }
 
         public override DbConnection GetConnection()
         {

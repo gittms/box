@@ -51,13 +51,13 @@ namespace Definitif.VisualStudio.Generator
                 // When member is foreign key, so it is represented
                 // by Id and typed properties:
                 //   INSERT:
-                //     m.C.Name.Id == ((obj.NameId == Id.Empty) ? null : obj.Name)
+                //     m.C["NameId"] == ((obj.NameId == Id.Empty) ? null : obj.Name)
                 //   SELECT:
                 //     NameId = (reader["column"] == DBNull.Value) ? Id.Empty : new Id(reader["column"])
                 //     NameId = (reader[fieldPrefix + "column"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "column"])
                 else if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
-                    values.Add(@"m.C.{name}.Id == ((obj.{name}Id == Id.Empty) ? null : obj.{name}Id.Value)".F(replacement));
+                    values.Add(@"m.C[""{column}""] == ((obj.{name}Id == Id.Empty) ? null : obj.{name}Id.Value)".F(replacement));
                     reads.Add(@"{name}Id = (reader[""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[""{column}""]),".F(replacement));
                     readsWithPrefix.Add(@"{name}Id = (reader[fieldPrefix + ""{column}""] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + ""{column}""]),".F(replacement));
                 }
