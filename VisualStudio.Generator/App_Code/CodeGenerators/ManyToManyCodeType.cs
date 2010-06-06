@@ -41,13 +41,16 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         public List<ManyToMany<{linkType}, {type}>> Get{type}s() {{
             return ManyToMany<{linkType}, {type}>.Mapper.Read(this.id);
-        }}"         .F(new
-                    {
-                        linkType = model.Name,
-                        type = foreignKeys[1 - index].Type,
-                    }) + Environment.NewLine)
+        }}".F(new
+           {
+               linkType = model.Name,
+               type = foreignKeys[1 - index].Type,
+           }) + Environment.NewLine)
                 );
                 result.Add(extension);
+
+                // Breaking loop if foreign keys are of single type.
+                if (foreignKeys[0].Type == foreignKeys[1].Type) break;
             }
 
             return result.ToArray();
@@ -105,11 +108,11 @@ namespace Definitif.VisualStudio.Generator
             else throw new ArgumentException();
         }}".F(new
             {
-                firstType = foreignKeys[0].Name,
+                firstType = foreignKeys[0].Type,
                 firstKey = foreignKeys[0].ColumnName,
-                secondType = foreignKeys[1].Name,
+                secondType = foreignKeys[1].Type,
                 secondKey = foreignKeys[1].ColumnName,
-                modelsNamespace = modelsNamespace,
+                modelsNamespace = modelsNamespace.Name,
             }) + Environment.NewLine));
 
             return result.ToArray();

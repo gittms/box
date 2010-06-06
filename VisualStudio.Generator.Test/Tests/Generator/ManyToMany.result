@@ -423,20 +423,20 @@ namespace Definitif.Test.Mappers {
         partial void DeleteCommandsExtension(Definitif.Test.UserAchievement obj, List<DbCommand> list);
 
         public string FieldNameJoin(IModel model) {
-            if (model is System.CodeDom.CodeNamespace.User) {
+            if (model is Definitif.Test.User) {
                 return "UserId";
             }
-            else if (model is System.CodeDom.CodeNamespace.Achievement) {
+            else if (model is Definitif.Test.Achievement) {
                 return "AchievementId";
             }
             else throw new ArgumentException();
         }
 
         public string FieldNameWhere(IModel model) {
-            if (model is System.CodeDom.CodeNamespace.User) {
+            if (model is Definitif.Test.User) {
                 return "AchievementId";
             }
-            else if (model is System.CodeDom.CodeNamespace.Achievement) {
+            else if (model is Definitif.Test.Achievement) {
                 return "UserId";
             }
             else throw new ArgumentException();
