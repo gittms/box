@@ -76,6 +76,16 @@ namespace Definitif.Test {
         protected ForeignModel p_foreign = null;
 
     }
+    public partial class ForeignModel {
+
+        /// <summary>
+        /// Gets linked TestModel objects.
+        /// </summary>
+        public TestModel[] GetTestModels() {
+            return new Select<TestModel>().Where(m => m.C.Foreign.Id == this.Id).Read();
+        }
+
+    }
 }
 namespace Definitif.Test.Mappers {
     

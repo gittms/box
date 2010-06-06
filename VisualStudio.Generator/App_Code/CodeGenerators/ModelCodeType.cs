@@ -15,10 +15,13 @@ namespace Definitif.VisualStudio.Generator
         /// <summary>
         /// Converts Model object to Model CodeType instance.
         /// </summary>
-        public static CodeTypeDeclaration ToModelCodeType(this Model model, CodeNamespace mappersNamespace)
+        public static CodeTypeDeclaration[] ToModelCodeType(this Model model, CodeNamespace mappersNamespace)
         {
+            List<CodeTypeDeclaration> result = new List<CodeTypeDeclaration>();
+
             CodeTypeDeclaration codeType = model.ToCodeType(true);
             codeType.BaseTypes.Add(String.Format("Model<{0}.{1}>", mappersNamespace.Name, model.Name));
+            result.Add(codeType);
 
             // Generating list of columns for table scheme.
             List<string> columns = new List<string>(),
@@ -80,11 +83,26 @@ namespace Definitif.VisualStudio.Generator
                schemeConstructor = String.Join(Environment.NewLine, schemeConstructor.ToArray()).Indent(4 * 4).Trim(),
            }) + Environment.NewLine));
 
+            CodeTypeDeclaration extension;
             foreach (Member member in model.Members)
             {
                 // Foreign key member.
                 if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
+                    extension = member.ToCodeType();
+                    extension.Members.Add(new CodeSnippetTypeMember(@"
+        /// <summary>
+        /// Gets linked {model} objects.
+        /// </summary>
+        public {model}[] Get{model}s() {{
+            return new Select<{model}>().Where(m => m.C.{member}.Id == this.Id).Read();
+        }}".F(new
+           {
+               model = model.Name,
+               member = member.Name,
+           }) + Environment.NewLine)
+                );
+                    result.Add(extension);
                     codeType.Members.Add(member.ToForeignKeyMember());
                 }
                 else
@@ -111,7 +129,7 @@ namespace Definitif.VisualStudio.Generator
                 }
             }
 
-            return codeType;
+            return result.ToArray();
         }
     }
 }

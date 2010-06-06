@@ -101,8 +101,8 @@ namespace Definitif.VisualStudio.Generator
                 }
                 else
                 {
-                    modelsNamespace.Types.Add(model.ToModelCodeType(mappersNamespace));
-                    mappersNamespace.Types.Add(model.ToMapperCodeType(modelsNamespace));
+                    modelsNamespace.Types.AddRange(model.ToModelCodeType(mappersNamespace));
+                    mappersNamespace.Types.AddRange(model.ToMapperCodeType(modelsNamespace));
                 }
             }
 

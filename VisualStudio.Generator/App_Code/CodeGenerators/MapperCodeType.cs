@@ -15,7 +15,7 @@ namespace Definitif.VisualStudio.Generator
         /// <summary>
         /// Converts Model object to Mapper CodeType instance.
         /// </summary>
-        public static CodeTypeDeclaration ToMapperCodeType(this Model model, CodeNamespace modelsNamespace)
+        public static CodeTypeDeclaration[] ToMapperCodeType(this Model model, CodeNamespace modelsNamespace)
         {
             CodeTypeDeclaration codeType = model.ToCodeType(false);
             codeType.BaseTypes.Add(String.Format("Mapper<{0}.{1}>", modelsNamespace.Name, model.Name));
@@ -181,7 +181,7 @@ namespace Definitif.VisualStudio.Generator
         partial void DeleteCommandsExtension({modelNamespace}.{type} obj, List<DbCommand> list);"
             .F(variables) + Environment.NewLine));
 
-            return codeType;
+            return new CodeTypeDeclaration[] { codeType };
         }
     }
 }

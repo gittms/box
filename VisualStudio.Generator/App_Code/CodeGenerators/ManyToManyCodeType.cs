@@ -20,7 +20,7 @@ namespace Definitif.VisualStudio.Generator
             List<CodeTypeDeclaration> result = new List<CodeTypeDeclaration>();
 
             // Generating generic model codetype.
-            CodeTypeDeclaration codeType = model.ToModelCodeType(mappersNamespace), extension;
+            CodeTypeDeclaration codeType = model.ToModelCodeType(mappersNamespace)[0], extension;
             codeType.BaseTypes.Add("IManyToMany");
             result.Add(codeType);
 
@@ -78,7 +78,7 @@ namespace Definitif.VisualStudio.Generator
             List<CodeTypeDeclaration> result = new List<CodeTypeDeclaration>();
 
             // Generating generic mapper codetype.
-            CodeTypeDeclaration codeType = model.ToMapperCodeType(modelsNamespace);
+            CodeTypeDeclaration codeType = model.ToMapperCodeType(modelsNamespace)[0];
             codeType.BaseTypes.Add("IManyToManyMapper");
             result.Add(codeType);
 
