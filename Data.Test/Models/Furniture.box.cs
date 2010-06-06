@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Runtime.Serialization;
 
 
 namespace Definitif.Data.Test.Models {
@@ -47,6 +48,7 @@ namespace Definitif.Data.Test.Models {
             }
         }
 
+        [DataMember(Name = "Name", IsRequired = false)]
         public string Name {
             get { return p_name; }
             set { p_name = value; }
@@ -84,6 +86,12 @@ namespace Definitif.Data.Test.Models {
             }
         }
 
+        [DataMember(Name = "Table", IsRequired = false)]
+        private Int64 TableIdSurrogate {
+            get { return (Int64)id_table.Value; }
+            set { this.id_table = new Id(value); }
+        }
+
         internal Id TableId {
             get { return id_table; }
             set { id_table = value; }
@@ -104,11 +112,22 @@ namespace Definitif.Data.Test.Models {
         }
         protected Table p_table = null;
 
+        [DataMember(Name = "Name", IsRequired = false)]
         public string Name {
             get { return p_name; }
             set { p_name = value; }
         }
         protected string p_name;
+
+    }
+    public partial class Table {
+
+        /// <summary>
+        /// Gets linked Chair objects.
+        /// </summary>
+        public Chair[] GetChairs() {
+            return new Select<Chair>().Where(m => m.C.Table.Id == this.Id).Read();
+        }
 
     }
 }

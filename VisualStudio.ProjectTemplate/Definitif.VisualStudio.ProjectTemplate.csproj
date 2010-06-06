@@ -61,7 +61,9 @@
     <None Include="BoxLibrary.ico" />
   </ItemGroup>
   <ItemGroup>
-    <VSTemplate Include="ProjectTemplate.vstemplate" />
+    <VSTemplate Include="ProjectTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </VSTemplate>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets" />
