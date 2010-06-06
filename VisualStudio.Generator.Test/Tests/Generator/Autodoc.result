@@ -52,6 +52,7 @@ namespace Definitif.Test {
         /// <summary>
         /// Represents mapped username property.
         /// </summary>
+        [DataMember(Name = "UserName", IsRequired = false)]
         public string UserName {
             get { return p_username; }
             set { p_username = value; }

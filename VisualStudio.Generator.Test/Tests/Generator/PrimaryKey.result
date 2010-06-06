@@ -49,6 +49,7 @@ namespace Definitif.Test {
             }
         }
 
+        [DataMember(Name = "Name", IsRequired = false)]
         public string Name {
             get { return p_name; }
             set { p_name = value; }
@@ -62,6 +63,7 @@ namespace Definitif.Test {
             return new Select<TestModel>().Where(m => m.C.Name == name).ReadFirst();
         }
 
+        [DataMember(Name = "Count", IsRequired = false)]
         public string Count {
             get { return p_count; }
             set { p_count = value; }

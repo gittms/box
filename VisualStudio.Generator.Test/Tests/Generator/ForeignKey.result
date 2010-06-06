@@ -49,11 +49,18 @@ namespace Definitif.Test {
             }
         }
 
+        [DataMember(Name = "Name", IsRequired = false)]
         public string Name {
             get { return p_name; }
             set { p_name = value; }
         }
         protected string p_name;
+
+        [DataMember(Name = "Foreign", IsRequired = false)]
+        private Int64 ForeignIdSurrogate {
+            get { return (Int64)id_foreign.Value; }
+            set { this.id_foreign = new Id(value); }
+        }
 
         internal Id ForeignId {
             get { return id_foreign; }

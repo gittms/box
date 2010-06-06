@@ -40,6 +40,7 @@ namespace Definitif.VisualStudio.Generator
         private static CodeTypeMember ToProperty(this Member member)
         {
             CodeSnippetTypeMember property = new CodeSnippetTypeMember(@"
+        [DataMember(Name = ""{name}"", IsRequired = false)]
         {modifiers} {type} {name} {{
             get {{ return {protectedName}; }}
             set {{ {protectedName} = value; }}
@@ -82,6 +83,12 @@ namespace Definitif.VisualStudio.Generator
         public static CodeTypeMember ToForeignKeyMember(this Member member)
         {
             CodeSnippetTypeMember foreignKey = new CodeSnippetTypeMember(@"
+        [DataMember(Name = ""{name}"", IsRequired = false)]
+        private Int64 {name}IdSurrogate {{
+            get {{ return (Int64){idName}.Value; }}
+            set {{ this.{idName} = new Id(value); }}
+        }}
+
         internal Id {name}Id {{
             get {{ return {idName}; }}
             set {{ {idName} = value; }}

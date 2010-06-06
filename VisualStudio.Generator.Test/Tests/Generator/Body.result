@@ -49,12 +49,14 @@ namespace TestNamespace {
             }
         }
 
+        [DataMember(Name = "Name", IsRequired = false)]
         private string Name {
             get { return p_name; }
             set { p_name = value; }
         }
         protected string p_name;
 
+        [DataMember(Name = "ItemsCount", IsRequired = false)]
         private int ItemsCount {
             get { return p_itemscount; }
             set { p_itemscount = value; }
