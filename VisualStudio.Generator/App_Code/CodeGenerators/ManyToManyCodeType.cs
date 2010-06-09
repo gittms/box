@@ -43,9 +43,9 @@ namespace Definitif.VisualStudio.Generator
             {
                 extension.Members.Add(new CodeSnippetTypeMember(@"
         /// <summary>
-        /// Gets linked {type} objects.
+        /// Gets linked {type} objects by {linkType}.
         /// </summary>
-        public static ManyToMany<{linkType}, {type}>[] Get{type}s(this {keyType} key) {{
+        public static ManyToMany<{linkType}, {type}>[] Get{type}sBy{linkType}(this {keyType} key) {{
             return ManyToMany<{linkType}, {type}>.Mapper.Get(key.Id);
         }}".F(new
            {

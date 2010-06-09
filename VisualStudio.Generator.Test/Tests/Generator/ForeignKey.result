@@ -87,9 +87,9 @@ namespace Definitif.Test {
     public static partial class TestModelExtensions {
 
         /// <summary>
-        /// Gets linked TestModel objects.
+        /// Gets TestModel objects linked by Foreign.
         /// </summary>
-        public static TestModel[] GetTestModels(this ForeignModel model) {
+        public static TestModel[] GetTestModelsByForeign(this ForeignModel model) {
             return new Select<TestModel>().Where(m => m.C.Foreign.Id == model.Id).Read();
         }
 

@@ -97,9 +97,9 @@ namespace Definitif.VisualStudio.Generator
                 {
                     extension.Members.Add(new CodeSnippetTypeMember(@"
         /// <summary>
-        /// Gets linked {model} objects.
+        /// Gets {model} objects linked by {member}.
         /// </summary>
-        public static {model}[] Get{model}s(this {memberType} model) {{
+        public static {model}[] Get{model}sBy{member}(this {memberType} model) {{
             return new Select<{model}>().Where(m => m.C.{member}.Id == model.Id).Read();
         }}".F(new
            {

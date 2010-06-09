@@ -188,16 +188,16 @@ namespace Definitif.Test {
     public static partial class UserAchievementExtensions {
 
         /// <summary>
-        /// Gets linked Achievement objects.
+        /// Gets linked Achievement objects by UserAchievement.
         /// </summary>
-        public static ManyToMany<UserAchievement, Achievement>[] GetAchievements(this User key) {
+        public static ManyToMany<UserAchievement, Achievement>[] GetAchievementsByUserAchievement(this User key) {
             return ManyToMany<UserAchievement, Achievement>.Mapper.Get(key.Id);
         }
 
         /// <summary>
-        /// Gets linked User objects.
+        /// Gets linked User objects by UserAchievement.
         /// </summary>
-        public static ManyToMany<UserAchievement, User>[] GetUsers(this Achievement key) {
+        public static ManyToMany<UserAchievement, User>[] GetUsersByUserAchievement(this Achievement key) {
             return ManyToMany<UserAchievement, User>.Mapper.Get(key.Id);
         }
 
