@@ -5,6 +5,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Microsoft.CSharp;
 using Definitif;
 
@@ -77,7 +78,15 @@ namespace Definitif.VisualStudio.Generator
                     BlankLinesBetweenMembers = false,
                 });
 
-            return writer.ToString();
+            string result = writer.ToString();
+
+            // As mentioned in ModelCodeType.cs, CodeDom does not
+            // support generation of static classes, so using regexp
+            // to make needed class static.
+            Regex regexStatic = new Regex("partial class (([^\\s]+)Extensions)_static", RegexOptions.IgnoreCase);
+            result = regexStatic.Replace(result, "static partial class $1");
+
+            return result;
         }
     }
 

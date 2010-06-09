@@ -83,26 +83,31 @@ namespace Definitif.VisualStudio.Generator
                schemeConstructor = String.Join(Environment.NewLine, schemeConstructor.ToArray()).Indent(4 * 4).Trim(),
            }) + Environment.NewLine));
 
-            CodeTypeDeclaration extension;
+            // CodeDom does not support static methods generation,
+            // so using hack that will be replaced by regexp.
+            CodeTypeDeclaration extension = new CodeTypeDeclaration(model.Name + "Extensions_static")
+            {
+                IsClass = true,
+                IsPartial = true,
+            };
             foreach (Member member in model.Members)
             {
                 // Foreign key member.
                 if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
-                    extension = member.ToCodeType();
                     extension.Members.Add(new CodeSnippetTypeMember(@"
         /// <summary>
         /// Gets linked {model} objects.
         /// </summary>
-        public {model}[] Get{model}s() {{
-            return new Select<{model}>().Where(m => m.C.{member}.Id == this.Id).Read();
+        public static {model}[] Get{model}s(this {memberType} model) {{
+            return new Select<{model}>().Where(m => m.C.{member}.Id == model.Id).Read();
         }}".F(new
            {
                model = model.Name,
                member = member.Name,
+               memberType = member.Type,
            }) + Environment.NewLine)
                 );
-                    result.Add(extension);
                     codeType.Members.Add(member.ToForeignKeyMember());
                 }
                 else
@@ -128,6 +133,8 @@ namespace Definitif.VisualStudio.Generator
            }) + Environment.NewLine));
                 }
             }
+
+            if (extension.Members.Count > 0) result.Add(extension);
 
             return result.ToArray();
         }

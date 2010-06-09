@@ -223,13 +223,13 @@ namespace Definitif.Data.Test.Models {
         protected string p_owner;
 
     }
-    public partial class Chair {
+    public static partial class ChairToChairExtensions {
 
         /// <summary>
         /// Gets linked Chair objects.
         /// </summary>
-        public List<ManyToMany<ChairToChair, Chair>> GetChairs() {
-            return ManyToMany<ChairToChair, Chair>.Mapper.Get(this.id);
+        public static ManyToMany<ChairToChair, Chair>[] GetChairs(this Chair key) {
+            return ManyToMany<ChairToChair, Chair>.Mapper.Get(key.Id);
         }
 
     }

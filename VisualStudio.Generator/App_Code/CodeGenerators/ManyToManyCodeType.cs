@@ -20,7 +20,7 @@ namespace Definitif.VisualStudio.Generator
             List<CodeTypeDeclaration> result = new List<CodeTypeDeclaration>();
 
             // Generating generic model codetype.
-            CodeTypeDeclaration codeType = model.ToModelCodeType(mappersNamespace)[0], extension;
+            CodeTypeDeclaration codeType = model.ToModelCodeType(mappersNamespace)[0];
             codeType.BaseTypes.Add("IManyToMany");
             result.Add(codeType);
 
@@ -31,27 +31,35 @@ namespace Definitif.VisualStudio.Generator
                 throw new FormatException("Many to many reletion requires 2 mapped foreign keys members.");
             }
 
+            // CodeDom does not support static methods generation,
+            // so using hack that will be replaced by regexp.
+            CodeTypeDeclaration extension = new CodeTypeDeclaration(model.Name + "Extensions_static")
+            {
+                IsClass = true,
+                IsPartial = true,
+            };
             // Adding methods to extension classes.
             for (int index = 0; index <= 1; index++)
             {
-                extension = foreignKeys[index].ToCodeType();
                 extension.Members.Add(new CodeSnippetTypeMember(@"
         /// <summary>
         /// Gets linked {type} objects.
         /// </summary>
-        public List<ManyToMany<{linkType}, {type}>> Get{type}s() {{
-            return ManyToMany<{linkType}, {type}>.Mapper.Get(this.id);
+        public static ManyToMany<{linkType}, {type}>[] Get{type}s(this {keyType} key) {{
+            return ManyToMany<{linkType}, {type}>.Mapper.Get(key.Id);
         }}".F(new
            {
                linkType = model.Name,
                type = foreignKeys[1 - index].Type,
+               keyType = foreignKeys[index].Type,
            }) + Environment.NewLine)
                 );
-                result.Add(extension);
 
                 // Breaking loop if foreign keys are of single type.
                 if (foreignKeys[0].Type == foreignKeys[1].Type) break;
             }
+
+            if (extension.Members.Count > 0) result.Add(extension);
 
             return result.ToArray();
         }

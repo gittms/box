@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Definitif.Data.Queries;
+using Definitif.Data.Test.Models;
 
 namespace Definitif.Data.Test
 {
@@ -70,8 +71,8 @@ namespace Definitif.Data.Test
             };
             link.Save();
 
-            Assert.AreEqual(1, chairs[0].GetChairs().Count);
-            Assert.AreEqual(0, chairs[2].GetChairs().Count);
+            Assert.AreEqual(1, chairs[0].GetChairs().Length);
+            Assert.AreEqual(0, chairs[2].GetChairs().Length);
         }
     }
 }

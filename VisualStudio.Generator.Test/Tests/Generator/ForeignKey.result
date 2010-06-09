@@ -84,13 +84,13 @@ namespace Definitif.Test {
         protected ForeignModel p_foreign = null;
 
     }
-    public partial class ForeignModel {
+    public static partial class TestModelExtensions {
 
         /// <summary>
         /// Gets linked TestModel objects.
         /// </summary>
-        public TestModel[] GetTestModels() {
-            return new Select<TestModel>().Where(m => m.C.Foreign.Id == this.Id).Read();
+        public static TestModel[] GetTestModels(this ForeignModel model) {
+            return new Select<TestModel>().Where(m => m.C.Foreign.Id == model.Id).Read();
         }
 
     }

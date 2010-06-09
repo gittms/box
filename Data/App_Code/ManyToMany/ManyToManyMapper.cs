@@ -36,8 +36,8 @@ namespace Definitif.Data
         /// Gets list of many-to-many relation objects for specified model.
         /// </summary>
         /// <param name="id">Id of model to get relations for.</param>
-        /// <returns>List of ManyToMany objects.</returns>
-        public List<ManyToMany<L, M>> Get(Id id)
+        /// <returns>Collection of ManyToMany objects.</returns>
+        public ManyToMany<L, M>[] Get(Id id)
         {
             return Get(Singleton<M>.Default.C.Id == id.Value);
         }
@@ -46,8 +46,8 @@ namespace Definitif.Data
         /// Gets list of many-to-many relation objects.
         /// </summary>
         /// <param name="expression">Expression for building the SQL query.</param>
-        /// <returns>List of ManyToMany objects.</returns>
-        public List<ManyToMany<L, M>> Get(Expression expression)
+        /// <returns>Collection of ManyToMany objects.</returns>
+        public ManyToMany<L, M>[] Get(Expression expression)
         {
             List<ManyToMany<L, M>> result = new List<ManyToMany<L, M>>();
             IDataReader reader = ExecuteReader(ReadCommand(expression));
@@ -60,7 +60,7 @@ namespace Definitif.Data
                 result.Add(item);
             }
             reader.Close();
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>

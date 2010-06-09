@@ -185,23 +185,20 @@ namespace Definitif.Test {
         protected DateTime p_received;
 
     }
-    public partial class User {
+    public static partial class UserAchievementExtensions {
 
         /// <summary>
         /// Gets linked Achievement objects.
         /// </summary>
-        public List<ManyToMany<UserAchievement, Achievement>> GetAchievements() {
-            return ManyToMany<UserAchievement, Achievement>.Mapper.Get(this.id);
+        public static ManyToMany<UserAchievement, Achievement>[] GetAchievements(this User key) {
+            return ManyToMany<UserAchievement, Achievement>.Mapper.Get(key.Id);
         }
-
-    }
-    public partial class Achievement {
 
         /// <summary>
         /// Gets linked User objects.
         /// </summary>
-        public List<ManyToMany<UserAchievement, User>> GetUsers() {
-            return ManyToMany<UserAchievement, User>.Mapper.Get(this.id);
+        public static ManyToMany<UserAchievement, User>[] GetUsers(this Achievement key) {
+            return ManyToMany<UserAchievement, User>.Mapper.Get(key.Id);
         }
 
     }
