@@ -107,11 +107,11 @@ namespace Definitif.VisualStudio.Generator
         }}
 
         public string FieldNameWhere(IModel model) {{
-            if (model is {modelsNamespace}.{firstType}) {{
-                return ""{secondKey}"";
-            }}
-            else if (model is {modelsNamespace}.{secondType}) {{
+            if (model is {modelsNamespace}.{secondType}) {{
                 return ""{firstKey}"";
+            }}
+            else if (model is {modelsNamespace}.{firstType}) {{
+                return ""{secondKey}"";
             }}
             else throw new ArgumentException();
         }}".F(new

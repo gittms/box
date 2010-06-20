@@ -466,10 +466,10 @@ namespace Definitif.Data.Test.Models.Mappers {
 
         public string FieldNameWhere(IModel model) {
             if (model is Definitif.Data.Test.Models.Chair) {
-                return "SecondId";
+                return "FirstId";
             }
             else if (model is Definitif.Data.Test.Models.Chair) {
-                return "FirstId";
+                return "SecondId";
             }
             else throw new ArgumentException();
         }
