@@ -38,7 +38,16 @@ namespace Definitif.VisualStudio.Generator
 
                 if ((member.Modifiers & Modifier.Foreign_key) != 0)
                 {
-                    columns.Add(@"private {type}.{typeSafe}TableScheme {protectedName} = new {type}().C;".F(replacement));
+                    // Fix for issue #29: reference to foreign key should be initialized in costructor.
+                    if (member.Type == model.Name)
+                    {
+                        schemeConstructor.Add("{protectedName} = this;".F(replacement));
+                        columns.Add(@"private {type}.{typeSafe}TableScheme {protectedName};".F(replacement));
+                    }
+                    else
+                    {
+                        columns.Add(@"private {type}.{typeSafe}TableScheme {protectedName} = new {type}().C;".F(replacement));
+                    }
                     columns.Add(@"public {type}.{typeSafe}TableScheme {name} {{ get {{ return {protectedName}; }} }}".F(replacement));
                     schemeConstructor.Add((@"if (!{protectedName}.Id.ForeignKeys.Contains(table[""{column}""])) " +
                         @"{protectedName}.Id.ForeignKeys.Add(table[""{column}""]);").F(replacement));
