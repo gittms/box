@@ -39,7 +39,7 @@ namespace Definitif.Data
         /// <returns>Collection of ManyToMany objects.</returns>
         public ManyToMany<L, M>[] Get(Id id)
         {
-            return Get(Singleton<M>.Default.C.Id == id.Value);
+            return Get(Singleton<L>.Default.C[whereField] == id.Value);
         }
 
         /// <summary>
