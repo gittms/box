@@ -217,7 +217,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.User result = new Definitif.Test.User()
             {
-                Name = (string)reader["Name"],
+                Name = reader["Name"] as string,
             };
             FillBase(result, reader);
             return result;
@@ -226,7 +226,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.User result = new Definitif.Test.User()
             {
-                Name = (string)reader[fieldPrefix + "Name"],
+                Name = reader[fieldPrefix + "Name"] as string,
             };
             FillBase(result, reader, fieldPrefix);
             return result;
@@ -286,7 +286,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.Achievement result = new Definitif.Test.Achievement()
             {
-                Name = (string)reader["Name"],
+                Name = reader["Name"] as string,
             };
             FillBase(result, reader);
             return result;
@@ -295,7 +295,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.Achievement result = new Definitif.Test.Achievement()
             {
-                Name = (string)reader[fieldPrefix + "Name"],
+                Name = reader[fieldPrefix + "Name"] as string,
             };
             FillBase(result, reader, fieldPrefix);
             return result;

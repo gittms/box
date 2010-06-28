@@ -86,7 +86,7 @@ namespace TestNamespace.Mappers {
         {
             TestNamespace.TestModel result = new TestNamespace.TestModel()
             {
-                Name = (string)reader["Name"],
+                Name = reader["Name"] as string,
                 ItemsCount = (int)reader["ItemsCount"],
             };
             FillBase(result, reader);
@@ -96,7 +96,7 @@ namespace TestNamespace.Mappers {
         {
             TestNamespace.TestModel result = new TestNamespace.TestModel()
             {
-                Name = (string)reader[fieldPrefix + "Name"],
+                Name = reader[fieldPrefix + "Name"] as string,
                 ItemsCount = (int)reader[fieldPrefix + "ItemsCount"],
             };
             FillBase(result, reader, fieldPrefix);

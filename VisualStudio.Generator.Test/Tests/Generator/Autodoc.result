@@ -82,7 +82,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.TestPerson result = new Definitif.Test.TestPerson()
             {
-                UserName = (string)reader["UserName"],
+                UserName = reader["UserName"] as string,
             };
             FillBase(result, reader);
             return result;
@@ -91,7 +91,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.TestPerson result = new Definitif.Test.TestPerson()
             {
-                UserName = (string)reader[fieldPrefix + "UserName"],
+                UserName = reader[fieldPrefix + "UserName"] as string,
             };
             FillBase(result, reader, fieldPrefix);
             return result;

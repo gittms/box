@@ -109,7 +109,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.TestModel result = new Definitif.Test.TestModel()
             {
-                Name = (string)reader["Name"],
+                Name = reader["Name"] as string,
                 ForeignId = (reader["ForeignId"] == DBNull.Value) ? Id.Empty : new Id(reader["ForeignId"]),
             };
             FillBase(result, reader);
@@ -119,7 +119,7 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.TestModel result = new Definitif.Test.TestModel()
             {
-                Name = (string)reader[fieldPrefix + "Name"],
+                Name = reader[fieldPrefix + "Name"] as string,
                 ForeignId = (reader[fieldPrefix + "ForeignId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "ForeignId"]),
             };
             FillBase(result, reader, fieldPrefix);

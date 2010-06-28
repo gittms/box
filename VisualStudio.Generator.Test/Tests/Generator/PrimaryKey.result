@@ -87,8 +87,8 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.TestModel result = new Definitif.Test.TestModel()
             {
-                Name = (string)reader["Name"],
-                Count = (string)reader["Count"],
+                Name = reader["Name"] as string,
+                Count = reader["Count"] as string,
             };
             FillBase(result, reader);
             return result;
@@ -97,8 +97,8 @@ namespace Definitif.Test.Mappers {
         {
             Definitif.Test.TestModel result = new Definitif.Test.TestModel()
             {
-                Name = (string)reader[fieldPrefix + "Name"],
-                Count = (string)reader[fieldPrefix + "Count"],
+                Name = reader[fieldPrefix + "Name"] as string,
+                Count = reader[fieldPrefix + "Count"] as string,
             };
             FillBase(result, reader, fieldPrefix);
             return result;

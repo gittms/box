@@ -66,25 +66,39 @@ namespace Definitif.VisualStudio.Generator
                 //     m.C.Name == (cast)obj.Name
                 //   SELECT:
                 //     Name = (type)((cast)reader["column"])
+                //          or (type)(reader["column"] as string)
+                //          or (type)(reader["column"] as cast?)
                 //     Name = (type)((cast)reader[fieldPrefix + "column"])
+                //          or (type)(reader[fieldPrefix + "column"] as string)
+                //          or (type)(reader[fieldPrefix + "column"] as cast?)
                 else if (!String.IsNullOrWhiteSpace(member.ColumnCastingType))
                 {
                     values.Add(@"m.C.{name} == ({cast})obj.{name}".F(replacement));
-                    reads.Add(@"{name} = ({type})(({cast})reader[""{column}""]),".F(replacement));
-                    readsWithPrefix.Add(@"{name} = ({type})(({cast})reader[fieldPrefix + ""{column}""]),".F(replacement));
+                    if (!replacement.cast.EndsWith("?") && replacement.cast != "string")
+                    {
+                        reads.Add(@"{name} = ({type})(({cast})reader[""{column}""]),".F(replacement));
+                        readsWithPrefix.Add(@"{name} = ({type})(({cast})reader[fieldPrefix + ""{column}""]),".F(replacement));
+                    }
+                    else
+                    {
+                        reads.Add(@"{name} = ({type})(reader[""{column}""] as {cast}),".F(replacement));
+                        readsWithPrefix.Add(@"{name} = ({type})(reader[fieldPrefix + ""{column}""] as {cast}),".F(replacement));
+                    }
                 }
                 // When member is just a mapped member:
                 //   INSERT:
                 //     m.C.Name == obj.Name
                 //   SELECT:
                 //     Name = (type)reader["column"]
+                //         or reader["column"] as string
                 //         or reader["column"] as type?
                 //     Name = (type)reader[fieldPrefix + "column"]
+                //         or reader[fieldPrefix + "column"] as string
                 //         or reader[fieldPrefix + "column"] as type?
                 else
                 {
                     values.Add(@"m.C.{name} == obj.{name}".F(replacement));
-                    if (!replacement.type.EndsWith("?"))
+                    if (!replacement.type.EndsWith("?") && replacement.type != "string")
                     {
                         reads.Add(@"{name} = ({type})reader[""{column}""],".F(replacement));
                         readsWithPrefix.Add(@"{name} = ({type})reader[fieldPrefix + ""{column}""],".F(replacement));
