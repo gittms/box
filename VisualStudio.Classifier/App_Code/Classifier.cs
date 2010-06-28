@@ -76,20 +76,20 @@ namespace Definitif.VisualStudio.Classifier
                     "(model|class)\\s(?<span>[a-z0-9_]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
-                    "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9_\\?]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9_]+)(\\?)?", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
                     "\\[.+\\s(in|as)\\s(?<span>.+)\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
-                    "(?<span>[a-z0-9_\\?]+)\\s[a-z0-9_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "(?<span>[a-z0-9_]+)(\\?)?\\s[a-z0-9_]+\\s=", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
-                    "\\s(?<span>[a-z0-9_\\?]+)\\s([a-z0-9_]+);", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "\\s(?<span>[a-z0-9_]+)(\\?)?\\s([a-z0-9_]+);", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 // Keywords classifier.
                 new ClassifierRegex(new Regex(
-                    "(\\s|^)(?<span>" + String.Join("|", Keywords) + ")(\\s|$|;|\\]\\?)", RegexOptions.Compiled),
+                    "(\\s|^)(?<span>" + String.Join("|", Keywords) + ")(\\s|$|;|\\]|\\?)", RegexOptions.Compiled),
                     this.registry.GetClassificationType("box.blue")),
                 // Strings.
                 new ClassifierRegex(new Regex(

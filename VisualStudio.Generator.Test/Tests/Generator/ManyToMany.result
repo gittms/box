@@ -357,7 +357,7 @@ namespace Definitif.Test.Mappers {
             {
                 UserId = (reader["UserId"] == DBNull.Value) ? Id.Empty : new Id(reader["UserId"]),
                 AchievementId = (reader["AchievementId"] == DBNull.Value) ? Id.Empty : new Id(reader["AchievementId"]),
-                Received = (DateTime?)reader["Received"],
+                Received = reader["Received"] as DateTime?,
             };
             FillBase(result, reader);
             return result;
@@ -368,7 +368,7 @@ namespace Definitif.Test.Mappers {
             {
                 UserId = (reader[fieldPrefix + "UserId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "UserId"]),
                 AchievementId = (reader[fieldPrefix + "AchievementId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "AchievementId"]),
-                Received = (DateTime?)reader[fieldPrefix + "Received"],
+                Received = reader[fieldPrefix + "Received"] as DateTime?,
             };
             FillBase(result, reader, fieldPrefix);
             return result;

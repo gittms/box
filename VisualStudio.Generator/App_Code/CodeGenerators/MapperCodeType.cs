@@ -78,12 +78,22 @@ namespace Definitif.VisualStudio.Generator
                 //     m.C.Name == obj.Name
                 //   SELECT:
                 //     Name = (type)reader["column"]
+                //         or reader["column"] as type?
                 //     Name = (type)reader[fieldPrefix + "column"]
+                //         or reader[fieldPrefix + "column"] as type?
                 else
                 {
                     values.Add(@"m.C.{name} == obj.{name}".F(replacement));
-                    reads.Add(@"{name} = ({type})reader[""{column}""],".F(replacement));
-                    readsWithPrefix.Add(@"{name} = ({type})reader[fieldPrefix + ""{column}""],".F(replacement));
+                    if (!replacement.type.EndsWith("?"))
+                    {
+                        reads.Add(@"{name} = ({type})reader[""{column}""],".F(replacement));
+                        readsWithPrefix.Add(@"{name} = ({type})reader[fieldPrefix + ""{column}""],".F(replacement));
+                    }
+                    else
+                    {
+                        reads.Add(@"{name} = reader[""{column}""] as {type},".F(replacement));
+                        readsWithPrefix.Add(@"{name} = reader[fieldPrefix + ""{column}""] as {type},".F(replacement));
+                    }
                 }
             }
 
