@@ -22,5 +22,5 @@ public many to many model UserAchievement
     public foreign key Achievement Achievement;
 
     ["Received"]
-    public DateTime Received;
+    public DateTime? Received;
 }

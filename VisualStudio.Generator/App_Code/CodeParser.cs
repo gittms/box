@@ -190,7 +190,7 @@ namespace Definitif.VisualStudio.Generator
                 context.Attribute = null;
 
                 // Getting member name.
-                Match match = Re.Match(trimmed, "(?<type>[A-Za-z0-9\\.]+)\\s+(?<name>[A-Za-z0-9\\.]+)(?<body>\\s*(;|=|\\{|\\(|$).*)");
+                Match match = Re.Match(trimmed, "(?<type>[A-Za-z0-9\\.\\?]+)\\s+(?<name>[A-Za-z0-9\\.]+)(?<body>\\s*(;|=|\\{|\\(|$).*)");
                 if (!match.Success)
                 {
                     throw new FormatException("Model member declaration can not be parsed.");

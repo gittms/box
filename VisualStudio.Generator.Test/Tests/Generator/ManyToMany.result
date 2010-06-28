@@ -178,11 +178,11 @@ namespace Definitif.Test {
         protected Achievement p_achievement = null;
 
         [DataMember(Name = "Received", IsRequired = false)]
-        public DateTime Received {
+        public DateTime? Received {
             get { return p_received; }
             set { p_received = value; }
         }
-        protected DateTime p_received;
+        protected DateTime? p_received;
 
     }
     public static partial class UserAchievementExtensions {
@@ -357,7 +357,7 @@ namespace Definitif.Test.Mappers {
             {
                 UserId = (reader["UserId"] == DBNull.Value) ? Id.Empty : new Id(reader["UserId"]),
                 AchievementId = (reader["AchievementId"] == DBNull.Value) ? Id.Empty : new Id(reader["AchievementId"]),
-                Received = (DateTime)reader["Received"],
+                Received = (DateTime?)reader["Received"],
             };
             FillBase(result, reader);
             return result;
@@ -368,7 +368,7 @@ namespace Definitif.Test.Mappers {
             {
                 UserId = (reader[fieldPrefix + "UserId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "UserId"]),
                 AchievementId = (reader[fieldPrefix + "AchievementId"] == DBNull.Value) ? Id.Empty : new Id(reader[fieldPrefix + "AchievementId"]),
-                Received = (DateTime)reader[fieldPrefix + "Received"],
+                Received = (DateTime?)reader[fieldPrefix + "Received"],
             };
             FillBase(result, reader, fieldPrefix);
             return result;
