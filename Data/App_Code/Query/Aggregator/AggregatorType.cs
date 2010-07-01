@@ -15,5 +15,8 @@ namespace Definitif.Data.Queries
         Count           = 4,
 
         Length          = 11,
+
+        Distinct        = 21,
+        CountDistinct   = 22,
     }
 }

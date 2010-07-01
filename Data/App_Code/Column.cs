@@ -266,5 +266,33 @@ namespace Definitif.Data
                 };
             }
         }
+        /// <summary>
+        /// Gets Distinct aggregator.
+        /// </summary>
+        public Aggregator Distinct
+        {
+            get
+            {
+                return new Aggregator()
+                {
+                    Column = this,
+                    Type = AggregatorType.Distinct,
+                };
+            }
+        }
+        /// <summary>
+        /// Gets Count(Distinct) aggregator.
+        /// </summary>
+        public Aggregator CountDistinct
+        {
+            get
+            {
+                return new Aggregator()
+                {
+                    Column = this,
+                    Type = AggregatorType.CountDistinct,
+                };
+            }
+        }
     }
 }

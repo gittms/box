@@ -456,6 +456,10 @@ namespace Definitif.Data.Queries
                     return this.DrawAggregatorSum(aggregator);
                 case AggregatorType.Count:
                     return this.DrawAggregatorCount(aggregator);
+                case AggregatorType.Distinct:
+                    return this.DrawAggregatorDistinct(aggregator);
+                case AggregatorType.CountDistinct:
+                    return this.DrawAggregatorCountDistinct(aggregator);
                 default:
                     throw new ArgumentException(String.Format(
                         "Drawer does not support aggregators of type '{0}'.", aggregator.Type.ToString()));
@@ -480,6 +484,14 @@ namespace Definitif.Data.Queries
         protected virtual string DrawAggregatorCount(Aggregator aggregator)
         {
             return "COUNT(" + this.Draw(aggregator.Column) + ")";
+        }
+        protected virtual string DrawAggregatorDistinct(Aggregator aggregator)
+        {
+            return "DISTINCT(" + this.Draw(aggregator.Column) + ")";
+        }
+        protected virtual string DrawAggregatorCountDistinct(Aggregator aggregator)
+        {
+            return "COUNT(DISTINCT(" + this.Draw(aggregator.Column) + "))";
         }
 
         /// <summary>

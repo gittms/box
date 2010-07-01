@@ -23,6 +23,9 @@ namespace Definitif.Data.Test
             query = new Select<Models.Chair>().Where(m => m.C.Table.Id == null);
             Assert.AreEqual("SELECT Chairs.* FROM Chairs WHERE Chairs.[TableId] IS NULL", query.ToString());
 
+            query = new Select<Models.Chair>().Fields(m => m.C.Id.CountDistinct.As("Count"));
+            Assert.AreEqual("SELECT COUNT(DISTINCT(Chairs.[Id])) AS [Count] FROM Chairs", query.ToString());
+
             // Value functions.
             query = new Select<Models.Table>().Where(m => m.C.Name.Length >= 10);
             Assert.AreEqual("SELECT Tables.* FROM Tables WHERE DATALENGTH(Tables.[Name]) >= 10", query.ToString());
