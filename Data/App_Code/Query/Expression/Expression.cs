@@ -22,49 +22,59 @@ namespace Definitif.Data.Queries
         {
             this.Container = new ArrayList();
         }
-		
-		public static Expression operator &(Expression left, Expression right)
-		{
-			if (left.Type == ExpressionType.And)
-			{
-				left.Container.Add(right);
-				return left;
-			}
-			else if (right.Type == ExpressionType.And)
-			{
-				right.Container.Add(left);
-				return right;
-			}
-			else
-			{
-				return new Expression()
-				{
-					Type = ExpressionType.And,
-					Container = { left, right },
-				};
-			}
-		}
-		public static Expression operator |(Expression left, Expression right)
-		{
-			if (left.Type == ExpressionType.Or)
-			{
-				left.Container.Add(right);
-				return left;
-			}
-			else if (right.Type == ExpressionType.Or)
-			{
-				right.Container.Add(left);
-				return right;
-			}
-			else
-			{
-				return new Expression()
-				{
-					Type = ExpressionType.Or,
-					Container = { left, right },
-				};
-			}
-		}
+        
+        public static Expression operator &(Expression left, Expression right)
+        {
+            // Validating nulls.
+            if (left == null) return right;
+            else if (right == null) return left;
+
+            // Joining with existing groups.
+            if (left.Type == ExpressionType.And)
+            {
+                left.Container.Add(right);
+                return left;
+            }
+            else if (right.Type == ExpressionType.And)
+            {
+                right.Container.Add(left);
+                return right;
+            }
+            else
+            {
+                return new Expression()
+                {
+                    Type = ExpressionType.And,
+                    Container = { left, right },
+                };
+            }
+        }
+        public static Expression operator |(Expression left, Expression right)
+        {
+            // Validating nulls.
+            if (left == null) return right;
+            else if (right == null) return left;
+
+            // Joining with existing groups.
+            if (left.Type == ExpressionType.Or)
+            {
+                left.Container.Add(right);
+                return left;
+            }
+            else if (right.Type == ExpressionType.Or)
+            {
+                right.Container.Add(left);
+                return right;
+            }
+            else
+            {
+                return new Expression()
+                {
+                    Type = ExpressionType.Or,
+                    Container = { left, right },
+                };
+            }
+        }
 
         internal List<Expression> GetMembers()
         {
@@ -101,5 +111,5 @@ namespace Definitif.Data.Queries
         {
             return (IEnumerator)(new ExpressionEnumerator(this));
         }
-	}
+    }
 }
