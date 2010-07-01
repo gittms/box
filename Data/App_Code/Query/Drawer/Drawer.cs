@@ -298,10 +298,16 @@ namespace Definitif.Data.Queries
                     return this.DrawExpressionDivide(expression);
                 case ExpressionType.StartsWith:
                     return this.DrawExpressionStartsWith(expression);
+                case ExpressionType.NotStartsWith:
+                    return this.DrawExpressionNotStartsWith(expression);
                 case ExpressionType.EndsWith:
                     return this.DrawExpressionEndsWith(expression);
+                case ExpressionType.NotEndsWith:
+                    return this.DrawExpressionNotEndsWith(expression);
                 case ExpressionType.Contains:
                     return this.DrawExpressionContains(expression);
+                case ExpressionType.NotContains:
+                    return this.DrawExpressionNotContains(expression);
                 default:
                     throw new ArgumentException(String.Format(
                         "Drawer does not support expressions of type '{0}'.", expression.Type.ToString()));
@@ -400,13 +406,25 @@ namespace Definitif.Data.Queries
         {
             return this.Draw(expression.Container[0] as Column) + " LIKE '" + expression.Container[1].ToString() + "%'";
         }
+        protected virtual string DrawExpressionNotStartsWith(Expression expression)
+        {
+            return this.Draw(expression.Container[0] as Column) + " NOT LIKE '" + expression.Container[1].ToString() + "%'";
+        }
         protected virtual string DrawExpressionEndsWith(Expression expression)
         {
             return this.Draw(expression.Container[0] as Column) + " LIKE '%" + expression.Container[1].ToString() + "'";
         }
+        protected virtual string DrawExpressionNotEndsWith(Expression expression)
+        {
+            return this.Draw(expression.Container[0] as Column) + " NOT LIKE '%" + expression.Container[1].ToString() + "'";
+        }
         protected virtual string DrawExpressionContains(Expression expression)
         {
             return this.Draw(expression.Container[0] as Column) + " LIKE '%" + expression.Container[1].ToString() + "%'";
+        }
+        protected virtual string DrawExpressionNotContains(Expression expression)
+        {
+            return this.Draw(expression.Container[0] as Column) + " NOT LIKE '%" + expression.Container[1].ToString() + "%'";
         }
 
         /// <summary>

@@ -25,7 +25,10 @@ namespace Definitif.Data.Queries
         Divide          = 24,
 
         StartsWith      = 31,
+        NotStartsWith   = 41,
         EndsWith        = 32,
+        NotEndsWith     = 42,
         Contains        = 33,
+        NotContains     = 43,
     }
 }

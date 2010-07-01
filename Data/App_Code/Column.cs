@@ -136,6 +136,18 @@ namespace Definitif.Data
             };
         }
         /// <summary>
+        /// Gets NotStartsWith expression.
+        /// </summary>
+        /// <param name="str">String column not starts with.</param>
+        public Expression NotStartsWith(string str)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.NotStartsWith,
+                Container = { this, str },
+            };
+        }
+        /// <summary>
         /// Gets EndsWith expression.
         /// </summary>
         /// <param name="str">String column ends with.</param>
@@ -148,6 +160,18 @@ namespace Definitif.Data
             };
         }
         /// <summary>
+        /// Gets NotEndsWith expression.
+        /// </summary>
+        /// <param name="str">String column not ends with.</param>
+        public Expression NotEndsWith(string str)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.NotEndsWith,
+                Container = { this, str },
+            };
+        }
+        /// <summary>
         /// Gets Contains expression.
         /// </summary>
         /// <param name="str">String column contains.</param>
@@ -156,6 +180,18 @@ namespace Definitif.Data
             return new Expression()
             {
                 Type = ExpressionType.Contains,
+                Container = { this, str },
+            };
+        }
+        /// <summary>
+        /// Gets NotContains expression.
+        /// </summary>
+        /// <param name="str">String column not contains.</param>
+        public Expression NotContains(string str)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.NotContains,
                 Container = { this, str },
             };
         }
