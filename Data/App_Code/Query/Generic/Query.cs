@@ -45,6 +45,32 @@ namespace Definitif.Data.Queries
             return result;
         }
         /// <summary>
+        /// Executes query and returns scalar result.
+        /// If result is null, default value is returned.
+        /// </summary>
+        /// <typeparam name="T">Type of scalar to read.</typeparam>
+        /// <param name="defaultValue">Value to return if result is null.</param>
+        /// <returns>Typed scalar result.</returns>
+        public T ExecuteScalar<T>(T defaultValue)
+        {
+            DbCommand command = modelTable.Database.GetCommand(this, true);
+            object result = command.ExecuteScalar();
+            command.Connection.Close();
+            if (result == null) return defaultValue;
+            else return (T)result;
+        }
+        /// <summary>
+        /// Executes query and returns scalar result.
+        /// </summary>
+        /// <returns>Untyped scalar result.</returns>
+        public object ExecuteScalar()
+        {
+            DbCommand command = modelTable.Database.GetCommand(this, true);
+            object result = command.ExecuteScalar();
+            command.Connection.Close();
+            return result;
+        }
+        /// <summary>
         /// Reads query result into array of models.
         /// </summary>
         /// <returns>Array of models.</returns>
