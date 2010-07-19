@@ -27,18 +27,26 @@ namespace Definitif.Data.Queries
         }
 
         /// <summary>
-        /// Specifies expressions to filter query.
+        /// Appends expressions to filter query.
         /// </summary>
         /// <param name="expression">Lambda function returning expression.</param>
         public Update<ModelType> Where(Func<ModelType, Expression> expression)
         {
-            where = expression(Singleton<ModelType>.Default);
+            where &= expression(Singleton<ModelType>.Default);
             return this;
         }
         /// <param name="expression">Expression to use.</param>
         public Update<ModelType> Where(Expression expression)
         {
-            where = expression;
+            where &= expression;
+            return this;
+        }
+        /// <summary>
+        /// Cleares query filter expression.
+        /// </summary>
+        public Update<ModelType> ClearWhere()
+        {
+            where = null;
             return this;
         }
 

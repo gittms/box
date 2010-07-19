@@ -29,18 +29,26 @@ namespace Definitif.Data.Queries
         }
 
         /// <summary>
-        /// Specifies expressions to filter query.
+        /// Appends expressions to filter query.
         /// </summary>
         /// <param name="expression">Lambda function returning expression.</param>
         public TripleJoinedSelect<ModelType, Join1ModelType, Join2ModelType, Join3ModelType> Where(Func<ModelType, Join1ModelType, Join2ModelType, Join3ModelType, Expression> expression)
         {
-            where = expression(Singleton<ModelType>.Default, Singleton<Join1ModelType>.Default, Singleton<Join2ModelType>.Default, Singleton<Join3ModelType>.Default);
+            where &= expression(Singleton<ModelType>.Default, Singleton<Join1ModelType>.Default, Singleton<Join2ModelType>.Default, Singleton<Join3ModelType>.Default);
             return this;
         }
         /// <param name="expression">Expression to use.</param>
         public TripleJoinedSelect<ModelType, Join1ModelType, Join2ModelType, Join3ModelType> Where(Expression expression)
         {
-            where = expression;
+            where &= expression;
+            return this;
+        }
+        /// <summary>
+        /// Cleares query filter expression.
+        /// </summary>
+        public TripleJoinedSelect<ModelType, Join1ModelType, Join2ModelType, Join3ModelType> ClearWhere()
+        {
+            where = null;
             return this;
         }
 

@@ -28,18 +28,26 @@ namespace Definitif.Data.Queries
         }
 
         /// <summary>
-        /// Specifies expressions to filter query.
+        /// Appends expressions to filter query.
         /// </summary>
         /// <param name="expression">Lambda function returning expression.</param>
         public DoubleJoinedSelect<ModelType, Join1ModelType, Join2ModelType> Where(Func<ModelType, Join1ModelType, Join2ModelType, Expression> expression)
         {
-            where = expression(Singleton<ModelType>.Default, Singleton<Join1ModelType>.Default, Singleton<Join2ModelType>.Default);
+            where &= expression(Singleton<ModelType>.Default, Singleton<Join1ModelType>.Default, Singleton<Join2ModelType>.Default);
             return this;
         }
         /// <param name="expression">Expression to use.</param>
         public DoubleJoinedSelect<ModelType, Join1ModelType, Join2ModelType> Where(Expression expression)
         {
-            where = expression;
+            where &= expression;
+            return this;
+        }
+        /// <summary>
+        /// Cleares query filter expression.
+        /// </summary>
+        public DoubleJoinedSelect<ModelType, Join1ModelType, Join2ModelType> ClearWhere()
+        {
+            where = null;
             return this;
         }
 

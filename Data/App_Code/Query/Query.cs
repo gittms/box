@@ -113,6 +113,23 @@ namespace Definitif.Data.Queries
                         replacement = fk;
                         return true;
                     }
+                    // Checking many to many joins.
+                    // TODO: This should be done somewhere else,
+                    // because such case only works when we have
+                    // many to many join already specified.
+                    else if (this.joins.Count > 0)
+                    {
+                        foreach (Join join in this.joins)
+                        {
+                            Column jk = column.GetForeignKeyFor(join.Table),
+                                   jpk = this.modelTable.PrimaryKey.GetForeignKeyFor(join.Table);
+                            if ((object)jk != null && (object)jpk != null)
+                            {
+                                replacement = jk;
+                                return true;
+                            }
+                        }
+                    }
                     else
                     {
                         joinWith.Add(column);
@@ -151,7 +168,7 @@ namespace Definitif.Data.Queries
             List<Column> joinWith = new List<Column>();
             Column replacement;
 
-            // Normalizing uery parts.
+            // Normalizing query parts.
             if (this.fields != null) for (int i = 0; i < this.fields.Count; i++)
             {
                 Column column = this.fields[i];

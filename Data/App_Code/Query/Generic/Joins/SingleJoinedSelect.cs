@@ -27,18 +27,26 @@ namespace Definitif.Data.Queries
         }
 
         /// <summary>
-        /// Specifies expressions to filter query.
+        /// Appends expressions to filter query.
         /// </summary>
         /// <param name="expression">Lambda function returning expression.</param>
         public SingleJoinedSelect<ModelType, JoinModelType> Where(Func<ModelType, JoinModelType, Expression> expression)
         {
-            where = expression(Singleton<ModelType>.Default, Singleton<JoinModelType>.Default);
+            where &= expression(Singleton<ModelType>.Default, Singleton<JoinModelType>.Default);
             return this;
         }
         /// <param name="expression">Expression to use.</param>
         public SingleJoinedSelect<ModelType, JoinModelType> Where(Expression expression)
         {
-            where = expression;
+            where &= expression;
+            return this;
+        }
+        /// <summary>
+        /// Cleares query filter expression.
+        /// </summary>
+        public SingleJoinedSelect<ModelType, JoinModelType> ClearWhere()
+        {
+            where = null;
             return this;
         }
 

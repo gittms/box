@@ -87,11 +87,11 @@ namespace Definitif.Data
                 left, right,
             };
         }
-        public static List<Column> operator &(Column left, IList<Column> right)
+        public static List<Column> operator &(IList<Column> left, Column right)
         {
-            return new List<Column>(right)
+            return new List<Column>(left)
             {
-                left,
+                right,
             };
         }
 
