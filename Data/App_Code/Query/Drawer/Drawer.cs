@@ -59,6 +59,7 @@ namespace Definitif.Data.Queries
             return
                 prefix +
                 "SELECT " +
+                    (query.distinct ? "DISTINCT " : "") +
                     selectTermPrefix +
                     (query.fields == null ? query.modelTable.Name + ".*" : String.Join(", ", this.DrawColumnList(query.fields))) +
                " FROM " +

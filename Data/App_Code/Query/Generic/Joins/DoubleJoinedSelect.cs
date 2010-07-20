@@ -81,6 +81,15 @@ namespace Definitif.Data.Queries
             return this;
         }
 
+        /// <summary>
+        /// Specifies is it required to select distinct rows.
+        /// </summary>
+        public DoubleJoinedSelect<ModelType, Join1ModelType, Join2ModelType> Distinct(bool distinct = true)
+        {
+            this.distinct = distinct;
+            return this;
+        }
+
         #region Limits and paging.
         /// <summary>
         /// Specifies number of top records to select.

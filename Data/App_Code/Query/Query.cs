@@ -18,6 +18,7 @@ namespace Definitif.Data.Queries
         internal IList<Order> orderBy = null;
         internal IList<Column> groupBy = null;
         internal Limit limit = new Limit();
+        internal bool distinct = false;
 
         /// <summary>
         /// Gets query type enumerator value.
@@ -125,7 +126,7 @@ namespace Definitif.Data.Queries
                                    jpk = this.modelTable.PrimaryKey.GetForeignKeyFor(join.Table);
                             if ((object)jk != null && (object)jpk != null)
                             {
-                                replacement = jk;
+                                replacement = jpk;
                                 return true;
                             }
                         }
