@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
+using MySql.Data.MySqlClient;
 using Definitif.Data;
 
 namespace Definitif.Data.Providers.MySql
@@ -14,17 +15,32 @@ namespace Definitif.Data.Providers.MySql
 
         protected override DbConnection GetDatabaseConnection()
         {
-            throw new NotImplementedException();
+            return new MySqlConnection(this.ConnectionString);
         }
 
         public override DbCommand GetCommand()
         {
-            throw new NotImplementedException();
+            return new MySqlCommand();
         }
 
         protected override void UpdateSchema()
         {
-            throw new NotImplementedException();
+            MySqlConnection connection = this.GetConnection() as MySqlConnection;
+            connection.Open();
+
+            DataTable columns = connection.GetSchema("Columns");
+            foreach (DataRow column in columns.Rows)
+            {
+                if (!this.tables.ContainsKey(column["TABLE_NAME"] as string))
+                {
+                    this.Add(new Table(column["TABLE_NAME"] as string));
+                }
+                this[column["TABLE_NAME"] as string].Add(
+                    new Column(column["COLUMN_NAME"] as string,
+                               column["DATA_TYPE"] as string));
+            }
+
+            connection.Close();
         }
     }
 }

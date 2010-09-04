@@ -21,8 +21,8 @@ namespace Definitif.Data.Providers.MsSql
             string order = query.orderBy != null ? String.Join(", ", this.DrawList<Order>(query.orderBy)) : "(SELECT 0)",
                    selectSuffix = "ROW_NUMBER() OVER( ORDER BY " + order + " ) AS [_RowNum], ",
                    prefix = "WITH _RowCounter AS ( ",
-                   suffix = " ) SELECT * FROM _RowCounter WHERE [_RowNum] >= " + query.limit.Offset.ToString() +
-                       " AND [_RowNum] < " + (query.limit.Offset + query.limit.RowCount).ToString();
+                   suffix = " ) SELECT * FROM _RowCounter WHERE [_RowNum] > " + (query.limit.Offset).ToString() +
+                       " AND [_RowNum] <= " + (query.limit.Offset + query.limit.RowCount).ToString();
 
             return this.DrawQuerySelect(query, prefix, selectSuffix, suffix, false);
         }
@@ -51,8 +51,8 @@ namespace Definitif.Data.Providers.MsSql
             string order = query.orderBy != null ? String.Join(", ", this.DrawList<Order>(query.orderBy)) : "(SELECT 0)",
                    selectSuffix = "ROW_NUMBER() OVER( ORDER BY " + order + " ) AS [_RowNum], ",
                    prefix = "WITH _RowCounter AS ( ",
-                   suffix = " ) UPDATE _RowCounter SET " + String.Join(", ", values) + " WHERE [_RowNum] >= " + query.limit.Offset.ToString() +
-                       " AND [_RowNum] < " + (query.limit.Offset + query.limit.RowCount).ToString();
+                   suffix = " ) UPDATE _RowCounter SET " + String.Join(", ", values) + " WHERE [_RowNum] > " + query.limit.Offset.ToString() +
+                       " AND [_RowNum] <= " + (query.limit.Offset + query.limit.RowCount).ToString();
 
             return this.DrawQuerySelect(query, prefix, selectSuffix, suffix, false);
         }
@@ -68,8 +68,8 @@ namespace Definitif.Data.Providers.MsSql
             string order = query.orderBy != null ? String.Join(", ", this.DrawList<Order>(query.orderBy)) : "(SELECT 0)",
                    selectSuffix = "ROW_NUMBER() OVER( ORDER BY " + order + " ) AS [_RowNum], ",
                    prefix = "WITH _RowCounter AS ( ",
-                   suffix = " ) DELETE FROM _RowCounter WHERE [_RowNum] >= " + query.limit.Offset.ToString() +
-                       " AND [_RowNum] < " + (query.limit.Offset + query.limit.RowCount).ToString();
+                   suffix = " ) DELETE FROM _RowCounter WHERE [_RowNum] > " + query.limit.Offset.ToString() +
+                       " AND [_RowNum] <= " + (query.limit.Offset + query.limit.RowCount).ToString();
 
             return this.DrawQuerySelect(query, prefix, selectSuffix, suffix, false);
         }

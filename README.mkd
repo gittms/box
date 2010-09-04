@@ -55,3 +55,4 @@ Sources available at GitHub:
 
 ### External components:
 1. **Binary** [WCF REST Contrib](http://wcfrestcontrib.codeplex.com/);
+2. **Binary: Build only** [MySql Connector for .Net](http://dev.mysql.com/downloads/connector/net/);

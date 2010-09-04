@@ -6,7 +6,7 @@ using Definitif.Data;
 /// <summary>
 /// Represents Definitif Box Library core.
 /// </summary>
-[ConnectionStringKey("Core")]
+[ConnectionStringKey("MsSql")]
 public class Core
 {
     /// <summary>

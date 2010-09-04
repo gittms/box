@@ -44,10 +44,10 @@ namespace Definitif.Data.Test
             Models.Chair[] chairs = new Select<Models.Chair>().Where(m => m.C.Table.Id == table.Id).Read();
             Assert.AreEqual(10, chairs.Length);
 
-            // Selecting ordered and limited list (1, 10, 2, 3, ...).
+            // Selecting ordered and limited list (1, 10, 2, [3, 4]...).
             chairs = new Select<Models.Chair>().OrderBy(m => m.C.Name.Asc).Limit(3, 2).Read();
             Assert.AreEqual(2, chairs.Length);
-            Assert.AreEqual("Chair #3", chairs[1].Name);
+            Assert.AreEqual("Chair #4", chairs[1].Name);
 
             Models.Chair someChair = Models.Chair.Get(chairs[1].Id);
             Assert.AreEqual(chairs[1].Id, someChair.Id);
