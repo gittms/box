@@ -71,6 +71,29 @@ namespace Definitif.Data.Queries
             return result;
         }
         /// <summary>
+        /// Executes query and returns array result.
+        /// </summary>
+        /// <typeparam name="T">Type of scalars to read.</typeparam>
+        /// <param name="func">Function to transform row to type.</param>
+        /// <returns>Typed array result.</returns>
+        public T[] ExecuteArray<T>(Func<IDataReader, T> func)
+        {
+            List<T> list = new List<T>();
+
+            IDataReader reader = this.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(func(reader));
+            }
+            reader.Close();
+
+            return list.ToArray();
+        }
+        public T[] ExecuteArray<T>()
+        {
+            return this.ExecuteArray<T>(reader => (T)reader[0]);
+        }
+        /// <summary>
         /// Reads query result into array of models.
         /// </summary>
         /// <returns>Array of models.</returns>
