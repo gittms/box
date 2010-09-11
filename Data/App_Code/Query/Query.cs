@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Definitif.Data.Queries
 {
@@ -31,8 +32,29 @@ namespace Definitif.Data.Queries
         /// <returns>String representation of query.</returns>
         protected string Draw(Drawer drawer)
         {
+    #if !TRACE
             this.Normalize();
             return drawer.Draw(this);
+    #else
+    Trace.TraceInformation("> Query.Draw()");
+    Trace.Indent();
+    Stopwatch watch = Stopwatch.StartNew();
+
+            this.Normalize();
+
+    watch.Stop();
+    Trace.TraceInformation("Query normalization time: {0}", watch.Elapsed);
+    watch = Stopwatch.StartNew();
+
+            string query = drawer.Draw(this);
+
+    watch.Stop();
+    Trace.TraceInformation("Query draw time: {0}", watch.Elapsed);
+    Trace.TraceInformation("Result: " + query);
+    Trace.Unindent();
+
+            return query;
+    #endif
         }
 
         /// <summary>

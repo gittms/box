@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 
 namespace Definitif.Data.Queries
 {
@@ -30,8 +31,25 @@ namespace Definitif.Data.Queries
         /// <returns>Executed data reader.</returns>
         public IDataReader ExecuteReader()
         {
+    #if !TRACE
             return modelTable.Database.GetCommand(this, true)
                 .ExecuteReader(CommandBehavior.CloseConnection);
+    #else
+    Trace.TraceInformation("> Query.ExecuteReader()");
+    Trace.Indent();
+
+            DbCommand command = modelTable.Database.GetCommand(this, true);
+
+    Stopwatch watch = Stopwatch.StartNew();
+
+            IDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+    watch.Stop();
+    Trace.TraceInformation("Query execution time: {0}", watch.Elapsed);
+    Trace.Unindent();
+
+            return reader;
+    #endif
         }
         /// <summary>
         /// Executes query and return number of rows affected.
@@ -39,8 +57,24 @@ namespace Definitif.Data.Queries
         /// <returns>Number of rows affected.</returns>
         public int Execute()
         {
+    #if !TRACE
             DbCommand command = modelTable.Database.GetCommand(this, true);
             int result = command.ExecuteNonQuery();
+    #else
+    Trace.TraceInformation("> Query.Execute()");
+    Trace.Indent();
+
+            DbCommand command = modelTable.Database.GetCommand(this, true);
+
+    Stopwatch watch = Stopwatch.StartNew();
+
+            int result = command.ExecuteNonQuery();
+
+    watch.Stop();
+    Trace.TraceInformation("Query execution time: {0}", watch.Elapsed);
+    Trace.Unindent();
+    #endif
+
             command.Connection.Close();
             return result;
         }
@@ -53,8 +87,24 @@ namespace Definitif.Data.Queries
         /// <returns>Typed scalar result.</returns>
         public T ExecuteScalar<T>(T defaultValue)
         {
+    #if !TRACE
             DbCommand command = modelTable.Database.GetCommand(this, true);
             object result = command.ExecuteScalar();
+    #else
+    Trace.TraceInformation("> Query.ExecuteScalar<T>()");
+    Trace.Indent();
+
+            DbCommand command = modelTable.Database.GetCommand(this, true);
+
+    Stopwatch watch = Stopwatch.StartNew();
+
+            object result = command.ExecuteNonQuery();
+
+    watch.Stop();
+    Trace.TraceInformation("Query execution time: {0}", watch.Elapsed);
+    Trace.Unindent();
+    #endif
+
             command.Connection.Close();
             if (result == null) return defaultValue;
             else return (T)result;
@@ -65,8 +115,24 @@ namespace Definitif.Data.Queries
         /// <returns>Untyped scalar result.</returns>
         public object ExecuteScalar()
         {
+    #if !TRACE
             DbCommand command = modelTable.Database.GetCommand(this, true);
             object result = command.ExecuteScalar();
+    #else
+    Trace.TraceInformation("> Query.ExecuteScalar()");
+    Trace.Indent();
+
+            DbCommand command = modelTable.Database.GetCommand(this, true);
+
+    Stopwatch watch = Stopwatch.StartNew();
+
+            object result = command.ExecuteNonQuery();
+
+    watch.Stop();
+    Trace.TraceInformation("Query execution time: {0}", watch.Elapsed);
+    Trace.Unindent();
+    #endif
+
             command.Connection.Close();
             return result;
         }
