@@ -40,11 +40,11 @@ namespace Definitif.Data.Test
 
             query = new Select<Models.Table>().Where(m => m.C.Id > 10).Limit(100, 100);
             Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY (SELECT 0) ) AS [_RowNum], Tables.* FROM Tables WHERE Tables.[Id] > 10 ) " +
-                "SELECT * FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 200", query.ToString());
+                "SELECT * FROM _RowCounter WHERE [_RowNum] > 100 AND [_RowNum] <= 200", query.ToString());
 
             query = new Select<Models.Table>().OrderBy(m => m.C.Name.Asc).Limit(100, 200);
             Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
-                "SELECT * FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
+                "SELECT * FROM _RowCounter WHERE [_RowNum] > 100 AND [_RowNum] <= 300", query.ToString());
 
             // Logic functions.
             query = new Select<Models.Table>().Where(m =>
@@ -101,7 +101,7 @@ namespace Definitif.Data.Test
 
             query = new Update<Models.Table>().Set(m => m.C.Name == "Table").OrderBy(m => m.C.Name.Asc).Limit(100, 200);
             Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
-                "UPDATE _RowCounter SET [Name] = 'Table' WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
+                "UPDATE _RowCounter SET [Name] = 'Table' WHERE [_RowNum] > 100 AND [_RowNum] <= 300", query.ToString());
         }
 
         [TestMethod, Priority(5)]
@@ -117,7 +117,7 @@ namespace Definitif.Data.Test
 
             query = new Delete<Models.Table>().OrderBy(m => m.C.Name.Asc).Limit(100, 200);
             Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
-                "DELETE FROM _RowCounter WHERE [_RowNum] >= 100 AND [_RowNum] < 300", query.ToString());
+                "DELETE FROM _RowCounter WHERE [_RowNum] > 100 AND [_RowNum] <= 300", query.ToString());
         }
     }
 }
