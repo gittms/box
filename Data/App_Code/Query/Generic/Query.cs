@@ -98,7 +98,7 @@ namespace Definitif.Data.Queries
 
     Stopwatch watch = Stopwatch.StartNew();
 
-            object result = command.ExecuteNonQuery();
+            object result = command.ExecuteScalar();
 
     watch.Stop();
     Trace.TraceInformation("Query execution time: {0}", watch.Elapsed);
@@ -126,7 +126,7 @@ namespace Definitif.Data.Queries
 
     Stopwatch watch = Stopwatch.StartNew();
 
-            object result = command.ExecuteNonQuery();
+            object result = command.ExecuteScalar();
 
     watch.Stop();
     Trace.TraceInformation("Query execution time: {0}", watch.Elapsed);
