@@ -43,7 +43,7 @@ namespace Definitif.Box.Unbox
             string cache = GetCacheLocation(hostname);
 
             return (File.Exists(cache) &&
-                DateTime.Now - new FileInfo(cache).CreationTime < new TimeSpan(1, 0, 0));
+                DateTime.Now - new FileInfo(cache).LastWriteTime < new TimeSpan(1, 0, 0));
         }
 
         /// <summary>
@@ -93,12 +93,22 @@ namespace Definitif.Box.Unbox
         /// <summary>
         /// Performs case-insensitive search over repository assemblies names.
         /// </summary>
-        public string[] Search(string name)
+        /// <param name="exact">If True, exact search will be performed.</param>
+        public string[] Search(string name, bool exact = false)
         {
-            name = name.ToLower();
+            if (!exact) name = name.ToLower();
+
             return this.Assemblies
-                .Where<string>(n => n.ToLower().Contains(name))
+                .Where<string>(n => exact ? n == name : n.ToLower().Contains(name))
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Checks if repository contains assembly specified.
+        /// </summary>
+        public bool Contains(string name)
+        {
+            return this.Search(name, exact: true).Length != 0;
         }
 
         /// <summary>
@@ -106,6 +116,11 @@ namespace Definitif.Box.Unbox
         /// </summary>
         public Assembly Get(string name)
         {
+            // Checking if repository contains requested assembly.
+            if (!this.Contains(name))
+                throw new Exception("Repository does not contain this assembly.");
+
+            // Getting assembly instance.
             string path = repo.SelectSingleNode("//repository/assemblies/assembly[@name='" + name + "']").Attributes["path"].InnerText;
             XmlReader reader = new XmlTextReader(url + path);
 
