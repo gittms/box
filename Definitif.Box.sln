@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.VisualStudio.Proj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.VisualStudio.ItemTemplate", "VisualStudio.ItemTemplate\Definitif.VisualStudio.ItemTemplate.csproj", "{506FFC0F-04F0-4282-B01B-937D11B5A947}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Box.Unbox", "Box.Unbox\Definitif.Box.Unbox.csproj", "{4406C5F8-7F26-4075-AEF1-4B3E365F934D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Definitif.Box.Unbox", "Unbox\Definitif.Box.Unbox.csproj", "{4406C5F8-7F26-4075-AEF1-4B3E365F934D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
