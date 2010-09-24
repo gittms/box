@@ -60,7 +60,9 @@
   <ItemGroup>
     <Compile Include="App_Code\Assembly.cs" />
     <Compile Include="App_Code\AssemblyOption.cs" />
+    <Compile Include="App_Code\AssemblyDependency.cs" />
     <Compile Include="App_Code\NDesk\Options.cs" />
+    <Compile Include="App_Code\System.cs" />
     <Compile Include="App_Code\Repository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
