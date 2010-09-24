@@ -96,10 +96,10 @@ namespace Definitif.Box.Unbox
         /// <param name="exact">If True, exact search will be performed.</param>
         public string[] Search(string name, bool exact = false)
         {
-            if (!exact) name = name.ToLower();
+            name = name.ToLower();
 
             return this.Assemblies
-                .Where<string>(n => exact ? n == name : n.ToLower().Contains(name))
+                .Where<string>(n => exact ? n.ToLower() == name : n.ToLower().Contains(name))
                 .ToArray();
         }
 
@@ -120,12 +120,15 @@ namespace Definitif.Box.Unbox
             if (!this.Contains(name))
                 throw new Exception("Repository does not contain this assembly.");
 
-            // Getting assembly instance.
-            string path = repo.SelectSingleNode("//repository/assemblies/assembly[@name='" + name + "']").Attributes["path"].InnerText;
+            // Getting assembly instance by name.
+            string path = repo.SelectSingleNode("//repository/assemblies/assembly" + 
+                "[translate(@name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='" + name + "']")
+                .Attributes["path"].InnerText;
             XmlReader reader = new XmlTextReader(url + path);
 
             XmlSerializer serializer = new XmlSerializer(typeof(Assembly));
             Assembly assembly = (Assembly)serializer.Deserialize(reader);
+            assembly.repository = this;
 
             reader.Close();
             return assembly;

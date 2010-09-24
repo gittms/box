@@ -8,61 +8,86 @@ namespace Definitif.Box.Unbox
 {
     class Program
     {
-        static string nl = Environment.NewLine;
-
         static void Main(string[] args)
         {
             bool install = false, search = false, list = false, help = false;
             string repo = "unbox.definitif.ru"; bool reload = false;
-
-            //args = new string[] { "--search", "mysql" };
+            string lib = "lib"; bool gac = false;
+            string[] extra;
 
             // Parsing command line options.
             OptionSet options = new OptionSet()
             {
                 { "install", "installs selected assembly with" + nl +
-                             "it's dependencies.",
+                             "it's dependencies;",
                     v => install = (v != null) },
-                { "search", "performs search by given name.",
-                    v => search = (v != null) },
-                { "list", "lists all available assemblies in repo.",
-                    v => list = (v != null) },
-                { "help", "shows this message and exits.",
-                    v => help = (v != null) },
+                { "gac", "installs assemblies to GAC;",
+                    v => gac = (v != null) },
+                { "lib=", "directory to copy assemblies to" + nl +
+                          "(default: lib);" + nl,
+                    v => { if (v != null) lib = v; } },
 
-                { "repo=", "repository to use.",
+                { "search", "performs search by given name;",
+                    v => search = (v != null) },
+                { "list", "lists all available assemblies in repo;",
+                    v => list = (v != null) },
+
+                { "repo=", "repository to use;",
                     v => { if (v != null) repo = v; } },
                 { "nocache", "disables local repo cache for this" + nl +
-                             "request.",
+                             "request;" + nl,
                     v => reload = (v != null) },
-            };
-            string[] extra = options.Parse(args).ToArray();
 
-            // Showing help.
+                { "help", "shows this message and exits." + nl,
+                    v => help = (v != null) },
+            };
+            try
+            {
+                extra = options.Parse(args).ToArray();
+            }
+            catch (OptionException e)
+            {
+                W("ERROR: " + e.Message);
+
+                return;
+            }
+
+            /* 
+             * Showing usage and options help.
+             */
             if (help || (extra.Length == 0 && !list) || 
                 !(install || search || list))
             {
-                Console.WriteLine("Usage: unbox [OPTIONS] assemblies");
-                Console.WriteLine("Installs specified assemblies to local system.");
+                W("Usage: unbox [OPTIONS] assemblies");
+                W("Installs specified assemblies to local system." + nl);
                 options.WriteOptionDescriptions(Console.Out);
+                W("More info on: http://unbox.definitif.ru/.");
 
                 return;
             }
 
             // Reading repository information.
             Repository repository = new Repository(repo, forceReload: reload);
+
+            /*
+             * Listing assemblies available in current repository.
+             */
             if (list)
             {
-                Console.WriteLine("Repository '{0}' contains: " + nl, repo);
-                Console.WriteLine("    " +
+                W("Repository '{0}' contains: " + nl, repo);
+                W("    " +
                     String.Join(nl + "    ", repository.Assemblies) + nl + nl +
                     "You can now install selected assembly using:" + nl +
                     "    unbox --install [name]");
                 return;
             }
+
+            /*
+             * Searching repository assemblies for given substrings.
+             */
             else if (search)
             {
-                Console.WriteLine("Searching for: " + String.Join(" OR ", extra) + "..." + nl);
+                W("Searching for: " + String.Join(" OR ", extra) + "..." + nl);
                 List<string> result = new List<string>();
                 foreach (string assembly in extra)
                 {
@@ -70,14 +95,18 @@ namespace Definitif.Box.Unbox
                         .Where(item => !result.Contains(item)));
                 }
 
-                Console.WriteLine(result.Count > 0 ?
+                W(result.Count > 0 ?
                     "    " + String.Join(nl + "    ", result) + nl + nl +
                         "You can now install selected assembly using:" + nl +
                         "    unbox --install [name]" :
-                    "Nothing found +(");
+                    "Nothing found...");
 
                 return;
             }
+
+            /*
+             * Installing given assemblies.
+             */
             else if (install)
             {
                 // Validating provided assemblies list.
@@ -85,10 +114,20 @@ namespace Definitif.Box.Unbox
                 {
                     if (repository.Contains(assembly)) continue;
 
-                    Console.WriteLine("Unknown assembly: " + assembly);
+                    W("Unknown assembly: " + assembly);
                     return;
                 }
             }
+        }
+
+        static string nl = Environment.NewLine;
+        private static void W(string line)
+        {
+            Console.WriteLine(line);
+        }
+        private static void W(string line, params object[] args)
+        {
+            Console.WriteLine(line, args);
         }
     }
 }

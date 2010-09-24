@@ -24,5 +24,12 @@ namespace Definitif.Box.Unbox
         /// </summary>
         [XmlElement(ElementName = "remarks", IsNullable = true)]
         public string Remarks;
+
+        /// <summary>
+        /// Gets assembly dependencies collection.
+        /// </summary>
+        [XmlArray(ElementName = "dependencies")]
+        [XmlArrayItem(ElementName = "dependency")]
+        public AssemblyDependency[] Dependencies;
     }
 }

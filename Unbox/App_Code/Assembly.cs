@@ -37,5 +37,7 @@ namespace Definitif.Box.Unbox
         [XmlArray(ElementName = "options")]
         [XmlArrayItem(ElementName = "option")]
         public AssemblyOption[] Options;
+
+        internal Repository repository;
     }
 }
