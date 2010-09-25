@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -38,6 +40,31 @@ namespace Definitif.Box.Unbox
         [XmlArrayItem(ElementName = "option")]
         public AssemblyOption[] Options;
 
+        public AssemblyOption[] GetAssemblyOptionWithDependencies(string minVersion = "")
+        {
+            // Selecting latest version.
+            AssemblyOption option = this.Options
+                .Where(o => Compare(o.Version, minVersion))
+                .OrderByDescending<AssemblyOption, string>(o => o.Version)
+                .FirstOrDefault<AssemblyOption>();
+            if (option == null) return null;
+
+            // Walking through dependencies.
+            AssemblyOption[] result = option.Dependencies
+                .SelectMany<AssemblyDependency, AssemblyOption>(dep => dep.GetAssemblyOptionWithDependencies())
+
+            // Adding option of current assembly.
+                .Union<AssemblyOption>(new AssemblyOption[] { option })
+                .Distinct().ToArray();
+
+            return result;
+        }
+
         internal Repository repository;
+
+        private bool Compare(string first, string second)
+        {
+            return String.Compare(first, second) >= 0;
+        }
     }
 }

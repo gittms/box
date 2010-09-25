@@ -96,6 +96,7 @@ namespace Definitif.Box.Unbox
         /// <param name="exact">If True, exact search will be performed.</param>
         public string[] Search(string name, bool exact = false)
         {
+            // Making name lowercase for case-insensitive search.
             name = name.ToLower();
 
             return this.Assemblies
@@ -116,6 +117,9 @@ namespace Definitif.Box.Unbox
         /// </summary>
         public Assembly Get(string name)
         {
+            // Making name lowercase for case-insensitive search.
+            name = name.ToLower();
+
             // Checking if repository contains requested assembly.
             if (!this.Contains(name))
                 throw new Exception("Repository does not contain this assembly.");
@@ -128,6 +132,18 @@ namespace Definitif.Box.Unbox
 
             XmlSerializer serializer = new XmlSerializer(typeof(Assembly));
             Assembly assembly = (Assembly)serializer.Deserialize(reader);
+
+            // Setting references between objects.
+            if (assembly.Options == null) assembly.Options = new AssemblyOption[0];
+            foreach (AssemblyOption option in assembly.Options)
+            {
+                option.assembly = assembly;
+                if (option.Dependencies == null) option.Dependencies = new AssemblyDependency[0];
+                foreach (AssemblyDependency dependency in option.Dependencies)
+                {
+                    dependency.option = option;
+                }
+            }
             assembly.repository = this;
 
             reader.Close();

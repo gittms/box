@@ -24,5 +24,24 @@ namespace Definitif.Box.Unbox
         /// </summary>
         [XmlAttribute(AttributeName = "minVersion")]
         public string Version;
+
+        public AssemblyOption option;
+
+        /// <summary>
+        /// Gets assembly option for this dependency.
+        /// </summary>
+        public AssemblyOption[] GetAssemblyOptionWithDependencies()
+        {
+            Repository repo = option.assembly.repository;
+            if (this.Repository != null)
+            {
+                repo = new Repository(this.Repository);
+            }
+
+            if (!repo.Contains(this.Name)) return null;
+            Assembly assembly = repo.Get(this.Name);
+
+            return assembly.GetAssemblyOptionWithDependencies(this.Version);
+        }
     }
 }

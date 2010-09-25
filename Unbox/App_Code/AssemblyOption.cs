@@ -31,5 +31,25 @@ namespace Definitif.Box.Unbox
         [XmlArray(ElementName = "dependencies")]
         [XmlArrayItem(ElementName = "dependency")]
         public AssemblyDependency[] Dependencies;
+
+        public Assembly assembly;
+
+        public override int GetHashCode()
+        {
+            return (this.PublicKey + this.Version).GetHashCode();
+        }
+        public override bool Equals(object obj)
+        {
+            if (!(obj is AssemblyOption)) return false;
+            AssemblyOption option = (AssemblyOption)obj;
+
+            return (option.Version == this.Version &&
+                option.PublicKey == this.PublicKey);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} ({1})", this.assembly.Name, this.Version);
+        }
     }
 }
