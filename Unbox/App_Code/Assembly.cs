@@ -16,6 +16,11 @@ namespace Definitif.Box.Unbox
         public string Name;
 
         /// <summary>
+        /// Gets assembly path.
+        /// </summary>
+        public string Path;
+
+        /// <summary>
         /// Gets assembly author.
         /// </summary>
         [XmlElement(ElementName = "author")]

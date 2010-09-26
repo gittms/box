@@ -12,7 +12,7 @@ namespace Definitif.Box.Unbox
     /// </summary>
     public class Repository
     {
-        private string url;
+        internal string url;
         private XmlDocument repo = new XmlDocument();
 
         /// <summary>
@@ -134,6 +134,7 @@ namespace Definitif.Box.Unbox
             Assembly assembly = (Assembly)serializer.Deserialize(reader);
 
             // Setting references between objects.
+            assembly.Path = path;
             if (assembly.Options == null) assembly.Options = new AssemblyOption[0];
             foreach (AssemblyOption option in assembly.Options)
             {

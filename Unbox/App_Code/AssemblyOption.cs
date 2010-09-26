@@ -14,6 +14,12 @@ namespace Definitif.Box.Unbox
         public string Version;
 
         /// <summary>
+        /// Gets option file name.
+        /// </summary>
+        [XmlAttribute(AttributeName = "fileName")]
+        public string FileName;
+
+        /// <summary>
         /// Gets option public key.
         /// </summary>
         [XmlAttribute(AttributeName = "publicKey")]
@@ -49,7 +55,29 @@ namespace Definitif.Box.Unbox
 
         public override string ToString()
         {
-            return String.Format("{0} ({1})", this.assembly.Name, this.Version);
+            return String.Format("{0} ({1})",
+                this.assembly.Name,
+                this.Version);
+        }
+
+        /// <summary>
+        /// Gets assembly option location.
+        /// </summary>
+        public string Url
+        {
+            get
+            {
+                return String.Format("{0}{1}/{2}/{3}",
+                    this.assembly.repository.url,
+                    this.assembly.Path,
+                    this.Version,
+                    this.GetFileName());
+            }
+        }
+
+        public string GetFileName()
+        {
+            return this.FileName ?? this.assembly.Name + ".dll";
         }
     }
 }

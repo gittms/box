@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Linq;
 using NDesk.Options;
@@ -12,10 +14,12 @@ namespace Definitif.Box.Unbox
         {
             bool install = false, search = false, list = false, help = false;
             string repo = "unbox.definitif.ru"; bool reload = false;
-            string lib = "lib"; bool gac = false;
+            string lib = "Bin"; bool gac = false; bool silent = false;
             string[] extra;
 
-            // Parsing command line options.
+            /*
+             * Parsing command line arguments.
+             */
             OptionSet options = new OptionSet()
             {
                 { "install", "installs selected assembly with" + nl +
@@ -23,8 +27,10 @@ namespace Definitif.Box.Unbox
                     v => install = (v != null) },
                 { "gac", "installs assemblies to GAC;",
                     v => gac = (v != null) },
+                { "silent|quite", "silently installs without confirmations;",
+                    v => silent = (v != null) },
                 { "lib=", "directory to copy assemblies to" + nl +
-                          "(default: lib);" + nl,
+                          "(default: Bin);" + nl,
                     v => { if (v != null) lib = v; } },
 
                 { "search", "performs search by given name;",
@@ -41,14 +47,14 @@ namespace Definitif.Box.Unbox
                 { "help", "shows this message and exits." + nl,
                     v => help = (v != null) },
             };
+
             try
             {
                 extra = options.Parse(args).ToArray();
             }
             catch (OptionException e)
             {
-                W("ERROR: " + e.Message);
-
+                WC(e.Message, ConsoleColor.Red);
                 return;
             }
 
@@ -58,11 +64,19 @@ namespace Definitif.Box.Unbox
             if (help || (extra.Length == 0 && !list) || 
                 !(install || search || list))
             {
-                W("Usage: unbox [OPTIONS] assemblies");
-                W("Installs specified assemblies to local system." + nl);
+                W("Usage: unbox [OPTIONS] assemblies" + nl);
                 options.WriteOptionDescriptions(Console.Out);
                 W("More info on: http://unbox.definitif.ru/.");
 
+                return;
+            }
+
+            /*
+             * Validating permissions.
+             */
+            if (gac && !System.IsAdministrator)
+            {
+                WC("You should be an Administrator to install assemblies to GAC.", ConsoleColor.Red);
                 return;
             }
 
@@ -143,25 +157,82 @@ namespace Definitif.Box.Unbox
                     return;
                 }
 
+                // Showing assemblies list with versions.
                 AssemblyOption[] toInstall = assemblies.Distinct().ToArray();
                 W("Following assemblies will be installed:");
                 WIndent();
-                W(String.Join(nl, toInstall.Select<AssemblyOption, string>(o => o.ToString())));
+                W(nl + String.Join(nl, toInstall.Select<AssemblyOption, string>(o => o.ToString())) + nl);
                 WUnindent();
+
+                // Confirming action.
+                while (true)
+                {
+                    if (silent) break;
+                    Console.Write("Continue? [y/n]:");
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    Console.WriteLine();
+                    if (key.KeyChar == 'n') return;
+                    if (key.KeyChar == 'y') break;
+                }
+
+                // Performing assemblies installation.
+                WebClient client = new WebClient();
+                W("Performing assemblies installation:" + nl);
+                WIndent();
+
+                if (!gac)
+                {
+                    // Installing to Bin (or other overrided) directory.
+                    if (!Directory.Exists(lib)) Directory.CreateDirectory(lib);
+
+                    foreach (AssemblyOption assembly in toInstall)
+                    {
+                        string path = Path.Combine(lib, assembly.GetFileName());
+                        W("Downloading {0} to: {1}...", assembly.assembly.Name, path);
+                        client.DownloadFile(assembly.Url, path);
+                    }
+                }
+                else
+                {
+                    // Installing to Global Assembly Cache.
+                    string temp = Path.GetTempPath();
+
+                    foreach (AssemblyOption assembly in toInstall)
+                    {
+                        string path = Path.Combine(temp, assembly.GetFileName());
+                        W("Installing {0}...", assembly.ToString());
+                        client.DownloadFile(assembly.Url, path);
+                        System.InstallAssemblyToGac(path);
+                    }
+                }
+
+                W("");  WUnindent();
+                WC("Installation complete!", ConsoleColor.DarkGreen);
             }
         }
 
         static string nl = Environment.NewLine;
+        static ConsoleColor defaultColor = Console.ForegroundColor;
         static int indent = 0;
         private static void W(string line)
         {
             W(line, "");
+        }
+        private static void WC(string line, ConsoleColor color)
+        {
+            WC(line, color, "");
         }
         private static void W(string line, params object[] args)
         {
             string indentStr = "".PadLeft(indent, ' ');
             line = indentStr + line.Replace(nl, nl + indentStr);
             Console.WriteLine(line, args);
+        }
+        private static void WC(string line, ConsoleColor color, params object[] args)
+        {
+            Console.ForegroundColor = color;
+            W(line, args);
+            Console.ForegroundColor = defaultColor;
         }
         private static void WIndent()
         {
