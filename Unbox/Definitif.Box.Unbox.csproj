@@ -61,6 +61,10 @@
     <Compile Include="App_Code\Assembly.cs" />
     <Compile Include="App_Code\AssemblyOption.cs" />
     <Compile Include="App_Code\AssemblyDependency.cs" />
+    <Compile Include="App_Code\Commands\Install.cs" />
+    <Compile Include="App_Code\Commands\Search.cs" />
+    <Compile Include="App_Code\Commands\List.cs" />
+    <Compile Include="App_Code\Console.cs" />
     <Compile Include="App_Code\NDesk\Options.cs" />
     <Compile Include="App_Code\System.cs" />
     <Compile Include="App_Code\Repository.cs" />

@@ -13,6 +13,7 @@ namespace Definitif.Box.Unbox
     public class Repository
     {
         internal string url;
+        public string Name;
         private XmlDocument repo = new XmlDocument();
 
         /// <summary>
@@ -53,6 +54,7 @@ namespace Definitif.Box.Unbox
         {
             // Formatting hostname to url and loading it.
             url = String.Format("http://{0}/repo/", hostname);
+            this.Name = hostname;
 
             string cache = GetCacheLocation(hostname);
             if (forceReload || !IsCached(hostname))
