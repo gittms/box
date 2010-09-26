@@ -55,7 +55,7 @@ Permanent home of project is available at:
 [http://opensource.definitif.ru/box/](http://opensource.definitif.ru/box/)    
 Sources available at GitHub:    
 [http://opensource.definitif.ru/box/git/](http://opensource.definitif.ru/box/git/)    
-[http://github.com/ashvetsov/definitif-box/](http://github.com/ashvetsov/definitif-box/)    
+[http://github.com/definitif/box/](http://github.com/definitif/box/)    
 
 ### Requirements:
 1. Visual Studio 2010 and .Net Framework 4;
