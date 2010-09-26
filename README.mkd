@@ -5,7 +5,7 @@ Box and all external components are available under MIT license.
 ## Unbox Utility
 Want to install Definitif Box, or NDesk.Options? To local Bin folder or to GAC?
 
-    #> unbox --install definitif.box.data ndesk.options
+    #> unbox --install definitif.box ndesk.options
 
 Unbox is a runtime-independent application. Works both on Mono and .Net, supports Windows and even Linux.    
 Grab it right now from [here](http://unbox.definitif.ru/unbox.exe) and execute for usage help.
