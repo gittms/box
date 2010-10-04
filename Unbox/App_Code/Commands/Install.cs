@@ -11,7 +11,7 @@ namespace Definitif.Box.Unbox
         /// <summary>
         /// Installs given assemblies.
         /// </summary>
-        static void Install(Repository repository, IEnumerable<string> strings, string lib, bool silent, bool gac)
+        static void Install(Repository repository, IEnumerable<string> strings, string lib, string target, bool silent, bool gac)
         {
             // Building dependencies list.
             W("Building assemblies list...");
@@ -55,6 +55,20 @@ namespace Definitif.Box.Unbox
             W("Performing assemblies installation:" + nl);
             WIndent();
 
+            string temp = Path.GetTempPath();
+
+            // Extracting bundles.
+            foreach (AssemblyOption assembly in toInstall)
+            {
+                if (!assembly.IsBundle) continue;
+
+                string path = Path.Combine(temp, assembly.GetFileName());
+                W("Extracting bundle {0}...", assembly.assembly.Name);
+                client.DownloadFile(assembly.Url, path);
+                System.Unzip(path, target);
+            }
+
+            // Installing assemblies.
             if (!gac)
             {
                 // Installing to Bin (or other overrided) directory.
@@ -62,6 +76,9 @@ namespace Definitif.Box.Unbox
 
                 foreach (AssemblyOption assembly in toInstall)
                 {
+                    // Skipping archived bundles.
+                    if (assembly.IsBundle) continue;
+
                     string path = Path.Combine(lib, assembly.GetFileName());
                     W("Downloading {0} to: {1}...", assembly.assembly.Name, path);
                     client.DownloadFile(assembly.Url, path);
@@ -70,10 +87,11 @@ namespace Definitif.Box.Unbox
             else
             {
                 // Installing to Global Assembly Cache.
-                string temp = Path.GetTempPath();
-
                 foreach (AssemblyOption assembly in toInstall)
                 {
+                    // Skipping archived bundles.
+                    if (assembly.IsBundle) continue;
+
                     string path = Path.Combine(temp, assembly.GetFileName());
                     W("Installing {0}...", assembly.ToString());
                     client.DownloadFile(assembly.Url, path);

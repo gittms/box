@@ -40,16 +40,28 @@ namespace Definitif.Box.Unbox
 
         public Assembly assembly;
 
+        /// <summary>
+        /// Checks if assembly is a bundle.
+        /// </summary>
+        public bool IsBundle
+        {
+            get
+            {
+                return this.GetFileName().EndsWith(".zip");
+            }
+        }
+
         public override int GetHashCode()
         {
-            return (this.PublicKey + this.Version).GetHashCode();
+            return (this.assembly.Name + this.PublicKey + this.Version).GetHashCode();
         }
         public override bool Equals(object obj)
         {
             if (!(obj is AssemblyOption)) return false;
             AssemblyOption option = (AssemblyOption)obj;
 
-            return (option.Version == this.Version &&
+            return (option.assembly.Name == this.assembly.Name &&
+                option.Version == this.Version &&
                 option.PublicKey == this.PublicKey);
         }
 

@@ -9,7 +9,8 @@ namespace Definitif.Box.Unbox
         {
             bool install = false, search = false, list = false, help = false;
             string repo = "unbox.definitif.ru"; bool reload = false;
-            string lib = "Bin"; bool gac = false; bool silent = false;
+            string lib = "Bin", target = ".";
+            bool gac = false; bool silent = false;
             string[] extra;
 
             // Parsing command line arguments.
@@ -25,6 +26,9 @@ namespace Definitif.Box.Unbox
                 { "lib=", "directory to copy assemblies to" + nl +
                           "(default: Bin);" + nl,
                     v => { if (v != null) lib = v; } },
+                { "target=", "directory to install bundles to" + nl +
+                             "(default: current directory);" + nl,
+                    v => { if (v != null) target = v; } },
 
                 { "search", "performs search by given name;",
                     v => search = (v != null) },
@@ -86,7 +90,7 @@ namespace Definitif.Box.Unbox
             }
             else if (install)
             {
-                Install(repository, extra, lib, silent, gac);
+                Install(repository, extra, lib, target, silent, gac);
             }
         }
     }

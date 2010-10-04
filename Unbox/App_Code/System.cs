@@ -1,10 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.IO.Packaging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Principal;
-using System.Text;
-using System.Linq;
-using NDesk.Options;
 
 namespace Definitif.Box.Unbox
 {
@@ -70,6 +69,36 @@ namespace Definitif.Box.Unbox
             }
 
             Process.Start(startInfo);
+        }
+
+        /// <summary>
+        /// Unzips zip file to directory specified.
+        /// </summary>
+        public static void Unzip(string zip, string path)
+        {
+            Package zipPackage = Package.Open(zip, FileMode.Open, FileAccess.Read);
+            foreach (PackagePart part in zipPackage.GetParts())
+            {
+                // Constructing part path.
+                string partPath = part.Uri.OriginalString.Replace('/', Path.DirectorySeparatorChar);
+                partPath = partPath.TrimStart(Path.DirectorySeparatorChar);
+                partPath = Path.Combine(path, partPath);
+
+                // Creating directory for part.
+                string partDirectory = Path.GetDirectoryName(partPath);
+                if (!Directory.Exists(partDirectory)) Directory.CreateDirectory(partDirectory);
+
+                // Saving part to disk.
+                Stream partStream = part.GetStream();
+                FileStream fileStream = new FileStream(partPath, FileMode.Create);
+                byte[] buffer = new byte[8 * 1024]; int len;
+                while ((len = partStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    fileStream.Write(buffer, 0, len);
+                }
+                fileStream.Close();
+            }
+            zipPackage.Close();
         }
     }
 }
