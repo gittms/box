@@ -65,7 +65,7 @@ namespace Definitif.VisualStudio.Classifier
                 "new", "return", "get", "set", "in", "as",
                 "this", "if", "then", "break",
                 "for", "foreach", "while",
-                "true", "false", "string", "int", "bool",
+                "true", "false", "string", "int", "bool", "long",
                 "model", "many\\ to\\ many",
                 "foreign\\ key", "primary\\ key"
             };
