@@ -205,11 +205,26 @@ namespace Definitif.Data
         /// Executes non-query command and returns number of rows
         /// affected by query.
         /// </summary>
-        /// <param name="Queries">Qeries objects to Execute.</param>
+        /// <param name="queries">Qeries objects to Execute.</param>
         /// <returns>Number of rows affected.</returns>
-        public virtual int Execute(params Query[] Queries)
+        public virtual int Execute(params Query[] queries)
         {
-            return this.Execute(false, Queries);
+            return this.Execute(false, queries);
+        }
+        public virtual int Execute(params string[] queries)
+        {
+            int result = 0;
+            DbCommand command;
+            DbConnection connection = this.GetConnection();
+
+            foreach (string query in queries)
+            {
+                command = this.GetCommand(connection, query);
+                result += command.ExecuteNonQuery();
+            }
+
+            connection.Close();
+            return result;
         }
         /// <summary>
         /// Executes non-query command and returns number of rows
@@ -370,16 +385,35 @@ namespace Definitif.Data
         /// <summary>
         /// Adds specified Table object to Database.
         /// </summary>
-        /// <param name="Table">Table object to add.</param>
-        public void Add(Table Table)
+        /// <param name="table">Table object to add.</param>
+        internal void Add(Table table)
         {
-            Table.Database = this;
-            this.tables.Add(Table.Name, Table);
+            table.Database = this;
+            this.tables.Add(table.Name, table);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.tables.Values.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Creates specified Table object in Database.
+        /// </summary>
+        /// <param name="table">Table object to create.</param>
+        public void CreateTable(Table table)
+        {
+            this.Execute(this.Drawer.DrawTableCreate(table));
+            this.Add(table);
+        }
+        /// <summary>
+        /// Drops specified Table object from Database.
+        /// </summary>
+        /// <param name="table">Table object to drop.</param>
+        public void DropTable(Table table)
+        {
+            this.Execute(this.Drawer.DrawTableDrop(table));
+            this.tables.Remove(table.Name);
         }
     }
 }

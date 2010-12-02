@@ -554,5 +554,73 @@ namespace Definitif.Data.Queries
             }
             return result.ToArray();
         }
+
+        /// <summary>
+        /// Draws table creation query for Table object.
+        /// </summary>
+        public virtual string DrawTableCreate(Table table)
+        {
+            List<string> columns = new List<string>();
+            foreach (Column column in table)
+            {
+                columns.Add(this.DrawColumnSpecification(column));
+            }
+
+            return
+                "CREATE TABLE " +
+                    table.Name +
+                " ( " +
+                    String.Join(", ", columns) +
+                ")";
+        }
+        /// <summary>
+        /// Draws table drop query for Table object.
+        /// </summary>
+        public virtual string DrawTableDrop(Table table)
+        {
+            return
+                "DROP TABLE " +
+                    table.Name;
+        }
+
+        protected virtual string DrawColumnSpecification(Column column)
+        {
+            return column.Name + " " + column.DataType;
+        }
+        /// <summary>
+        /// Draws alter column query for Column object.
+        /// </summary>
+        public virtual string DrawColumnAlter(Column column)
+        {
+            return
+                "ALTER TABLE " +
+                    column.Table.Name +
+                " ALTER COLUMN " +
+                    column.Name +
+                " " + this.DrawColumnSpecification(column);
+        }
+        /// <summary>
+        /// Draws create column query for Column object.
+        /// </summary>
+        public virtual string DrawColumnCreate(Column column)
+        {
+            return
+                "ALTER TABLE " +
+                    column.Table.Name +
+                " ADD " +
+                    column.Name +
+                " " + this.DrawColumnSpecification(column);
+        }
+        /// <summary>
+        /// Draws drop column query for Column object.
+        /// </summary>
+        public virtual string DrawColumnDrop(Column column)
+        {
+            return
+                "ALTER TABLE " +
+                    column.Table.Name +
+                " DROP COLUMN " +
+                    column.Name;
+        }
     }
 }

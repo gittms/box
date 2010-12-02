@@ -45,6 +45,17 @@ namespace Definitif.Data
         }
 
         /// <summary>
+        /// Alters column in database.
+        /// </summary>
+        /// <param name="dataType">New data type for column.</param>
+        public void Alter(string dataType)
+        {
+            Database database = this.Table.Database;
+            this.DataType = dataType;
+            database.Execute(database.Drawer.DrawColumnAlter(this));
+        }
+
+        /// <summary>
         /// Gets foreign keys for this column.
         /// </summary>
         public List<Column> ForeignKeys

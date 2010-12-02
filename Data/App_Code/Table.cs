@@ -85,5 +85,24 @@ namespace Definitif.Data
         {
             return this.columns.Values.GetEnumerator();
         }
+
+        /// <summary>
+        /// Creates specified Column object in Table.
+        /// </summary>
+        /// <param name="column">Column object to create.</param>
+        public void CreateColumn(Column column)
+        {
+            this.Database.Execute(this.Database.Drawer.DrawColumnCreate(column));
+            this.Add(column);
+        }
+        /// <summary>
+        /// Drops specified Column object from Table.
+        /// </summary>
+        /// <param name="column">Column object to drop.</param>
+        public void DropColumn(Column column)
+        {
+            this.Database.Execute(this.Database.Drawer.DrawColumnDrop(column));
+            this.columns.Remove(column.Name);
+        }
     }
 }
