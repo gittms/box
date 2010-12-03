@@ -1,66 +1,7 @@
-### What is Definitif Box?
-Definitif Box is a .Net library for enterprise database-driven applications development.    
-Box and all external components are available under MIT license.
+### Installation
+Grab latest installer from [Downloads](http://github.com/definitif/box/downloads/) or use [Unbox](http://unbox.definitif.ru/):
 
-## Unbox Utility
-Want to install Definitif Box, or NDesk.Options? To local Bin folder or to GAC?
+    $ unbox --install definitif.box
 
-    #> unbox --install definitif.box ndesk.options
-
-Unbox is a runtime-independent application. Works both on Mono and .Net, supports Windows and even Linux.    
-Grab it right now from [here](http://unbox.definitif.ru/unbox.exe) and execute for usage help.
-
-## Database Mapping
-Main feature of Definitif Box is database mapping. Models and mappers are automatically generated using extensions for Visual Studio 2010.
-Models are described using C#-like language and .box files (see [Syntax](http://opensource.definitif.ru/box/syntax/)):
-
-    ["Employees"]
-    public model Employee
-    {
-        ["Name"]
-        public string Name;
-
-        ["Position"]
-        public string Position;
-    }
-
-Such description generates all subroutine for accessing objects from database:
-
-    Employee employee = Employee.Get(1);
-    employee.Name = "John Woo";
-    employee.Save();
-
-Or creating new items:
-
-    Employee employee = new Employee()
-    {
-        Name = "Bill Gates",
-        Position = "Gild Master",
-    };
-    employee.Save();
-
-And even easy-to-use cross-database queries (with even subqueries):
-
-    Employee[] employees = new Select<Employee>()
-       .Where(m => m.C.UserName.Contains("alex"))
-       .OrderBy(m => m.C.UserName.Desc)
-       .Read();
-
-    new Update<Employee>()
-       .Set(m => m.C.UserName == m.C.UserName + "_old")
-       .Where(m => m.C.Registered > new DateTime(2010-01-01))
-       .Execute();
-
-Permanent home of project is available at:    
-[http://opensource.definitif.ru/box/](http://opensource.definitif.ru/box/)    
-Sources available at GitHub:    
-[http://opensource.definitif.ru/box/git/](http://opensource.definitif.ru/box/git/)    
-[http://github.com/definitif/box/](http://github.com/definitif/box/)    
-
-### Requirements:
-1. Visual Studio 2010 and .Net Framework 4;
-2. **Build only** [Windows Installer XML tools](http://wix.sourceforge.net/);
-
-### External components:
-1. **Binary** [WCF REST Contrib](http://wcfrestcontrib.codeplex.com/);
-2. **Binary: Build only** [MySql Connector for .Net](http://dev.mysql.com/downloads/connector/net/);
+### Documentation
+[Definitif Box Wiki](http://github.com/definitif/box/wiki/Definitif-Box/) at GitHub.
