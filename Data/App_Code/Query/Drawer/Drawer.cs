@@ -563,6 +563,7 @@ namespace Definitif.Data.Queries
             List<string> columns = new List<string>();
             foreach (Column column in table)
             {
+                if (column.IsWildcard || column.IsDualWildcard) continue;
                 columns.Add(this.DrawColumnSpecification(column));
             }
 
@@ -583,10 +584,7 @@ namespace Definitif.Data.Queries
                     table.Name;
         }
 
-        protected virtual string DrawColumnSpecification(Column column)
-        {
-            return column.Name + " " + column.DataType;
-        }
+        protected abstract string DrawColumnSpecification(Column column);
         /// <summary>
         /// Draws alter column query for Column object.
         /// </summary>

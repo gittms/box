@@ -403,8 +403,25 @@ namespace Definitif.Data
         /// <param name="table">Table object to create.</param>
         public void CreateTable(Table table)
         {
-            this.Execute(this.Drawer.DrawTableCreate(table));
-            this.Add(table);
+            if (!this.tables.ContainsKey(table.Name))
+            {
+                this.Execute(this.Drawer.DrawTableCreate(table));
+                this.Add(table);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException(
+                    "Database already contains table named '" + table.Name + "'.");
+            }
+        }
+        /// <summary>
+        /// Creates specified Table using default layout and columns list.
+        /// </summary>
+        /// <param name="name">Name of table to create.</param>
+        /// <param name="columns">Columns to append to default layout.</param>
+        public void CreateTable(string name, params Column[] columns)
+        {
+            this.CreateTable(Table.Default(name, columns));
         }
         /// <summary>
         /// Drops specified Table object from Database.
@@ -412,8 +429,16 @@ namespace Definitif.Data
         /// <param name="table">Table object to drop.</param>
         public void DropTable(Table table)
         {
-            this.Execute(this.Drawer.DrawTableDrop(table));
-            this.tables.Remove(table.Name);
+            if (this.tables.ContainsKey(table.Name))
+            {
+                this.Execute(this.Drawer.DrawTableDrop(table));
+                this.tables.Remove(table.Name);
+            }
+            else
+            {
+                throw new IndexOutOfRangeException(
+                    "Database does not contain table named '" + table.Name + "'.");
+            }
         }
     }
 }

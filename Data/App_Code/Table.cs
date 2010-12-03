@@ -104,5 +104,30 @@ namespace Definitif.Data
             this.Database.Execute(this.Database.Drawer.DrawColumnDrop(column));
             this.columns.Remove(column.Name);
         }
+
+        /// <summary>
+        /// Created table with default layout.
+        /// </summary>
+        /// <param name="name">Name of table.</param>
+        public static Table Default(string name)
+        {
+            return new Table(name)
+            {
+                new Column("Id", "int increment"),
+                new Column("Version", "int default 0"),
+            };
+        }
+        /// <summary>
+        /// Created table with default layout and given columns.
+        /// </summary>
+        /// <param name="name">Name of table.</param>
+        /// <param name="columns">Columns to add to default layout.</param>
+        public static Table Default(string name, params Column[] columns)
+        {
+            Table table = Table.Default(name);
+            foreach (Column column in columns) table.Add(column);
+
+            return table;
+        }
     }
 }

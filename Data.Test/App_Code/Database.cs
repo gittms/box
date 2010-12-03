@@ -15,10 +15,28 @@ namespace Definitif.Data.Test
         [Description("Complex database test.")]
         public void Database()
         {
-            // Cleaning up result.
-            new Delete<Models.Table>().Execute();
-            new Delete<Models.Chair>().Execute();
-            new Delete<Models.ChairToChair>().Execute();
+            Database db = global::Core.Database;
+            // Removing all tables from database.
+            try
+            {
+                db.DropTable(new Table("Tables"));
+                db.DropTable(new Table("Chairs"));
+                db.DropTable(new Table("Chair2Chair"));
+            }
+            // Don't mind if there's already no such
+            // tables in database.
+            catch (IndexOutOfRangeException) { }
+
+            // Creating new tables for our needs.
+            db.CreateTable("Tables",
+                new Column("Name", "varchar(255)"));
+            db.CreateTable("Chairs",
+                new Column("TableId", "int"),
+                new Column("Name", "varchar(255)"));
+            db.CreateTable("Chair2Chair",
+                new Column("FirstId", "int"),
+                new Column("SecondId", "int"),
+                new Column("Owner", "varchar(255)"));
 
             // Creating table instance.
             Models.Table table = new Models.Table()

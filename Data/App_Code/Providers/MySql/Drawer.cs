@@ -51,5 +51,15 @@ namespace Definitif.Data.Providers.MySql
         {
             return "LEN(" + this.Draw(aggregator.Column) + ")";
         }
+
+        protected override string DrawColumnSpecification(Column column)
+        {
+            string dataType = column.DataType;
+
+            // MySql specific specifications syntax transformation.
+            dataType = dataType.Replace("increment", "AUTO_INCREMENT");
+
+            return column.Name + " " + dataType;
+        }
     }
 }

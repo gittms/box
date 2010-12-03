@@ -87,5 +87,15 @@ namespace Definitif.Data.Providers.MsSql
             return column.Table.Name + ".[" + column.Name + "] AS [" +
                 column.Table.Name + "." + column.Name + "]";
         }
+
+        protected override string DrawColumnSpecification(Column column)
+        {
+            string dataType = column.DataType;
+
+            // MsSql specific specifications syntax transformation.
+            dataType = dataType.Replace("increment", "IDENTITY(1,1)");
+
+            return column.Name + " " + dataType;
+        }
     }
 }
