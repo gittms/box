@@ -28,15 +28,9 @@ namespace Definitif.Data.Test
             catch (IndexOutOfRangeException) { }
 
             // Creating new tables for our needs.
-            db.CreateTable("Tables",
-                new Column("Name", "varchar(255)"));
-            db.CreateTable("Chairs",
-                new Column("TableId", "int"),
-                new Column("Name", "varchar(255)"));
-            db.CreateTable("Chair2Chair",
-                new Column("FirstId", "int"),
-                new Column("SecondId", "int"),
-                new Column("Owner", "varchar(255)"));
+            db.CreateTable(Models.Mappers.Table.CreateTableObject());
+            db.CreateTable(Models.Mappers.Chair.CreateTableObject());
+            db.CreateTable(Models.Mappers.ChairToChair.CreateTableObject());
 
             // Creating table instance.
             Models.Table table = new Models.Table()
@@ -89,8 +83,8 @@ namespace Definitif.Data.Test
             };
             link.Save();
 
-            Assert.AreEqual(1, chairs[0].GetChairs().Length);
-            Assert.AreEqual(0, chairs[2].GetChairs().Length);
+            Assert.AreEqual(1, chairs[0].GetChairsByChairToChair().Length);
+            Assert.AreEqual(0, chairs[2].GetChairsByChairToChair().Length);
         }
     }
 }
