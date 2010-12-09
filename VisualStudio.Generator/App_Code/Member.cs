@@ -5,7 +5,7 @@ namespace Definitif.VisualStudio.Generator
     /// <summary>
     /// Represents model member object.
     /// </summary>
-    public class Member
+    public partial class Member
     {
         /// <summary>
         /// Gets or sets model autodoc.

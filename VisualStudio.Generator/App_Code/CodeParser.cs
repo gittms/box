@@ -186,6 +186,7 @@ namespace Definitif.VisualStudio.Generator
                     attr = Attribute.Parse(context.Attribute);
                     context.CurrentMember.ColumnName = attr.String;
                     context.CurrentMember.ColumnCastingType = attr.As;
+                    context.CurrentMember.ColumnDataType = attr.Type;
                 }
                 context.Attribute = null;
 

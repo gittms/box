@@ -19,6 +19,10 @@ namespace Definitif.VisualStudio.Generator
         /// Gets or sets in value from attribute.
         /// </summary>
         public string In { get; set; }
+        /// <summary>
+        /// Gets or sets custom type from attribute.
+        /// </summary>
+        public string Type { get; set; }
 
         /// <summary>
         /// Parses passed attribute represented as line.
@@ -28,6 +32,13 @@ namespace Definitif.VisualStudio.Generator
         public static Attribute Parse(string line)
         {
             string trimmed = line.Trim();
+            string left = trimmed, right = "";
+            if (trimmed.Contains(","))
+            {
+                left = trimmed.Split(',')[0].Trim();
+                right = trimmed.Split(',')[1].Replace('"', ' ').Trim();
+            }
+
             if (trimmed.IndexOf('"', 2) < 0)
             {
                 throw new FormatException("Invalid attribute string format.");
@@ -37,9 +48,10 @@ namespace Definitif.VisualStudio.Generator
             {
                 String = trimmed.Substring(2, trimmed.IndexOf('"', 2) - 2),
                 As = (trimmed.IndexOf(" as ") > 0) ?
-                    trimmed.Split(new string[] { " as " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
+                    left.Split(new string[] { " as " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
                 In = (trimmed.IndexOf(" in ") > 0) ?
-                    trimmed.Split(new string[] { " in " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
+                    left.Split(new string[] { " in " }, StringSplitOptions.None)[1].Replace("]", "").Trim() : null,
+                Type = (right != "") ? right.Replace("]", "").Trim() : null,
             };
         }
     }

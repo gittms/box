@@ -54,10 +54,11 @@ namespace Definitif.Data.Providers.MySql
 
         protected override string DrawColumnSpecification(Column column)
         {
-            string dataType = column.DataType;
+            string dataType = column.DataType.ToLower();
 
             // MySql specific specifications syntax transformation.
             dataType = dataType.Replace("increment", "AUTO_INCREMENT");
+            dataType = dataType.Replace("varchar(max)", "TEXT");
 
             return column.Name + " " + dataType;
         }

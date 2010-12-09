@@ -29,7 +29,7 @@ namespace TestNamespace
 		/// <summary>
 		/// Gets or sets items count.
 		/// </summary>
-		["ItemsCount"]
+		["ItemsCount" as int, "int default 0"]
 		private int ItemsCount;
 	}
 

@@ -57,6 +57,7 @@
     <Compile Include="App_Code\CodeGenerators\CodeTypeMember.cs" />
     <Compile Include="App_Code\CodeGenerators\ModelCodeType.cs" />
     <Compile Include="App_Code\CodeGenerators\MapperCodeType.cs" />
+    <Compile Include="App_Code\MemberDataType.cs" />
     <Compile Include="App_Code\Model.cs" />
     <Compile Include="App_Code\Modifier.cs" />
     <Compile Include="App_Code\Namespace.cs" />

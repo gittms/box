@@ -90,7 +90,7 @@ namespace Definitif.Data.Providers.MsSql
 
         protected override string DrawColumnSpecification(Column column)
         {
-            string dataType = column.DataType;
+            string dataType = column.DataType.ToLower();
 
             // MsSql specific specifications syntax transformation.
             dataType = dataType.Replace("increment", "IDENTITY(1,1)");

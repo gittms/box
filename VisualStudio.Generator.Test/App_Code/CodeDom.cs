@@ -55,6 +55,11 @@ namespace Definitif.VisualStudio.Generator.Test
             Assert.AreEqual("ModelsToPersons", codeDom.Namespaces[0].Models[0].TableName);
             Assert.AreEqual("PersonId", codeDom.Namespaces[0].Models[0].Members[1].ColumnName);
             Assert.AreEqual("App.Database", codeDom.Namespaces[1].Models[0].DatabaseRef);
+
+            // Checking data types.
+            Assert.AreEqual("int default 0", codeDom.Namespaces[1].Models[0].Members[2].ColumnDataType);
+            Assert.AreEqual("varchar(255)", codeDom.Namespaces[1].Models[1].Members[0].ColumnDataType);
+            Assert.AreEqual("int", codeDom.Namespaces[1].Models[2].Members[0].ColumnDataType);
         }
 
         private void CodeDomGeneratorSnip(string inputFile, string expectedFile, string errorMessage)
