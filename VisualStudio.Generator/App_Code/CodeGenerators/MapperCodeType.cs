@@ -215,8 +215,8 @@ namespace Definitif.VisualStudio.Generator
                     })).ToArray();
 
             codeType.Members.Add(new CodeSnippetTypeMember(@"
-        public Table CreateTableObject() {{
-            return Table.Default(""{name}"",{columns}
+        public static Definitif.Data.Table CreateTableObject() {{
+            return Definitif.Data.Table.Default(""{name}"",{columns}
             );
         }}".F(new {
                 name = model.TableName,

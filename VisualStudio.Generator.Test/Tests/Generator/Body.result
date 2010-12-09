@@ -146,8 +146,8 @@ namespace TestNamespace.Mappers {
         }
         partial void DeleteCommandsExtension(TestNamespace.TestModel obj, List<DbCommand> list);
 
-        public Table CreateTableObject() {
-            return Table.Default("Models",
+        public static Definitif.Data.Table CreateTableObject() {
+            return Definitif.Data.Table.Default("Models",
                 new Column("Name", "varchar(255)"),
                 new Column("ItemsCount", "int")
             );

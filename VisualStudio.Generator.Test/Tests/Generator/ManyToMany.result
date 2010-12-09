@@ -273,8 +273,8 @@ namespace Definitif.Test.Mappers {
         }
         partial void DeleteCommandsExtension(Definitif.Test.User obj, List<DbCommand> list);
 
-        public Table CreateTableObject() {
-            return Table.Default("Users",
+        public static Definitif.Data.Table CreateTableObject() {
+            return Definitif.Data.Table.Default("Users",
                 new Column("Name", "varchar(255)")
             );
         }
@@ -348,8 +348,8 @@ namespace Definitif.Test.Mappers {
         }
         partial void DeleteCommandsExtension(Definitif.Test.Achievement obj, List<DbCommand> list);
 
-        public Table CreateTableObject() {
-            return Table.Default("Achievements",
+        public static Definitif.Data.Table CreateTableObject() {
+            return Definitif.Data.Table.Default("Achievements",
                 new Column("Name", "varchar(255)")
             );
         }
@@ -431,8 +431,8 @@ namespace Definitif.Test.Mappers {
         }
         partial void DeleteCommandsExtension(Definitif.Test.UserAchievement obj, List<DbCommand> list);
 
-        public Table CreateTableObject() {
-            return Table.Default("UserAchievements",
+        public static Definitif.Data.Table CreateTableObject() {
+            return Definitif.Data.Table.Default("UserAchievements",
                 new Column("UserId", "int"),
                 new Column("AchievementId", "int"),
                 new Column("Received", "datetime")

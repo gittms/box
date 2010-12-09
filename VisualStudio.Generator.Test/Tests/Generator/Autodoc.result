@@ -138,8 +138,8 @@ namespace Definitif.Test.Mappers {
         }
         partial void DeleteCommandsExtension(Definitif.Test.TestPerson obj, List<DbCommand> list);
 
-        public Table CreateTableObject() {
-            return Table.Default("Persons",
+        public static Definitif.Data.Table CreateTableObject() {
+            return Definitif.Data.Table.Default("Persons",
                 new Column("UserName", "varchar(255)")
             );
         }
