@@ -205,6 +205,25 @@ namespace Definitif.VisualStudio.Generator
         partial void DeleteCommandsExtension({modelNamespace}.{type} obj, List<DbCommand> list);"
             .F(variables) + Environment.NewLine));
 
+            // Generating default table layout for this model.
+            string[] columns = model.Members
+                .Where(m => m.IsMapped)
+                .Select<Member, string>(
+                    m => "new Column(\"{name}\", \"{type}\")".F(new {
+                        name = m.ColumnName,
+                        type = m.ColumnDataType,
+                    })).ToArray();
+
+            codeType.Members.Add(new CodeSnippetTypeMember(@"
+        public Table CreateTableObject() {{
+            return Table.Default(""{name}"",{columns}
+            );
+        }}".F(new {
+                name = model.TableName,
+                columns = Environment.NewLine + 
+                    String.Join("," + Environment.NewLine, columns).Indent(4 * 4),
+            }) + Environment.NewLine));
+
             return new CodeTypeDeclaration[] { codeType };
         }
     }

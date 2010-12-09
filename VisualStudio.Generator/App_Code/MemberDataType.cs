@@ -33,7 +33,8 @@ namespace Definitif.VisualStudio.Generator
 
                 // Otherwise, using casting type, type and mapping
                 // dictionary.
-                string type = (this.ColumnCastingType ?? this.Type ?? "").ToLower();
+                string type = (this.ColumnCastingType ?? this.Type ?? "")
+                    .Replace("?", "").ToLower();
 
                 if (this.columnDataType != null)
                 {
