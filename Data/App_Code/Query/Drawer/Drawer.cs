@@ -182,6 +182,7 @@ namespace Definitif.Data.Queries
             else if (obj is IModel) return (obj as IModel).Id.ToString();
             else if (obj is Id) return (obj as Id).ToString();
             else if (obj is Enum) return ((int)obj).ToString();
+            else if (obj is bool) return (bool)obj ? "1" : "0";
             else if (obj == null) return "NULL";
 
             // Replacing ' char to double '', i.e. 'String''s container'.
