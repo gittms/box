@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Xml.cs" />
     <Compile Include="App_Code\Core\ConnectionStringKeyAttribute.cs" />
     <Compile Include="App_Code\Core\Core.cs" />
     <Compile Include="App_Code\Json.cs" />
