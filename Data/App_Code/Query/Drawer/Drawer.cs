@@ -124,7 +124,7 @@ namespace Definitif.Data.Queries
                     updateTermPrefix +
                     query.modelTable.Name +
                     (query.joins == null ? "" : " " + String.Join(" ", this.DrawList<Join>(query.joins))) +
-               " SET " + String.Join(", ", this.DrawList(valuesExpression.Container)) +
+               " SET " + String.Join(", ", this.DrawList(valuesExpression.Container, true)) +
                 (query.where != null ?
                " WHERE " + this.Draw(query.where) : "") +
                 (query.orderBy != null ?
@@ -223,13 +223,17 @@ namespace Definitif.Data.Queries
         /// Draws given list to string representation.
         /// </summary>
         /// <param name="list">List to draw.</param>
+        /// <param name="setExpression">True if expression should be rendered for SET statement.</param>
         /// <returns>String representation of list.</returns>
-        protected string[] DrawList(IList list)
+        protected string[] DrawList(IList list, bool setExpression = false)
         {
             string[] result = new string[list.Count];
             for (int ind = 0; ind < result.Length; ind++)
             {
-                result[ind] = this.Draw(list[ind]);
+                if (list[ind] is Expression)
+                    result[ind] = this.Draw((Expression)list[ind], setExpression);
+                else
+                    result[ind] = this.Draw(list[ind]);
             }
             return result;
         }
@@ -271,7 +275,7 @@ namespace Definitif.Data.Queries
         /// </summary>
         /// <param name="expression">Expression to draw.</param>
         /// <returns>String representation of expression.</returns>
-        public string Draw(Expression expression)
+        public string Draw(Expression expression, bool setExpression = false)
         {
             switch (expression.Type)
             {
@@ -280,7 +284,7 @@ namespace Definitif.Data.Queries
                 case ExpressionType.Or:
                     return this.DrawExpressionOr(expression);
                 case ExpressionType.Equals:
-                    return this.DrawExpressionEquals(expression);
+                    return this.DrawExpressionEquals(expression, setExpression);
                 case ExpressionType.NotEquals:
                     return this.DrawExpressionNotEquals(expression);
                 case ExpressionType.Greater:
@@ -326,9 +330,9 @@ namespace Definitif.Data.Queries
             return "(" + String.Join(" OR ", this.DrawList(expression.Container)) + ")";
         }
 
-        protected virtual string DrawExpressionEquals(Expression expression)
+        protected virtual string DrawExpressionEquals(Expression expression, bool setExpression = false)
         {
-            if (expression.Container[1] == null)
+            if (expression.Container[1] == null && !setExpression)
             {
                 return this.Draw(expression.Container[0]) + " IS NULL";
             }
@@ -572,7 +576,7 @@ namespace Definitif.Data.Queries
                 "CREATE TABLE " +
                     table.Name +
                 " ( " +
-                    String.Join(", ", columns) +
+                    String.Join(", ", columns.ToArray()) +
                 ")";
         }
         /// <summary>

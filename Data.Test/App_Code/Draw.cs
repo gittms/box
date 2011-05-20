@@ -102,6 +102,10 @@ namespace Definitif.Data.Test
             query = new Update<Models.Table>().Set(m => m.C.Name == "Table").OrderBy(m => m.C.Name.Asc).Limit(100, 200);
             Assert.AreEqual("WITH _RowCounter AS ( SELECT ROW_NUMBER() OVER( ORDER BY Tables.[Name] ASC ) AS [_RowNum], Tables.* FROM Tables ) " +
                 "UPDATE _RowCounter SET [Name] = 'Table' WHERE [_RowNum] > 100 AND [_RowNum] <= 300", query.ToString());
+
+            // Update to null.
+            query = new Update<Models.Table>().Set(m => m.C.Name == null).Where(m => m.C.Id > 10000);
+            Assert.AreEqual("UPDATE Tables SET Tables.[Name] = NULL WHERE Tables.[Id] > 10000", query.ToString());
         }
 
         [TestMethod, Priority(5)]
