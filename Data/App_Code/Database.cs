@@ -266,6 +266,16 @@ namespace Definitif.Data
         {
             return this.GetDataReader(query.ToString(this.Drawer));
         }
+        /// <summary>
+        /// Executes readable command and returns executed
+        /// reader object.
+        /// </summary>
+        /// <param name="query">Query string to execute.</param>
+        /// <returns>Executed reader object.</returns>
+        public virtual IDataReader ExecuteReader(string query)
+        {
+            return this.GetDataReader(query);
+        }
 
         #region Transaction management.
 
