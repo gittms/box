@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="0c4435c6-f47f-420d-b1eb-811eaa4a912d"
              UpgradeCode="4227793c-8570-4b6a-a327-89510c6861eb"
-             Name="Definitif Box" Version="1.2.0.0"
+             Name="Definitif Box" Version="1.2.1.0"
              Manufacturer="Definitif"
              Language="1033">
         <Package InstallerVersion="300" Compressed="yes" />
@@ -92,12 +92,12 @@
                                     <ProgId Id="Definitif.VisualStudio.BoxFileGenerator" Description="Definitif.VisualStudio.BoxFileGenerator" />
                                 </Class>
                                 <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.0.0" Name="Class" Value="Definitif.VisualStudio.BoxFileGenerator" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.0.0" Name="Assembly" Value="Definitif.VisualStudio.Generator, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b8111f4e244d21ba" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.0.0" Name="RuntimeVersion" Value="v4.0.30128" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.0.0" Name="CodeBase" Value="file:///[#DefinitifVisualStudioGenerator]" Type="string" Action="write" />
+                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.1.0" Name="Class" Value="Definitif.VisualStudio.BoxFileGenerator" Type="string" Action="write" />
+                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.1.0" Name="Assembly" Value="Definitif.VisualStudio.Generator, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b8111f4e244d21ba" Type="string" Action="write" />
+                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.1.0" Name="RuntimeVersion" Value="v4.0.30128" Type="string" Action="write" />
+                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32\1.2.1.0" Name="CodeBase" Value="file:///[#DefinitifVisualStudioGenerator]" Type="string" Action="write" />
                                 <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="Class" Value="Definitif.VisualStudio.BoxFileGenerator" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="Assembly" Value="Definitif.VisualStudio.Generator, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b8111f4e244d21ba" Type="string" Action="write" />
+                                <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="Assembly" Value="Definitif.VisualStudio.Generator, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b8111f4e244d21ba" Type="string" Action="write" />
                                 <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30128" Type="string" Action="write" />
                                 <RegistryValue Root="HKCR" Key="CLSID\{CAE380BA-42D4-11DF-B540-4B2F56D89593}\InprocServer32" Name="CodeBase" Value="file:///[#DefinitifVisualStudioGenerator]" Type="string" Action="write" />
 
