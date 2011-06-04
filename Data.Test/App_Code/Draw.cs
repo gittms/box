@@ -72,6 +72,20 @@ namespace Definitif.Data.Test
         }
 
         [TestMethod, Priority(5)]
+        [Description("FullText query drawing.")]
+        public void FullTextDraw()
+        {
+            query = new Select<Models.Table>().Where(m => m.C.FullText(m.C["*"], "definiti* bo* -apple"));
+            Assert.AreEqual("SELECT Tables.* FROM Tables WHERE CONTAINS(*, '\"definiti*\" AND \"bo*\" AND NOT \"apple\"')", query.ToString());
+
+            query = new Select<Models.Table>().Where(m => m.C.FullText(m.C["*"], "-ms +bo*"));
+            Assert.AreEqual("SELECT Tables.* FROM Tables WHERE CONTAINS(*, 'NOT \"ms\" AND \"bo*\"')", query.ToString());
+
+            query = new Select<Models.Table>().Where(m => m.C.FullText(m.C.Name, "ms -definitif"));
+            Assert.AreEqual("SELECT Tables.* FROM Tables WHERE CONTAINS((Tables.[Name]), '\"ms\" AND NOT \"definitif\"')", query.ToString());
+        }
+
+        [TestMethod, Priority(5)]
         [Description("Insert query drawing.")]
         public void InsertDraw()
         {

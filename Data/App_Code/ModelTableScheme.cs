@@ -45,5 +45,29 @@ namespace Definitif.Data
         {
             return base.GetHashCode();
         }
+
+        /// <summary>
+        /// Performs full-text search against column.
+        /// </summary>
+        public Expression FullText(Column column, string expression)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.FullText,
+                Container = { new List<Column>() { column }, expression },
+            };
+        }
+
+        /// <summary>
+        /// Performs full-text search against columns.
+        /// </summary>
+        public Expression FullText(List<Column> columns, string expression)
+        {
+            return new Expression()
+            {
+                Type = ExpressionType.FullText,
+                Container = { columns, expression },
+            };
+        }
     }
 }

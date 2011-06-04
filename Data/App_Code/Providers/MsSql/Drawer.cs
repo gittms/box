@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Definitif.Data.Queries;
 
 namespace Definitif.Data.Providers.MsSql
@@ -96,6 +97,38 @@ namespace Definitif.Data.Providers.MsSql
             dataType = dataType.Replace("increment", "IDENTITY(1,1)");
 
             return column.Name + " " + dataType;
+        }
+
+        protected override string DrawExpressionFullText(Expression expression)
+        {
+            // Preprocessing expression into query string.
+            string query = (string)expression.Container[1];
+            // TODO: For now, clearing brackets as they're not supported!
+            query = query.Replace("(", "").Replace(")", "");
+            string[] parts = query.Split(
+                new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < parts.Length; i++ )
+            {
+                string part = parts[i];
+                // Encoding " and ', then trimming + and -.
+                string queryPart = part.Replace("'", "''").Replace("\"", "\\\"").TrimStart('+', '-');
+                queryPart = "\"" + queryPart + "\"";
+                // If part starts with -, then adding NOT before clause.
+                if (part.StartsWith("-")) queryPart = "NOT " + queryPart;
+                parts[i] = queryPart;
+            }
+            query = String.Join(" AND ", parts);
+
+            // Finally building query.
+            IList<Column> columns = (IList<Column>)expression.Container[0];
+            if (columns.Count == 1 && columns[0].IsWildcard)
+            {
+                return "CONTAINS(*, '" + query + "')";
+            }
+            else
+            {
+                return "CONTAINS((" + String.Join(", ", this.DrawColumnList(columns)) + "), '" + query + "')";
+            }
         }
     }
 }

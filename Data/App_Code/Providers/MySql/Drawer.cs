@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Definitif.Data.Queries;
 
 namespace Definitif.Data.Providers.MySql
@@ -61,6 +62,13 @@ namespace Definitif.Data.Providers.MySql
             dataType = dataType.Replace("varchar(max)", "TEXT");
 
             return column.Name + " " + dataType;
+        }
+
+        protected override string DrawExpressionFullText(Expression expression)
+        {
+            string query = ((string)expression.Container[1]).Replace("'", "\\'");
+            IList<Column> columns = (IList<Column>)expression.Container[0];
+            return "MATCH(" + String.Join(", ", this.DrawColumnList(columns)) + ") AGAINST ('" + query + "')";
         }
     }
 }

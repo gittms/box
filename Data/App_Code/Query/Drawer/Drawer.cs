@@ -315,6 +315,8 @@ namespace Definitif.Data.Queries
                     return this.DrawExpressionContains(expression);
                 case ExpressionType.NotContains:
                     return this.DrawExpressionNotContains(expression);
+                case ExpressionType.FullText:
+                    return this.DrawExpressionFullText(expression);
                 default:
                     throw new ArgumentException(String.Format(
                         "Drawer does not support expressions of type '{0}'.", expression.Type.ToString()));
@@ -433,6 +435,8 @@ namespace Definitif.Data.Queries
         {
             return this.Draw(expression.Container[0] as Column) + " NOT LIKE '%" + expression.Container[1].ToString() + "%'";
         }
+
+        protected abstract string DrawExpressionFullText(Expression expression);
 
         /// <summary>
         /// Draws given order to string representation.

@@ -30,5 +30,7 @@ namespace Definitif.Data.Queries
         NotEndsWith     = 42,
         Contains        = 33,
         NotContains     = 43,
+
+        FullText        = 50,
     }
 }
