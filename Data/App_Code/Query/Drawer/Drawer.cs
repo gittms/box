@@ -71,7 +71,7 @@ namespace Definitif.Data.Queries
                 (query.orderBy != null ?
                " ORDER BY " + String.Join(", ", this.DrawList<Order>(query.orderBy)) : "")) +
                 (query.groupBy != null ?
-               " GROUP BY " + String.Join(", ", this.DrawList<Column>(query.groupBy)) : "") +
+               " GROUP BY " + String.Join(", ", this.DrawColumnList(query.groupBy)) : "") +
                 suffix;
         }
 
