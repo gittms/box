@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Xml;
 
 namespace Definitif
 {
@@ -17,7 +18,7 @@ namespace Definitif
             {
                 var ser = new DataContractSerializer(obj.GetType());
                 ser.WriteObject(ms, obj);
-                return Encoding.Default.GetString(ms.ToArray());
+                return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
 
@@ -28,7 +29,7 @@ namespace Definitif
         /// <returns>Deserialized object.</returns>
         public static T FromXml<T>(this string str)
         {
-            using (var ms = new MemoryStream(Encoding.Default.GetBytes(str.ToCharArray())))
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(str.ToCharArray())))
             {
                 var ser = new DataContractSerializer(typeof(T));
                 return (T)ser.ReadObject(ms);

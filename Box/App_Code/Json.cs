@@ -18,7 +18,7 @@ namespace Definitif
             {
                 var ser = new DataContractJsonSerializer(obj.GetType());
                 ser.WriteObject(ms, obj);
-                return Encoding.Default.GetString(ms.ToArray());
+                return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
 
@@ -29,7 +29,7 @@ namespace Definitif
         /// <returns>Deserialized object.</returns>
         public static T FromJson<T>(this string str)
         {
-            using (var ms = new MemoryStream(Encoding.Default.GetBytes(str.ToCharArray())))
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(str.ToCharArray())))
             {
                 var ser = new DataContractJsonSerializer(typeof(T));
                 return (T)ser.ReadObject(ms);
