@@ -74,11 +74,9 @@ namespace Definitif.Data
 
         public static bool operator ==(Id a, Id b)
         {
-            if ((a as object) == null || (b as object) == null)
-            {
-                return false;
-            }
-            return a.Equals(b);
+            if ((a as object) != null) return a.Equals(b);
+            else if ((b as object) != null) return b.Equals(a);
+            else return true;
         }
 
         public static bool operator !=(Id a, Id b)
@@ -86,15 +84,21 @@ namespace Definitif.Data
             return !(a == b);
         }
 
-        public override bool Equals(object obj)
+        public bool Equals(Id obj)
         {
-            if (obj is Id)
+            if ((obj as object) != null)
             {
-                Id b = (obj as Id);
-                if (this.value == null && b.value == null) return true;
-                else if (this.value == null || b.value == null) return false;
+                if (this.value == null && obj.value == null) return true;
+                else if (this.value == null || obj.value == null) return false;
                 else return this.value.Equals((obj as Id).value);
             }
+            else if (this.value == null) return true;
+            else return false;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is Id) return this.Equals(obj as Id);
+            else if (obj == null && this.value == null) return true;
             else return false;
         }
 

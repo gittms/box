@@ -47,6 +47,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Id.cs" />
     <Compile Include="App_Code\Database.cs" />
     <Compile Include="App_Code\Draw.cs" />
     <None Include="App.config" />
