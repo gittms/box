@@ -23,6 +23,10 @@ namespace Definitif.VisualStudio.Generator.Test
     [DeploymentItem(@"Tests\Generator\ManyToMany.result", @"Tests\Generator")]
     [DeploymentItem(@"Tests\Generator\Model.box", @"Tests\Generator")]
     [DeploymentItem(@"Tests\Generator\Model.result", @"Tests\Generator")]
+    [DeploymentItem(@"Tests\Generator\Inheritance.box", @"Tests\Generator")]
+    [DeploymentItem(@"Tests\Generator\Inheritance.result", @"Tests\Generator")]
+    [DeploymentItem(@"Tests\Generator\MultipleInheritance.box", @"Tests\Generator")]
+    [DeploymentItem(@"Tests\Generator\MultipleInheritance.result", @"Tests\Generator")]
     public class CodeDomTest
     {
         [TestMethod, Priority(15)]
@@ -60,6 +64,28 @@ namespace Definitif.VisualStudio.Generator.Test
             Assert.AreEqual("int default 0", codeDom.Namespaces[1].Models[0].Members[2].ColumnDataType);
             Assert.AreEqual("varchar(255)", codeDom.Namespaces[1].Models[1].Members[0].ColumnDataType);
             Assert.AreEqual("int", codeDom.Namespaces[1].Models[2].Members[0].ColumnDataType);
+        }
+
+        [TestMethod, Priority(10)]
+        [Description("Models inheritance test.")]
+        public void Inheritance()
+        {
+            string code, file; CodeDom codeDom;
+            Regex re = new Regex(@".+(using Definitif;.+)", RegexOptions.Singleline);
+
+            // Checking single inheritance.
+            codeDom = CodeDom.ParseFile(@"Tests\Generator\Inheritance.box");
+            code = codeDom.Generate("Definitif.Test");
+            file = File.ReadAllText(@"Tests\Generator\Inheritance.result");
+
+            Assert.AreEqual(file, code);
+
+            // And multiple inheritance.
+            codeDom = CodeDom.ParseFile(@"Tests\Generator\MultipleInheritance.box");
+            code = codeDom.Generate("Definitif.Test");
+            file = File.ReadAllText(@"Tests\Generator\MultipleInheritance.result");
+
+            Assert.AreEqual(file, code);
         }
 
         private void CodeDomGeneratorSnip(string inputFile, string expectedFile, string errorMessage)

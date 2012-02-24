@@ -64,6 +64,18 @@
     <None Include="Tests\Generator\Autodoc.result">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Tests\Generator\MultipleInheritance.result">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Tests\Generator\MultipleInheritance.box">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Tests\Generator\Inheritance.result">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Tests\Generator\Inheritance.box">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Tests\Generator\PrimaryKey.box">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

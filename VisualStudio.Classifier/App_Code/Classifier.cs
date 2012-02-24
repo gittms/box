@@ -73,7 +73,11 @@ namespace Definitif.VisualStudio.Classifier
             expressions = new ClassifierRegex[] {
                 // Type definitions and names.
                 new ClassifierRegex(new Regex(
-                    "(model|class)\\s(?<span>[a-z0-9_]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    "(model|class)\\s(?<span>[a-z0-9_]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+                    this.registry.GetClassificationType("box.cyan")),
+                new ClassifierRegex(new Regex(
+                    // TODO: This will higlight all inherited models and commas.
+                    "(model|class)\\s([a-z0-9_]+)\\s:\\s(?<span>[a-z0-9_\\s,\\.]+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase),
                     this.registry.GetClassificationType("box.cyan")),
                 new ClassifierRegex(new Regex(
                     "(foreign\\ key|primary\\ key|new)\\s(?<span>[a-z0-9_]+)(\\?)?", RegexOptions.Compiled | RegexOptions.IgnoreCase),

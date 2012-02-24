@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Definitif.VisualStudio.Generator
@@ -25,6 +26,10 @@ namespace Definitif.VisualStudio.Generator
         /// </summary>
         public string DatabaseRef { get; set; }
         /// <summary>
+        /// Gets or sets models to inherit from.
+        /// </summary>
+        public List<Model> InheritedModels { get; set; }
+        /// <summary>
         /// Gets or sets model members.
         /// </summary>
         public List<Member> Members { get; set; }
@@ -37,6 +42,35 @@ namespace Definitif.VisualStudio.Generator
         {
             this.Members = new List<Member>();
             this.Modifiers = Modifier.Default;
+        }
+
+        /// <summary>
+        /// Extends current model with members from given.
+        /// </summary>
+        public void Extend(Model model)
+        {
+            foreach (Member member in model.Members)
+            {
+                // If model does not contain member with same name,
+                // adding it to current model.
+                if (this.Members.Count(m => m.Name == member.Name) == 0)
+                {
+                    this.Members.Add(member);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates full name for model in a given namespace.
+        /// </summary>
+        internal string FullName(Namespace ns)
+        {
+            if (String.IsNullOrEmpty(ns.Name))
+            {
+                return this.Name;
+            }
+
+            return ns.Name + "." + this.Name;
         }
     }
 }

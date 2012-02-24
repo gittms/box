@@ -148,13 +148,20 @@ namespace Definitif.VisualStudio.Generator
                 }
                 Attribute attr = Attribute.Parse(context.Attribute);
 
+                string[] trimmedSplit = trimmed.Split(':');
                 context.CurrentModel = new Model()
                 {
                     Autodoc = String.Join(Environment.NewLine, context.Autodoc.ToArray()).Trim(),
-                    Name = trimmed.Split(' ').Last(),
+                    Name = trimmedSplit.First().Trim().Split(' ').Last(),
                     TableName = attr.String,
                     DatabaseRef = attr.In,
                     Modifiers = Modifier.Default.Parse(trimmed),
+
+                    // Inherited models are declared as a comma-separated list.
+                    InheritedModels = trimmedSplit.Length == 1 ? null :
+                        trimmedSplit.Last().Split(',').Select(s => new Model() {
+                            Name = s.Trim(),
+                        }).ToList(),
                 };
 
                 // Clearing autodoc and saving refs.

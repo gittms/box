@@ -1,0 +1,9 @@
+﻿["SuperUsers"]
+public model SuperUser : User
+{
+    ["FirstName"]
+    public string FirstName;
+
+    ["LastName"]
+    public string LastName;
+}

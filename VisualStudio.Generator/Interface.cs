@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Security;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Runtime.InteropServices;
@@ -29,7 +31,31 @@ namespace Definitif.VisualStudio
             string wszInputFilePath, string bstrInputFileContents, string wszDefaultNamespace,
             IntPtr[] rgbOutputFileContents, out uint pcbOutput, IVsGeneratorProgress pGenerateProgress)
         {
-            CodeDom codeDom = CodeDom.Parse(bstrInputFileContents);
+            // Finding project root path.
+            string dirName = new FileInfo(wszInputFilePath).DirectoryName;
+            string projectRoot = dirName;
+            while (true)
+            {
+                DirectoryInfo dir = new DirectoryInfo(dirName);
+                if (dir.GetFiles("*.*proj", SearchOption.TopDirectoryOnly).Length > 0)
+                {
+                    projectRoot = dirName;
+                    break;
+                }
+
+                try
+                {
+                    if (dir.Parent == null) break;
+                    dirName = dir.Parent.FullName;
+                }
+                catch (SecurityException)
+                {
+                    break;
+                }
+            }
+
+            // Parsing file and generating code.
+            CodeDom codeDom = CodeDom.ParseFile(wszInputFilePath, projectRoot);
             string code = CodeGenerator.Generate(codeDom, wszDefaultNamespace);
 
             // Passing code output to Visual Studio.

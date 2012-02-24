@@ -1,0 +1,6 @@
+﻿["SuperUsers"]
+public model AuthorizableSuperUser : SuperUser, TestNamespace.TestModel
+{
+    ["Password"]
+    public string Password;
+}
